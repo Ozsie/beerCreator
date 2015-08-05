@@ -11,9 +11,9 @@
                 <th colspan="2">Färg</th>
             </tr>
         </thead>
-        <tbody ng-repeat="beer in beerList" ng-click="toggle(beer, $index)"
+        <tbody ng-repeat="beer in beerList"
                ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
-            <tr>
+            <tr ng-click="toggle(beer, $index)">
                 <td>{{ beer.name }}</td>
                 <td>{{ beer.fullStyle.name }}</td>
                 <td>{{ getOG(beer) | number : 3 }}</td>
@@ -27,49 +27,54 @@
             <tr ng-if="openIndex == $index">
                 <td colspan="8">
                     <div class="ingredientDiv">
-                        <p>Ingredienser</p>
+                        <span>Ingredienser</span> <span ng-if="editIndex != $parent.$parent.$index"><button ng-click="addIngredient(beer)">Lägg till</button></span>
+                        <div ng-if="showAdd">
+                            <div>
+                                <select ng-model="newIngredient.type">
+                                    <option value="malts">Malt</option>
+                                    <option value="hops">Humle</option>
+                                    <option value="yeasts">Jäst</option>
+                                    <option value="misc">Övrigt</option>
+                                </select>
+                            </div>
+                            <div ng-if="newIngredient.type">
+                                <div ng-if="newIngredient.type == 'malts'">
+                                    <select ng-model="myColor"
+                                            ng-options="malt.name for malt in grainList">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <table class="beerIngredientList">
                             <thead>
                                 <tr>
                                     <th>Namn</th>
                                     <th>Mängd</th>
                                     <th>Typ</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody ng-repeat="ingredientType in beer.ingredients">
                                 <tr ng-repeat="ingredient in ingredientType">
                                     <td>{{ ingredient.name }}</td>
-                                    <td>{{ ingredient.amount }} {{ ingredient.unit }} <span ng-if="ingredientType === "/ {{ getPercentage(beer, malt) | number: 2 }} %</td>
-                                    <td>malt</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr ng-repeat="hop in beer.ingredients.hops">
-                                    <td>{{ hop.name }}</td>
-                                    <td>{{ hop.amount }} {{ hop.unit }}</td>
-                                    <td>humle</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr ng-repeat="yeast in beer.ingredients.yeasts">
-                                    <td>{{ yeast.name }}</td>
-                                    <td>{{ yeast.amount }} {{ yeast.unit }}</td>
-                                    <td>jäst</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr ng-repeat="other in beer.ingredients.others">
-                                    <td>{{ other.name }}</td>
-                                    <td>{{ other.amount }} {{ other.unit }}</td>
-                                    <td>övrigt</td>
+                                    <td ng-if="editIndex != $parent.$parent.$index">
+                                        {{ ingredient.amount }} {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                                    </td>
+                                    <td ng-if="editIndex == $parent.$parent.$index">
+                                        <input ng-model="ingredient.amount" class="editIngredient"> {{ ingredient.unit }}
+                                    </td>
+                                    <td>{{ ingredient.type | ingredientType }}</td>
+                                    <td>
+                                        <button ng-if="editIndex == $parent.$parent.$index" ng-click="deleteIngredient(beer, ingredient, ingredientType, $index)">-</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="otherDiv">
-                        <button ng-click="edit(beer, $index)" ng-if="editIndex != $edit">Redigera</button>
-                        <button ng-click="save(beer, $index)" ng-if="editIndex == $edit">Lås</button>
-                        <button ng-click="edit(beer, $index)" ng-if="editIndex == $edit">Spara</button>
+                        <button ng-click="edit(beer, $index)" ng-if="editIndex != $index">Redigera</button>
+                        <button ng-click="edit(beer, $index)" ng-if="editIndex == $index">Lås</button>
+                        <button ng-click="save(beer, $index)" ng-if="editIndex == $index">Spara</button>
                     </div>
                 </td>
             </tr>

@@ -9,13 +9,13 @@ angular.module('beerCreator.beerList', ['ngRoute'])
   });
 }])
 
-.controller('BeerListCtrl', ['$scope', '$http', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', function($scope, $http, BeerStyles, ColorConversion, Bitterness, Alcohol) {
+.controller('BeerListCtrl', ['$scope', '$http', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', function($scope, $http, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients) {
     $scope.beerList = [];
     
     $scope.loadBeers = function() {
         $scope.beerStyles = BeerStyles.query({}, function(styles) {
             $scope.beerStyles = styles;
-            $http.get("/BeerCreator/beerlist.json").success(function(data, status) {
+            $http.get("/beerCreator/beerlist.json").success(function(data, status) {
                 if (data) {
                     $scope.beerList = data.beers;
                     for (var index in $scope.beerList) {
@@ -46,7 +46,7 @@ angular.module('beerCreator.beerList', ['ngRoute'])
     };
     
     $scope.toggle = function(beer, index) {
-        if ($scope.openIndex == index) {
+        if ($scope.openIndex === index) {
             $scope.openIndex = -1;
         } else {
             $scope.openIndex = index;
@@ -95,11 +95,42 @@ angular.module('beerCreator.beerList', ['ngRoute'])
     
     $scope.edit = function(beer, index) {
         if ($scope.editIndex === index) {
+            $scope.beerList[index] = angular.copy($scope.revertTo);
+            delete $scope.revertTo;
             $scope.editIndex = -1;
         } else {
+            $scope.revertTo = angular.copy(beer);
             $scope.editIndex = index;
         }
     };
     
+    $scope.save = function(beer, index) {
+        $scope.revertTo = beer;
+    };
+    
+    $scope.deleteIngredient = function(beer, ingredient, ingredientType, index) {
+        ingredientType.splice(index, 1);
+    };
+    
+    $scope.addIngredient = function(beer) {
+        $scope.showAdd = !$scope.showAdd;
+    };
+    
     $scope.loadBeers();
+    
+    Ingredients.grains().query({}, function(grains) {
+        $scope.grainList = grains;
+    });
+        
+    Ingredients.hops().query({}, function(hops) {
+        $scope.hopList = hops;
+    });
+        
+    Ingredients.yeasts().query({}, function(yeasts) {
+        $scope.yeastList = yeasts;
+    });
+        
+    Ingredients.misc().query({}, function(misc) {
+        $scope.miscList = misc;
+    });
 }]);

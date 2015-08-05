@@ -12,25 +12,25 @@ ingredientService.factory('Ingredients', ['$resource',
         var ingredients = {};
       
         ingredients.grains = function() {
-            return $resource('/BeerCreator/grains.json', {}, {
+            return $resource('/beerCreator/grains.json', {}, {
                 query: {method:'GET', params:{}, isArray:true}
             });
         };
       
         ingredients.hops = function() {
-            return $resource('/BeerCreator/hops.json', {}, {
+            return $resource('/beerCreator/hops.json', {}, {
                 query: {method:'GET', params:{}, isArray:true}
             });
         };
       
         ingredients.yeasts = function() {
-            return $resource('/BeerCreator/yeasts.json', {}, {
+            return $resource('/beerCreator/yeasts.json', {}, {
                 query: {method:'GET', params:{}, isArray:true}
             });
         };
       
         ingredients.misc = function() {
-            return $resource('/BeerCreator/misc.json', {}, {
+            return $resource('/beerCreator/misc.json', {}, {
                 query: {method:'GET', params:{}, isArray:true}
             });
         };

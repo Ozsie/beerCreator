@@ -286,10 +286,10 @@
                     {"amount": 20.0, "name":"Cascade", "alpha":0.055, "time": 10, "type":"hops", "unit":"g"}
                 ],
                 "yeasts": [
-                    {"amount":0.5, "name":"Safale American (DCL/Fermentis #US-05)", "unit":"pkg", "attenuation": 0.73}
+                    {"amount":0.5, "name":"Safale American (DCL/Fermentis #US-05)", "unit":"pkg", "attenuation": 0.73, "type":"yeast"}
                 ],
                 "others": [
-                    {"amount":0.1, "name":"Coffe", "when": {"stage": "boil", "time":5}, "unit":"l"}
+                    {"amount":0.1, "name":"Coffe", "when": {"stage": "boil", "time":5}, "unit":"l", "type":"misc"}
                 ]
             }
         }

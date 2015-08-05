@@ -80,7 +80,7 @@
 
 .beerIngredientList > tbody > tr {
     text-align: left;
-    height: 25px;
+    height: 30px;
 }
 
 .beerIngredientList > thead > tr > th {
@@ -93,12 +93,28 @@
     padding-right: 10px;
 }
 
+.beerIngredientList > tbody > tr > td:nth-child(1) {
+    width: 50%;
+}
+
+.beerIngredientList > tbody > tr > td:nth-child(2) {
+    width: 35%;
+}
+
+.beerIngredientList > tbody > tr > td:nth-child(3) {
+    width: 8%;
+}
+
 .ingredientDiv {
     float: left;
-    width: 45%
+    width: 65%
 }
 
 .otherDiv {
     float: right;
-    width: 45%
+    width: 35%
+}
+
+.editIngredient {
+    width: 70%;
 }
