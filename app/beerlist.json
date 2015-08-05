@@ -1,0 +1,297 @@
+{
+    "beers": [
+        {
+            "name": "En stor kaffe tack, svart",
+            "style": 445,
+            "finalVolume": 1.85,
+            "og": 1.09,
+            "carbonation": {
+                "sugar": "Strösocker",
+                "temperature":21.1,
+                "primerCarbonationRate": 1.099,
+                "notes":"Strösocker innehåller inget vatten och är något effektivare än majssocker"
+            },
+            "equipment": {
+                "name":"gryta",
+                "efficiency": 0.72,
+                "hopUtilization":1.0,
+                "mashLauterTun": {
+                    "volume":4.0,
+                    "mass":1400,
+                    "specificHeat":0.12,
+                    "deadSpace":0.15,
+                    "adjustVolumeForDeadSpace":true
+                },
+                "boiler": {
+                    "kettleTopUp": 1.5,
+                    "calculatBoilVolume": true,
+                    "boilVolume": 4.62,
+                    "boilTime": 90,
+                    "boilOff": 1.5,
+                    "coolingLoss":0.12
+                },
+                "fermenter": {
+                    "trubChillerLoss": 0.0,
+                    "topUpWater": 0.0,
+                    "batchVolume":1.85
+                },
+                "bottlingVolume":1.75
+            },
+            "fermentation": {
+                "name": "Ale, Single stage",
+                "type": "One stage",
+                "primary": {
+                    "time": 14,
+                    "temperature": {
+                        "min": 19.4,
+                        "max": 19.4
+                    }
+                },
+                "aging": {
+                    "time": 30,
+                    "temperature": {
+                        "min": 18.3,
+                        "max": 18.3
+                    }
+                },
+                "notes": "A simple single stage fermentation, often used by extract brewers or for classic ales."
+            },
+            "mash": {
+                "profile": {
+                    "name":"Temperature Mash, 1 Step, Full Body",
+                    "temperatures": {
+                        "grain": 22.2,
+                        "tun": 22.2,
+                        "sparge": 75.6
+                    },
+                    "equipmentTemperatureAdjustment": false,
+                    "steps": [
+                        {
+                            "name":"Saccharification",
+                            "type":"infusion",
+                            "temperature":68.9,
+                            "time":40,
+                            "riseTime":15,
+                            "waterToAdd":3.9,
+                            "waterGrainRation":2.608
+                        },
+                        {
+                            "name":"Mash out",
+                            "temperature":75.6,
+                            "time":10,
+                            "riseTime":10,
+                            "waterToAdd":0,
+                            "waterGrainRation":2.708
+                        }
+                    ],
+                    "properties": {
+                        "grainWeightBasis": 1500,
+                        "boliingTemp": 100,
+                        "ph": 5.4
+                    },
+                    "batchSpargeOptions": {
+                        "batchSparge": false,
+                        "equalBatches": false,
+                        "fillMashTun":1.0,
+                        "dainTunBeforeSparge":false
+                    },
+                    "brewInBagAndFullBoilMashes": {
+                        "forceFullBoil": false,
+                        "boilVolumeBasis": 18.93
+                    },
+                    "notes": "Temperature mash for use when mashing in a brew pot over a heat source such as the stove. Use heat to maintain desired temperature during mash."
+                }
+            },
+            "ingredients": {
+                "malts": [
+                    {  
+                       "amount": 400.0,
+                       "name":"Maris Otter (Crisp)",
+                       "color": 5.5,
+                       "unit":"g",
+                       "mash": true,
+                       "supplier":"Maris Otter",
+                       "type":"malt",
+                       "yield":0.825,
+                       "lateExtract":0.0,
+                       "percent":0.0,
+                       "order":0,
+                       "coarseFineDifference":0.015,
+                       "moisture":0.03,
+                       "diasticPower":120.0,
+                       "protein":0.117,
+                       "addAfterBoil":false,
+                       "recommendMash":true,
+                       "maxInBatch":1.0,
+                       "notes":"Premium base malt from the UK.  Popular for many English styles of beer including ales, pale ales and bitters.",
+                       "boilTime":60,
+                       "convertGrain":"Pale Liquid Extract"
+                    },
+                    {
+                        "amount": 300.0,
+                        "name":"Pilsner (2 Row) Ger",
+                        "type":"malt",
+                        "color":3.9,
+                        "unit":"g",
+                        "mash": true,
+                        "yield":0.81,
+                        "lateExtract":0.0,
+                        "percent":0.0,
+                        "order":0,
+                        "coarseFineDifference":0.015,
+                        "moisture":0.04,
+                        "diasticPower":110.0,
+                        "protein":0.110,
+                        "addAfterBoil":false,
+                        "recommendMash":true,
+                        "maxInBatch":1.0,
+                        "notes":"German base for Pilsners and Bohemian Lagers",
+                        "boilTime":60,
+                        "convertGrain":"Pilsner Liquid Extract"
+                    },
+                    {  
+                        "amount": 250.0,
+                        "name":"Amber (Crisp)",
+                        "color": 54.2,
+                        "unit":"g",
+                        "mash": true,
+                        "type":"malt",
+                        "yield":0.75,
+                        "lateExtract":0.0,
+                        "percent":0.0,
+                        "order":0,
+                        "coarseFineDifference":0.015,
+                        "moisture":0.028,
+                        "diasticPower":20.0,
+                        "protein":0.100,
+                        "addAfterBoil":false,
+                        "recommendMash":true,
+                        "maxInBatch":0.20,
+                        "notes":"Roasted specialty malt used in some English browns, milds and old ales to add color and a biscuit taste.  Intense flavor - so limit use. Low diastatic power so must be mashed with well modified malts.",
+                        "boilTime":60,
+                        "convertGrain":"Caramel/Crystal Malt - 20L"
+                     },
+                    {  
+                        "amount": 150.0,
+                        "name":"Melanoid",
+                        "color": 80.0,
+                        "unit":"g",
+                        "mash": true,
+                        "type":"malt",
+                        "yield":0.8,
+                        "lateExtract":0.0,
+                        "percent":0.0,
+                        "order":0,
+                        "coarseFineDifference":0.013,
+                        "moisture":0.035,
+                        "diasticPower":10.0,
+                        "protein":0.110,
+                        "addAfterBoil":false,
+                        "recommendMash":true,
+                        "maxInBatch":0.150,
+                        "notes":"Aromatic malt from Banberg, Germany.  Promotes a full flavor and rounds off beer color. Promotes deep red color and malty flavor.",
+                        "boilTime":60,
+                        "convertGrain":"Caramel/Crystal Malt - 20L"
+                    },
+                    {  
+                        "amount": 150.0,
+                        "name":"Crystal 100",
+                        "color": 110.0,
+                        "unit":"g",
+                        "mash": true,
+                        "type":"malt",
+                        "yield":0.74,
+                        "lateExtract":0.0,
+                        "percent":0.0,
+                        "order":0,
+                        "coarseFineDifference":0.015,
+                        "moisture":0.04,
+                        "diasticPower":0.0,
+                        "protein":0.132,
+                        "addAfterBoil":false,
+                        "recommendMash":false,
+                        "maxInBatch":0.20,
+                        "notes":"Adds body, color and improves head retention. Also called \"Crystal\" malt.",
+                        "boilTime":60
+                    },
+                    {  
+                       "amount": 100.0,
+                       "name":"Choklad",
+                       "color": 800.0,
+                       "unit":"g",
+                       "mash": true,
+                       "type":"malt",
+                       "yield":0.6,
+                       "lateExtract":0.0,
+                       "percent":0.0,
+                       "order":0,
+                       "coarseFineDifference":0.015,
+                       "moisture":0.04,
+                       "diasticPower":0.0,
+                       "protein":0.132,
+                       "addAfterBoil":false,
+                       "recommendMash":false,
+                       "maxInBatch":0.10,
+                       "notes":"Dark malt that gives a rich red or brown color and nutty flavor. Use for: Brown ales, porters, some stouts Maintains some malty flavor, not as dark as roasted malt.",
+                       "boilTime":60
+                    },
+                    {  
+                       "amount": 100.0,
+                       "name":"Rostat Korn (Castle)",
+                       "color": 1300.0,
+                       "unit":"g",
+                       "mash": false,
+                       "type":"malt",
+                       "yield":0.55,
+                       "lateExtract":0.0,
+                       "percent":0.0,
+                       "order":0,
+                       "coarseFineDifference":0.015,
+                       "moisture":0.05,
+                       "diasticPower":0.0,
+                       "protein":0.132,
+                       "addAfterBoil":false,
+                       "recommendMash":false,
+                       "maxInBatch":0.10,
+                       "notes":"Roasted at high temperature to create a burnt, grainy, coffee like flavor. Imparts a red to deep brown color to beer, and very strong roasted flavor. Use 2-4% in Brown ales to add a nutty flavor, or 3-10% in Porters and Stouts for coffee flavor.",
+                       "boilTime":60
+                    },
+                    {  
+                       "amount": 100.0,
+                       "name":"Muscavadosocker",
+                       "color": 98.5,
+                       "unit":"g",
+                       "mash": false,
+                       "type":"sugar",
+                       "yield":1.0,
+                       "lateExtract":0.0,
+                       "percent":0.0,
+                       "order":0,
+                       "coarseFineDifference":0.015,
+                       "moisture":0.04,
+                       "diasticPower":120.0,
+                       "protein":0.117,
+                       "addAfterBoil":false,
+                       "recommendMash":false,
+                       "maxInBatch":0.10,
+                       "notes":"Imparts a rich sweet flavor. Used in Scottish ales, holiday ales and some old ales.",
+                       "boilTime":60
+                    }
+                ],
+                "hops": [
+                    {"amount": 7.0, "name":"Goldings, East Kent", "alpha":0.05, "time": 60, "type":"hops", "unit":"g"},
+                    {"amount": 5.0, "name":"Cascade", "alpha":0.055, "time": 50, "type":"hops", "unit":"g"},
+                    {"amount": 5.0, "name":"Goldings, East Kent", "alpha":0.05, "time": 30, "type":"hops", "unit":"g"},
+                    {"amount": 5.0, "name":"Cascade", "alpha":0.055, "time": 20, "type":"hops", "unit":"g"},
+                    {"amount": 20.0, "name":"Cascade", "alpha":0.055, "time": 10, "type":"hops", "unit":"g"}
+                ],
+                "yeasts": [
+                    {"amount":0.5, "name":"Safale American (DCL/Fermentis #US-05)", "unit":"pkg", "attenuation": 0.73}
+                ],
+                "others": [
+                    {"amount":0.1, "name":"Coffe", "when": {"stage": "boil", "time":5}, "unit":"l"}
+                ]
+            }
+        }
+    ]
+}

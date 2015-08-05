@@ -1,0 +1,104 @@
+/* app css stylesheet */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+.containerDiv {
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto}
+
+.beerTable {
+    width: 100%;
+}
+
+.beerTable > thead > tr  {
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.beerTable > tbody > tr {
+    text-align: left;
+    height: 35px;
+}
+
+.beerTable > thead > tr > th {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.beerTable > tbody > tr > td {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.beerTableEven {
+    background: #ffffff;
+}
+
+.beerTableOdd {
+    background: #ccffcc;
+}
+
+.beerIngredientList {
+    width: 100%;
+}
+
+.beerIngredientList > thead > tr  {
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.beerIngredientList > tbody > tr {
+    text-align: left;
+    height: 25px;
+}
+
+.beerIngredientList > thead > tr > th {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.beerIngredientList > tbody > tr > td {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.ingredientDiv {
+    float: left;
+    width: 45%
+}
+
+.otherDiv {
+    float: right;
+    width: 45%
+}

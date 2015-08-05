@@ -1,0 +1,96 @@
+<div class="containerDiv">
+    <ul class="menu">
+        <li ng-click="selectList('malt')">Malt</li>
+        <li ng-click="selectList('hops')">Humle</li>
+        <li ng-click="selectList('yeast')">Jäst</li>
+        <li ng-click="selectList('misc')">Övrigt</li>
+    </ul>
+    <table class="beerTable" ng-if="selectedList == 'malt'">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Ursprung</th>
+                <th>Typ</th>
+                <th>Utdelning</th>
+                <th>Mäskas</th>
+                <th colspan="2">Färg</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="grain in grainList" ng-click="toggle(grain, $index)"
+               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
+            <tr>
+                <td>{{ grain.name }}</td>
+                <td>{{ grain.origin }}</td>
+                <td>{{ grain.type | grainType }}</td>
+                <td>{{ (grain.yield * 100) | number: 1 }} %</td>
+                <td>{{ grain.recommendMash ? 'Ja' : 'Nej' }}</td>
+                <td>
+                    {{ grain.color | number: 1 }} EBC
+                </td>
+                <td style="background-color: {{ getColor(grain) }}">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="beerTable" ng-if="selectedList == 'hops'">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Ursprung</th>
+                <th>Typ</th>
+                <th>Alphasyra</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="hop in hopList" ng-click="toggle(hop, $index)"
+               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
+            <tr>
+                <td>{{ hop.name }}</td>
+                <td>{{ hop.origin }}</td>
+                <td>{{ hop.type | hopType }}</td>
+                <td>{{ (hop.alpha * 100) | number: 1 }} %</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="beerTable" ng-if="selectedList == 'yeast'">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Typ</th>
+                <th>Flockning</th>
+                <th>Förtunning (attenuation)</th>
+                <th>Temperatur</th>
+                <th>Används till</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="yeast in yeastList" ng-click="toggle(yeast, $index)"
+               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
+            <tr>
+                <td>{{ yeast.name }}</td>
+                <td>{{ yeast.type | yeastType }}</td>
+                <td>{{ yeast.flocculation | flocculation }}</td>
+                <td>{{ yeast.minAttenuation | number: 1 }} - {{ yeast.maxAttenuation | number: 1 }}</td>
+                <td>{{ yeast.minTemperature | number: 1 }} - {{ yeast.maxTemperature | number: 1 }}</td>
+                <td>{{ yeast.bestFor }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="beerTable" ng-if="selectedList == 'misc'">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Typ</th>
+                <th>Används till</th>
+                <th>Steg</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="misc in miscList" ng-click="toggle(misc, $index)"
+               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
+            <tr>
+                <td>{{ misc.name }}</td>
+                <td>{{ misc.type | miscType }}</td>
+                <td>{{ misc.useFor | miscUseFor }}</td>
+                <td>{{ misc.useIn | miscUseIn }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

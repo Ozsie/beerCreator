@@ -1,0 +1,78 @@
+<div class="containerDiv">
+    <table class="beerTable">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Stil</th>
+                <th>OG</th>
+                <th>FG</th>
+                <th>ABV</th>
+                <th>IBU</th>
+                <th colspan="2">Färg</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="beer in beerList" ng-click="toggle(beer, $index)"
+               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
+            <tr>
+                <td>{{ beer.name }}</td>
+                <td>{{ beer.fullStyle.name }}</td>
+                <td>{{ getOG(beer) | number : 3 }}</td>
+                <td>{{ getFG(beer) | number : 3 }}</td>
+                <td>{{ getABV(beer) | number : 1 }} %</td>
+                <td>{{ getIBU(beer) | number : 0 }}</td>
+                <td>{{ beer.color | number: 1 }} EBC</td>
+                <td style="background-color: {{ getColor(beer) }}">
+                </td>
+            </tr>
+            <tr ng-if="openIndex == $index">
+                <td colspan="8">
+                    <div class="ingredientDiv">
+                        <p>Ingredienser</p>
+                        <table class="beerIngredientList">
+                            <thead>
+                                <tr>
+                                    <th>Namn</th>
+                                    <th>Mängd</th>
+                                    <th>Typ</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="ingredientType in beer.ingredients">
+                                <tr ng-repeat="ingredient in ingredientType">
+                                    <td>{{ ingredient.name }}</td>
+                                    <td>{{ ingredient.amount }} {{ ingredient.unit }} <span ng-if="ingredientType === "/ {{ getPercentage(beer, malt) | number: 2 }} %</td>
+                                    <td>malt</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr ng-repeat="hop in beer.ingredients.hops">
+                                    <td>{{ hop.name }}</td>
+                                    <td>{{ hop.amount }} {{ hop.unit }}</td>
+                                    <td>humle</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr ng-repeat="yeast in beer.ingredients.yeasts">
+                                    <td>{{ yeast.name }}</td>
+                                    <td>{{ yeast.amount }} {{ yeast.unit }}</td>
+                                    <td>jäst</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr ng-repeat="other in beer.ingredients.others">
+                                    <td>{{ other.name }}</td>
+                                    <td>{{ other.amount }} {{ other.unit }}</td>
+                                    <td>övrigt</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="otherDiv">
+                        <button ng-click="edit(beer, $index)" ng-if="editIndex != $edit">Redigera</button>
+                        <button ng-click="save(beer, $index)" ng-if="editIndex == $edit">Lås</button>
+                        <button ng-click="edit(beer, $index)" ng-if="editIndex == $edit">Spara</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
