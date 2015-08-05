@@ -1,2 +1,4 @@
 /app/components/
 /app/bower_components/
+/node_modules/
+/app/app/components/
