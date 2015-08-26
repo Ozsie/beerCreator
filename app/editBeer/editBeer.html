@@ -1,15 +1,15 @@
 <div class="containerDiv">
     Namn <input ng-model="beer.name">
     <br>
-    Stil 
-    <select ng-model="superStyle">
-        <option ng-repeat="style in styles" value="{{style}}">{{style.name}}</option>
+    Ändra stil
+    <select ng-model="superStyleId">
+        <option ng-repeat="style in styles" value="{{style.id}}">{{style.name}}</option>
     </select>
-    <div ng-if="superStyle">
-    <select ng-model="beer.style">
-        <option ng-repeat="style in superStyle.styles" value="{{style.id}}">{{style.name}}</option>
+    <select ng-model="styleId" ng-show="subStyles">
+        <option ng-repeat="style in subStyles" value="{{style.id}}">{{style.name}}</option>
     </select>
-    </div>
+    <div ng-if="beer.style">Vald stil: {{ beer.style }} - {{ beer.fullStyle.name }}</div>
+    <br>
     Ingredienser
     <table class="beerIngredientList">
         <thead>
@@ -24,14 +24,35 @@
                 <td>{{ ingredient.type | ingredientType }}</td>
                 <td>{{ ingredient.name }}</td>
                 <td>
-                    {{ ingredient.amount }} {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                    <input ng-model="ingredient.amount" type="number"> {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
                 </td>
             </tr>
         </tbody>
         <tbody>
             <tr>
                 <td>
+                    <select ng-model="newIngredientType">
+                        <option value="malt">Malt</option>
+                        <option value="hops">Humle</option>
+                        <option value="yeasts">Jäst</option>
+                        <option value="misc">Övrigt</option>
+                    </select>
                 </td>
+                <td>
+                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'malt'">
+                        <option ng-repeat="malt in grainList" value="{{malt.name}}">{{ malt.name }} / {{ malt.color }}</option>
+                    </select>
+                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'hops'">
+                        <option ng-repeat="hop in hopList" value="{{hop.name}}">{{ hop.name }} / {{ hop.alpha }}</option>
+                    </select>
+                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'yeasts'">
+                        <option ng-repeat="yeast in yeastList" value="{{yeast.name}}">{{ yeast.name }} / {{ yeast.minAttenuation }}</option>
+                    </select>
+                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'misc'">
+                        <option ng-repeat="misc in miscList" value="{{misc.name}}">{{ misc.name }}</option>
+                    </select>
+                </td>
+                <td>{{ selectedIngredient }}</td>
             </tr>
         </tbody>
     </table>

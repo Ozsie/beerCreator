@@ -21,8 +21,10 @@ angular.module('beerCreator.beerList', ['ngRoute'])
                     for (var index in $scope.beerList) {
                         var beer = $scope.beerList[index];
                         var style = beer.style;
-                        var fullStyle = $scope.findStyle(style, $scope.beerStyles);
-                        beer.fullStyle = fullStyle;
+                        if (!beer.fullStyle) {
+                            var fullStyle = $scope.findStyle(style, $scope.beerStyles);
+                            beer.fullStyle = fullStyle;
+                        }
                     }
                 }
             });

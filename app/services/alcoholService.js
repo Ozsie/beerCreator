@@ -12,6 +12,12 @@ alcoholService.factory('Alcohol', function() {
     var alcohol = {}; 
     
     alcohol.calculateOriginalGravity = function(beer) {
+        if (!beer.equipment.mashLauterTun) {
+            return 0;
+        }
+        if (!beer.ingredients.malts || beer.ingredients.malts.length === 0) {
+            return 0;
+        }
         var GALLON_LITRE_RATIO = 3.78541178;
         var POUND_GRAM_RATION = 453.59237;
         
@@ -35,12 +41,18 @@ alcoholService.factory('Alcohol', function() {
     };
 
     alcohol.calculateFinalGravity = function(beer) {
+        if (!beer.ingredients.yeasts || beer.ingredients.yeasts.length === 0) {
+            return 0;
+        }
+        if (!beer.og) {
+            return 0;
+        }
         var fg = 0;
         
         var attenuation = 0;
         for (var yeastIndex in beer.ingredients.yeasts) {
             var yeast = beer.ingredients.yeasts[yeastIndex];
-            attenuation += yeast.attenuation;
+            attenuation += (yeast.maxAttenuation - yeast.minAttenuation) / 2;
         }
         
         attenuation = attenuation / beer.ingredients.yeasts.length;

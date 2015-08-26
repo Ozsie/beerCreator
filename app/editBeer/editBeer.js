@@ -10,27 +10,121 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
 }])
 
 .controller('EditBeerCtrl', ['$scope', '$http', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', function($scope, $http, Ingredients, ColorConversion, EditBeer, BeerStyles) {
-        $scope.beerStyles = BeerStyles.query({}, function(styles) {
-            $scope.styles = styles;
-            $scope.beer = EditBeer.getBeerToEdit();
+    $scope.beerStyles = BeerStyles.query({}, function(styles) {
+        $scope.styles = styles;
+        $scope.beer = EditBeer.getBeerToEdit();
 
-            Ingredients.grains().query({}, function(grains) {
-                $scope.grainList = grains;
-            });
-
-            Ingredients.hops().query({}, function(hops) {
-                $scope.hopList = hops;
-            });
-
-            Ingredients.yeasts().query({}, function(yeasts) {
-                $scope.yeastList = yeasts;
-            });
-
-            Ingredients.misc().query({}, function(misc) {
-                $scope.miscList = misc;
-            });
-            
+        Ingredients.grains().query({}, function(grains) {
+            $scope.grainList = grains;
         });
+
+        Ingredients.hops().query({}, function(hops) {
+            $scope.hopList = hops;
+        });
+
+        Ingredients.yeasts().query({}, function(yeasts) {
+            $scope.yeastList = yeasts;
+        });
+
+        Ingredients.misc().query({}, function(misc) {
+            $scope.miscList = misc;
+        });
+
+    });
+    
+    $scope.$watch(function() {
+        return $scope.selectedIngredient;
+    }, function() {
+        if ($scope.selectedIngredient) {
+            var ingr;
+            var list;
+            var targetList;
+            var unit = "g";
+            var type;
+            if ($scope.newIngredientType === 'malt') {
+                list = $scope.grainList;
+                type = "malt";
+                targetList = $scope.beer.ingredients.malts;
+            }
+            if ($scope.newIngredientType === 'hops') {
+                list = $scope.hopList;
+                type = "hops";
+                targetList = $scope.beer.ingredients.hops;
+            }
+            if ($scope.newIngredientType === 'yeasts') {
+                list = $scope.yeastList;
+                type = "yeast";
+                unit = "pkg";
+                targetList = $scope.beer.ingredients.yeasts;
+            }
+            if ($scope.newIngredientType === 'misc') {
+                list = $scope.miscList;
+                type = "misc";
+                unit = undefined;
+                targetList = $scope.beer.ingredients.misc;
+            }
+            
+            for (var index in list) {
+                if (list[index].name === $scope.selectedIngredient) {
+                    var ingr = angular.copy(list[index]);
+                    if (unit) {
+                        ingr.unit = unit;
+                    }
+                    ingr.type = type;
+                    targetList.push(ingr);
+                    $scope.selectedIngredient = undefined;
+                    $scope.newIngredientType = undefined;
+                    return;
+                }
+            }
+        }
+    }, true);
+    
+        
+    $scope.$watch(function() {
+        return $scope.superStyleId;
+    }, function() {
+        if ($scope.superStyleId) {
+            for (var styleIndex in $scope.styles) {
+                if ($scope.styles[styleIndex].id === $scope.superStyleId) {
+                    $scope.subStyles = $scope.styles[styleIndex].styles;
+                    return;
+                }
+            }
+        }
+    }, true);
+    
+    $scope.$watch(function() {
+        return $scope.styleId;
+    }, function() {
+        if ($scope.styleId) {
+            $scope.beer.style = $scope.styleId;
+            for (var styleIndex in $scope.styles) {
+                if ($scope.styles[styleIndex].id === $scope.styleId) {
+                    $scope.beer.fullStyle = angular.copy($scope.styles[styleIndex]);
+                    return;
+                } else if ($scope.styles[styleIndex].styles){
+                    for (var subIndex in $scope.styles[styleIndex].styles) {
+                        var subStyle = $scope.styles[styleIndex].styles[subIndex];
+                        if (subStyle.id === $scope.styleId) {
+                            $scope.beer.fullStyle = angular.copy(subStyle);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }, true);
+    
+    $scope.getPercentage = function(beer, malt) {
+        var totalAmount = 0;
+        for (var index in beer.ingredients.malts) {
+            totalAmount += beer.ingredients.malts[index].amount;
+        }
+        
+        var percent = (malt.amount / totalAmount) * 100;
+        return percent;
+    };
     
     $scope.getColor = function(grain) {
         var rgb = ColorConversion.convert(grain.color);
@@ -43,9 +137,15 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
         return inverted;
     };
     
+    $scope.addFullStyle = function(style) {
+        $scope.beer.fullStyle = angular.copy(style);
+    };
+    
     $scope.save = function() {
+        var toSave = angular.copy($scope.beer);
+        delete toSave.$$hashKey;
         $http.post("https://api.mongolab.com/api/1/databases/beercreator/collections/beerlist/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M",
-                    JSON.stringify($scope.beer)).success(function(data, status) {
+                    JSON.stringify(toSave)).success(function(data, status) {
                         $scope.saved = true;
             });
     };
