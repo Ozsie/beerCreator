@@ -544,5 +544,19 @@
       "timeUnit":"d",
       "time":3,
       "notes":"Gives yeast nutrients for healthy fermentation. Not needed for most beers, but good for those with a high percentage of adjuncts. Add before yeast."
+   },
+   {  
+      "modified":"2015-08-25",
+      "name":"Coffe",
+      "type":"flavor",
+      "useFor":"Coffe flavor",
+      "temperatureVolume":640,
+      "unit":"l",
+      "amount":0.1,
+      "volume":640,
+      "useIn":"boil",
+      "timeUnit":"m",
+      "time":5,
+      "notes":""
    }
 ]

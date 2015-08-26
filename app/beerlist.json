@@ -279,17 +279,108 @@
                     }
                 ],
                 "hops": [
-                    {"amount": 7.0, "name":"Goldings, East Kent", "alpha":0.05, "time": 60, "type":"hops", "unit":"g"},
-                    {"amount": 5.0, "name":"Cascade", "alpha":0.055, "time": 50, "type":"hops", "unit":"g"},
-                    {"amount": 5.0, "name":"Goldings, East Kent", "alpha":0.05, "time": 30, "type":"hops", "unit":"g"},
-                    {"amount": 5.0, "name":"Cascade", "alpha":0.055, "time": 20, "type":"hops", "unit":"g"},
-                    {"amount": 20.0, "name":"Cascade", "alpha":0.055, "time": 10, "type":"hops", "unit":"g"}
+                    {
+                        "amount": 7.0,
+                        "name":"Goldings, East Kent",
+                        "alpha":0.05,
+                        "time": 60,
+                        "type":"hops",
+                        "unit":"g",
+                        "origin": "United Kingdom",
+                        "type": "aroma",
+                        "form": "leaf",
+                        "hopStabilityIndex": 35,
+                        "dryHopTime": 0
+                    },
+                    {
+                        "amount": 5.0,
+                        "name":"Cascade",
+                        "alpha":0.055,
+                        "time": 50, "type":"hops",
+                        "unit":"g",
+                        "origin": "USA",
+                        "type": "both",
+                        "form": "leaf",
+                        "hopStabilityIndex": 50,
+                        "dryHopTime": 0
+                    },
+                    {
+                        "amount": 5.0,
+                        "name":"Goldings, East Kent",
+                        "alpha":0.05,
+                        "time": 30,
+                        "type":"hops",
+                        "unit":"g",
+                        "origin": "United Kingdom",
+                        "type": "aroma",
+                        "form": "leaf",
+                        "hopStabilityIndex": 35,
+                        "dryHopTime": 0
+                    },
+                    {
+                        "amount": 5.0,
+                        "name":"Cascade",
+                        "alpha":0.055,
+                        "time": 20,
+                        "type":"hops",
+                        "unit":"g",
+                        "origin": "USA",
+                        "type": "both",
+                        "form": "leaf",
+                        "hopStabilityIndex": 50,
+                        "dryHopTime": 0
+                    },
+                    {
+                        "amount": 20.0,
+                        "name":"Cascade",
+                        "alpha":0.055,
+                        "time": 10,
+                        "type":"hops",
+                        "unit":"g",
+                        "origin": "USA",
+                        "type": "both",
+                        "form": "leaf",
+                        "hopStabilityIndex": 50,
+                        "dryHopTime": 0
+                    }
                 ],
                 "yeasts": [
-                    {"amount":0.5, "name":"Safale American (DCL/Fermentis #US-05)", "unit":"pkg", "attenuation": 0.73, "type":"yeast"}
+                    {
+                        "amount":0.5,
+                        "unit":"pkg",
+                        "type":"yeast",
+                        "name":"Safale American ",
+                        "producer":"DCL/Fermentis",
+                        "productId":"US-05",
+                        "type":"ale",
+                        "form":"dry",
+                        "flocculation":"medium",
+                        "startSize":1.7,
+                        "amount":1,
+                        "billionCellsPerPack":200,
+                        "minAttenuation":73,
+                        "maxAttenuation":80,
+                        "minTemperature":15,
+                        "maxTemperature":23.88888888888889,
+                        "useStarter":false,
+                        "addToSecondary":false,
+                        "maxReuses":5
+                    }
                 ],
                 "others": [
-                    {"amount":0.1, "name":"Coffe", "when": {"stage": "boil", "time":5}, "unit":"l", "type":"misc"}
+                    {
+                        "amount":0.1,
+                        "name":"Coffe",
+                        "type":"misc",
+                        "type":"flavor",
+                        "useFor":"Coffe flavor",
+                        "temperatureVolume":640,
+                        "unit":"l",
+                        "volume":640,
+                        "useIn":"boil",
+                        "timeUnit":"m",
+                        "time":5
+                    }
                 ]
             }
         }

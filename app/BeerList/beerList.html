@@ -1,4 +1,5 @@
 <div class="containerDiv">
+    <div><button ng-click="newBeer()">Ny öl</button></div>
     <table class="beerTable">
         <thead>
             <tr>
@@ -51,30 +52,21 @@
                                     <th>Namn</th>
                                     <th>Mängd</th>
                                     <th>Typ</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody ng-repeat="ingredientType in beer.ingredients">
                                 <tr ng-repeat="ingredient in ingredientType">
                                     <td>{{ ingredient.name }}</td>
-                                    <td ng-if="editIndex != $parent.$parent.$index">
+                                    <td>
                                         {{ ingredient.amount }} {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
                                     </td>
-                                    <td ng-if="editIndex == $parent.$parent.$index">
-                                        <input ng-model="ingredient.amount" class="editIngredient"> {{ ingredient.unit }}
-                                    </td>
                                     <td>{{ ingredient.type | ingredientType }}</td>
-                                    <td>
-                                        <button ng-if="editIndex == $parent.$parent.$index" ng-click="deleteIngredient(beer, ingredient, ingredientType, $index)">-</button>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="otherDiv">
-                        <button ng-click="edit(beer, $index)" ng-if="editIndex != $index">Redigera</button>
-                        <button ng-click="edit(beer, $index)" ng-if="editIndex == $index">Lås</button>
-                        <button ng-click="save(beer, $index)" ng-if="editIndex == $index">Spara</button>
+                        <button ng-click="edit(beer)">Redigera</button>
                     </div>
                 </td>
             </tr>

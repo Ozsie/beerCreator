@@ -9,7 +9,7 @@ var beerStyleService = angular.module('beerCreator.services', ['ngResource']);
 
 beerStyleService.factory('BeerStyles', ['$resource',
   function($resource){
-    return $resource('/beerCreator/beerStyles.json', {}, {
+    return $resource('/BeerCreator/beerStyles.json', {}, {
         query: {method:'GET', params:{}, isArray:true}
     });
   }]);

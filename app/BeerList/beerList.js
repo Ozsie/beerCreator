@@ -9,15 +9,15 @@ angular.module('beerCreator.beerList', ['ngRoute'])
   });
 }])
 
-.controller('BeerListCtrl', ['$scope', '$http', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', function($scope, $http, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients) {
+.controller('BeerListCtrl', ['$scope', '$http', '$location', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', 'EditBeer', function($scope, $http, $location, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients, EditBeer) {
     $scope.beerList = [];
     
     $scope.loadBeers = function() {
         $scope.beerStyles = BeerStyles.query({}, function(styles) {
             $scope.beerStyles = styles;
-            $http.get("/beerCreator/beerlist.json").success(function(data, status) {
+            $http.get("https://api.mongolab.com/api/1/databases/beercreator/collections/beerlist/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M").success(function(data, status) {
                 if (data) {
-                    $scope.beerList = data.beers;
+                    $scope.beerList = data;
                     for (var index in $scope.beerList) {
                         var beer = $scope.beerList[index];
                         var style = beer.style;
@@ -93,27 +93,14 @@ angular.module('beerCreator.beerList', ['ngRoute'])
         return percent;
     };
     
-    $scope.edit = function(beer, index) {
-        if ($scope.editIndex === index) {
-            $scope.beerList[index] = angular.copy($scope.revertTo);
-            delete $scope.revertTo;
-            $scope.editIndex = -1;
-        } else {
-            $scope.revertTo = angular.copy(beer);
-            $scope.editIndex = index;
-        }
+    $scope.edit = function(beer) {
+        EditBeer.setBeerToEdit(beer);
+        $location.path('editBeer');
     };
     
-    $scope.save = function(beer, index) {
-        $scope.revertTo = beer;
-    };
-    
-    $scope.deleteIngredient = function(beer, ingredient, ingredientType, index) {
-        ingredientType.splice(index, 1);
-    };
-    
-    $scope.addIngredient = function(beer) {
-        $scope.showAdd = !$scope.showAdd;
+    $scope.newBeer = function() {
+        EditBeer.setNewBeer();
+        $location.path('editBeer');
     };
     
     $scope.loadBeers();

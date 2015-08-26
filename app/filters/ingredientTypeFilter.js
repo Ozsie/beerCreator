@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beerCreator.filters', [])
+angular.module('beerCreator.filters')
 
 .filter('ingredientType', [function() {
   return function(type) {

@@ -6,6 +6,7 @@ angular.module('beerCreator', [
   'beerCreator.beerList',
   'beerCreator.stock',
   'beerCreator.ingredients',
+  'beerCreator.editBeer',
   'beerCreator.services',
   'beerCreator.filters'
 ]).

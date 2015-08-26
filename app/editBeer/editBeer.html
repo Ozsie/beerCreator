@@ -1,0 +1,40 @@
+<div class="containerDiv">
+    Namn <input ng-model="beer.name">
+    <br>
+    Stil 
+    <select ng-model="superStyle">
+        <option ng-repeat="style in styles" value="{{style}}">{{style.name}}</option>
+    </select>
+    <div ng-if="superStyle">
+    <select ng-model="beer.style">
+        <option ng-repeat="style in superStyle.styles" value="{{style.id}}">{{style.name}}</option>
+    </select>
+    </div>
+    Ingredienser
+    <table class="beerIngredientList">
+        <thead>
+            <tr>
+                <th>Typ</th>
+                <th>Namn</th>
+                <th>Mängd</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="ingredientType in beer.ingredients">
+            <tr ng-repeat="ingredient in ingredientType">
+                <td>{{ ingredient.type | ingredientType }}</td>
+                <td>{{ ingredient.name }}</td>
+                <td>
+                    {{ ingredient.amount }} {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                </td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button ng-click="save()">Spara</button>
+    <span ng-if="saved">Sparad</span>
+</div>
