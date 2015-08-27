@@ -36,44 +36,35 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
         return $scope.selectedIngredient;
     }, function() {
         if ($scope.selectedIngredient) {
-            var ingr;
             var list;
-            var targetList;
             var unit = "g";
             var type;
             if ($scope.newIngredientType === 'malt') {
                 list = $scope.grainList;
                 type = "malt";
-                targetList = $scope.beer.ingredients.malts;
             }
             if ($scope.newIngredientType === 'hops') {
                 list = $scope.hopList;
                 type = "hops";
-                targetList = $scope.beer.ingredients.hops;
             }
             if ($scope.newIngredientType === 'yeasts') {
                 list = $scope.yeastList;
                 type = "yeast";
                 unit = "pkg";
-                targetList = $scope.beer.ingredients.yeasts;
             }
             if ($scope.newIngredientType === 'misc') {
                 list = $scope.miscList;
                 type = "misc";
                 unit = undefined;
-                targetList = $scope.beer.ingredients.misc;
             }
             
             for (var index in list) {
                 if (list[index].name === $scope.selectedIngredient) {
-                    var ingr = angular.copy(list[index]);
+                    $scope.newIngredient = angular.copy(list[index]);
                     if (unit) {
-                        ingr.unit = unit;
+                        $scope.newIngredient.unit = unit;
                     }
-                    ingr.type = type;
-                    targetList.push(ingr);
-                    $scope.selectedIngredient = undefined;
-                    $scope.newIngredientType = undefined;
+                    $scope.newIngredient.type = type;
                     return;
                 }
             }

@@ -52,7 +52,12 @@
                         <option ng-repeat="misc in miscList" value="{{misc.name}}">{{ misc.name }}</option>
                     </select>
                 </td>
-                <td>{{ selectedIngredient }}</td>
+                <td></td>
+            </tr>
+            <tr ng-show="newIngredient">
+                <td colspan="3">
+                    <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'"></div>
+                </td>
             </tr>
         </tbody>
     </table>

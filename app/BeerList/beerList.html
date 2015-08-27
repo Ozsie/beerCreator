@@ -58,7 +58,9 @@
                                 <tr ng-repeat="ingredient in ingredientType">
                                     <td>{{ ingredient.name }}</td>
                                     <td>
-                                        {{ ingredient.amount }} {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                                        {{ ingredient.amount }} {{ ingredient.unit }}
+                                        <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> / {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                                        <span ng-if="ingredient.type == 'hops'"> / {{ ingredient.time | number: 2 }} min</span>
                                     </td>
                                     <td>{{ ingredient.type | ingredientType }}</td>
                                 </tr>
