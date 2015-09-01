@@ -118,3 +118,28 @@
 .editIngredient {
     width: 70%;
 }
+
+.editInputWidth {
+    width: 50% !important;
+}
+.editLabelWidth {
+    width: 30%;
+}
+.width100 {
+    width: 100%;
+}
+.width25 {
+    width: 49%;
+}
+
+.editIngredientList > tbody > tr > td:nth-child(1) {
+    width: 8%;
+}
+
+.editIngredientList > tbody > tr > td:nth-child(2) {
+    width: 50%;
+}
+
+.editIngredientList > tbody > tr > td:nth-child(3) {
+    width: 35%;
+}

@@ -9,7 +9,7 @@ angular.module('beerCreator.ingredients', ['ngRoute'])
   });
 }])
 
-.controller('IngredientsCtrl', ['$scope', 'Ingredients', 'ColorConversion', function($scope, Ingredients, ColorConversion) {
+.controller('IngredientsCtrl', ['$scope', '$http', 'Ingredients', 'ColorConversion', function($scope, $http, Ingredients, ColorConversion) {
         
     $scope.selectedList = 'malt';
         

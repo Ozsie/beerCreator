@@ -36,6 +36,7 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
         return $scope.selectedIngredient;
     }, function() {
         if ($scope.selectedIngredient) {
+            $scope.toggleIngredient('', -1);
             var list;
             var unit = "g";
             var type;
@@ -60,11 +61,11 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
             
             for (var index in list) {
                 if (list[index].name === $scope.selectedIngredient) {
-                    $scope.newIngredient = angular.copy(list[index]);
+                    $scope.editedIngredient = angular.copy(list[index]);
                     if (unit) {
-                        $scope.newIngredient.unit = unit;
+                        $scope.editedIngredient.unit = unit;
                     }
-                    $scope.newIngredient.type = type;
+                    $scope.editedIngredient.type = type;
                     return;
                 }
             }
@@ -107,6 +108,26 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
         }
     }, true);
     
+    $scope.toggleIngredient = function(type, index) {
+        if (type !== '' && index !== -1) {
+            $scope.editedIngredient = undefined;
+            $scope.selectedIngredient = undefined;
+            $scope.newIngredientType = undefined;
+        }
+        
+        if ($scope.editIndex !== index && $scope.editType !== type) {
+            $scope.editIndex = index;
+            $scope.editType = type;
+        } else if ($scope.editIndex !== index && $scope.editType === type) {
+            $scope.editIndex = index;
+        } else if ($scope.editIndex === index && $scope.editType !== type) {
+            $scope.editType = type;
+        } else {
+            $scope.editIndex = -1;
+            $scope.editType = '';
+        }
+    };
+    
     $scope.getPercentage = function(beer, malt) {
         var totalAmount = 0;
         for (var index in beer.ingredients.malts) {
@@ -130,6 +151,16 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
     
     $scope.addFullStyle = function(style) {
         $scope.beer.fullStyle = angular.copy(style);
+    };
+    
+    $scope.saveMalt = function() {
+        $scope.beer.ingredients.malts.push($scope.editedIngredient);
+    };
+    
+    $scope.cancelNewIngredient = function() {
+        $scope.editedIngredient = undefined;
+        $scope.selectedIngredient = undefined;
+        $scope.newIngredientType = undefined;;
     };
     
     $scope.save = function() {

@@ -1,5 +1,104 @@
-<table>
-    <tr>
-        <td>bah</td>
-    </tr>
-</table>
+<div class="width100">
+    <div class="panel panel-default width100">
+        <div class="panel-heading">
+            <h3 class="panel-title">Grund</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="malt1" class="editLabelWidth">Namn</label>
+                    <input ng-model="editedIngredient.name" class="form-control editInputWidth" id="malt1">
+                </div>
+                <div class="form-group  width25">
+                    <label for="malt2" class="editLabelWidth">Ursprung</label>
+                    <input ng-model="editedIngredient.origin" class="form-control editInputWidth" id="malt2">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="malt3" class="editLabelWidth">Färg</label>
+                    <input ng-model="editedIngredient.color" class="form-control editInputWidth" id="malt3"> EBC
+                </div>
+                <div class="form-group width25">
+                    <label for="malt4" class="editLabelWidth">Utdelning</label>
+                    <input ng-model="editedIngredient.yield" class="form-control editInputWidth" id="malt4">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default width100">
+        <div class="panel-heading" ng-click="showAdvanced = !showAdvanced">
+            <h3 class="panel-title">Avancerat</h3>
+        </div>
+        <div class="panel-body" ng-show="showAdvanced">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="malt5" class="editLabelWidth">Sent extrakt</label>
+                    <input ng-model="editedIngredient.lateExtract" class="form-control editInputWidth" id="malt5">
+                </div>
+                <div class="form-group width25">
+                    <label for="malt6" class="editLabelWidth">Grov/Fin-skillnad</label>
+                    <input ng-model="editedIngredient.coarseFineDifference" class="form-control editInputWidth" id="malt6">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="malt7" class="editLabelWidth">Fukt</label>
+                    <input ng-model="editedIngredient.moisture" class="form-control editInputWidth" id="malt7">
+                </div>
+                <div class="form-group width25">
+                    <label for="malt8" class="editLabelWidth">Diastatisk kraft</label>
+                    <input ng-model="editedIngredient.diasticPower" class="form-control editInputWidth" id="malt8">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form- width25">
+                    <label for="malt9" class="editLabelWidth">Protein</label>
+                    <input ng-model="editedIngredient.protein" class="form-control editInputWidth" id="malt9">
+                </div>
+                <div class="form-group width25">
+                    <label for="malt10" class="editLabelWidth">Efter kokning</label>
+                    <input ng-model="editedIngredient.addAfterBoil" type="checkbox" class="form-control editInputWidth" id="malt10">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="malt11" class="editLabelWidth">Mäskas</label>
+                    <input ng-model="editedIngredient.recommendMash" type="checkbox" class="form-control editInputWidth" id="malt11">
+                </div>
+                <div class="form-group width25">
+                    <label for="malt12" class="editLabelWidth">Andel i mäsk</label>
+                    <input ng-model="editedIngredient.maxInBatch" class="form-control editInputWidth" id="malt12">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="malt13" class="editLabelWidth">Koktid</label>
+                    <input ng-model="editedIngredient.boilTime" class="form-control editInputWidth" id="malt13">
+                </div>
+                <div class="form-group width25">
+                    <label for="malt14" class="editLabelWidth">Konverterat spannmål</label>
+                    <input ng-model="editedIngredient.convertGrain" class="form-control editInputWidth" id="malt14">
+                </div>
+            </form>
+        </div>
+    </div>
+    <form class="form-inline width100">
+        <div class="form-group width25">
+            <label for="malt16" class="editLabelWidth">Anteckningar</label>
+            <input ng-model="editedIngredient.notes" class="form-control editInputWidth" id="malt16">
+        </div>
+    </form>
+    <form class="form-inline width100">
+        <div class="form-group width25">
+            <label for="malt15" class="editLabelWidth">Mängd</label>
+            <input ng-model="editedIngredient.amount" class="form-control editInputWidth" id="malt15" type="number"> g
+        </div>
+        <div class="form-group width25" ng-if="editIndex != $index">
+            <button class="btn btn-default" type="submit" ng-click="saveMalt()">Spara</button>
+        </div>
+        <div class="form-group width25" ng-if="editIndex != $index">
+            <button class="btn btn-default" type="submit" ng-click="cancelNewIngredient()">Ångra</button>
+        </div>
+    </form>
+</div>

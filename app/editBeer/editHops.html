@@ -1,0 +1,73 @@
+<div class="width100">
+    <div class="panel panel-default width100">
+        <div class="panel-heading">
+            <h3 class="panel-title">Grund</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="hops1" class="editLabelWidth">Namn</label>
+                    <input ng-model="editedIngredient.name" class="form-control editInputWidth" id="hops1">
+                </div>
+                <div class="form-group  width25">
+                    <label for="hops2" class="editLabelWidth">Ursprung</label>
+                    <input ng-model="editedIngredient.origin" class="form-control editInputWidth" id="hops2">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="hops1" class="editLabelWidth">Alfasyra</label>
+                    <input ng-model="editedIngredient.alpha" class="form-control editInputWidth" id="hops1"> %
+                </div>
+                <div class="form-group  width25">
+                    <label for="hops2" class="editLabelWidth">Form</label>
+                    <select ng-model="editedIngredient.form" class="form-control editInputWidth" id="hops2">
+                        <option value="pellet">Pellet</option>
+                        <option value="leaf">Kottar</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default width100">
+        <div class="panel-heading" ng-click="showAdvanced = !showAdvanced">
+            <h3 class="panel-title">Avancerat</h3>
+        </div>
+        <div class="panel-body" ng-show="showAdvanced">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="hops5" class="editLabelWidth">Betasyra</label>
+                    <input ng-model="editedIngredient.beta" class="form-control editInputWidth" id="hops5"> %
+                </div>
+                <div class="form-group width25">
+                    <label for="hops6" class="editLabelWidth">Stabilitetsindex</label>
+                    <input ng-model="editedIngredient.hopStabilityIndex" class="form-control editInputWidth" id="hops6">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="hops5" class="editLabelWidth">Torrhumlingstid</label>
+                    <input ng-model="editedIngredient.dryHopTime" class="form-control editInputWidth" id="hops5"> dagar
+                </div>
+            </form>
+        </div>
+    </div>
+    <form class="form-inline width100">
+        <div class="form-group width25">
+            <label for="hops16" class="editLabelWidth">Anteckningar</label>
+            <input ng-model="editedIngredient.notes" class="form-control editInputWidth" id="hops16">
+        </div>
+    </form>
+    <form class="form-inline width100">
+        <div class="form-group width25">
+            <label for="hops15" class="editLabelWidth">Mängd</label>
+            <input ng-model="editedIngredient.amount" class="form-control editInputWidth" id="hops15" type="number"> g
+        </div>
+        <div class="form-group width25" ng-if="editIndex != $index">
+            <button class="btn btn-default" type="submit" ng-click="saveMalt()">Spara</button>
+        </div>
+        <div class="form-group width25" ng-if="editIndex != $index">
+            <button class="btn btn-default" type="submit" ng-click="cancelNewIngredient()">Ångra</button>
+        </div>
+    </form>
+</div>

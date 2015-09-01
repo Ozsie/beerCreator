@@ -12,25 +12,25 @@ ingredientService.factory('Ingredients', ['$resource',
         var ingredients = {};
       
         ingredients.grains = function() {
-            return $resource('/BeerCreator/grains.json', {}, {
+            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/malts/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
                 query: {method:'GET', params:{}, isArray:true}
             });
         };
       
         ingredients.hops = function() {
-            return $resource('/BeerCreator/hops.json', {}, {
+            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/hops/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
                 query: {method:'GET', params:{}, isArray:true}
             });
         };
       
         ingredients.yeasts = function() {
-            return $resource('/BeerCreator/yeasts.json', {}, {
+            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/yeasts/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
                 query: {method:'GET', params:{}, isArray:true}
             });
         };
       
         ingredients.misc = function() {
-            return $resource('/BeerCreator/misc.json', {}, {
+            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/misc/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
                 query: {method:'GET', params:{}, isArray:true}
             });
         };

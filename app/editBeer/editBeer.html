@@ -1,66 +1,130 @@
 <div class="containerDiv">
-    Namn <input ng-model="beer.name">
-    <br>
-    Ändra stil
-    <select ng-model="superStyleId">
-        <option ng-repeat="style in styles" value="{{style.id}}">{{style.name}}</option>
-    </select>
-    <select ng-model="styleId" ng-show="subStyles">
-        <option ng-repeat="style in subStyles" value="{{style.id}}">{{style.name}}</option>
-    </select>
-    <div ng-if="beer.style">Vald stil: {{ beer.style }} - {{ beer.fullStyle.name }}</div>
-    <br>
-    Ingredienser
-    <table class="beerIngredientList">
-        <thead>
-            <tr>
-                <th>Typ</th>
-                <th>Namn</th>
-                <th>Mängd</th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="ingredientType in beer.ingredients">
-            <tr ng-repeat="ingredient in ingredientType">
-                <td>{{ ingredient.type | ingredientType }}</td>
-                <td>{{ ingredient.name }}</td>
-                <td>
-                    <input ng-model="ingredient.amount" type="number"> {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
-                </td>
-            </tr>
-        </tbody>
-        <tbody>
-            <tr>
-                <td>
-                    <select ng-model="newIngredientType">
-                        <option value="malt">Malt</option>
-                        <option value="hops">Humle</option>
-                        <option value="yeasts">Jäst</option>
-                        <option value="misc">Övrigt</option>
+    <div class="panel panel-default width100">
+        <div class="panel-heading">
+            <form class="form-inline width100">
+                <div class="form-group width100">
+                    <h3 class="panel-title">
+                        <label for="name" class="editLabelWidth">Namn</label> <input ng-model="beer.name" class="form-control" id="name">
+                    </h3>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width100">
+                    <label for="style" class="editLabelWidth">Ändra stil</label>
+                    <select ng-model="superStyleId" id="style" class="form-control">
+                        <option ng-repeat="style in styles" value="{{style.id}}">{{style.name}}</option>
                     </select>
-                </td>
-                <td>
-                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'malt'">
-                        <option ng-repeat="malt in grainList" value="{{malt.name}}">{{ malt.name }} / {{ malt.color }}</option>
+                    <select ng-model="styleId" ng-show="subStyles" class="form-control">
+                        <option ng-repeat="style in subStyles" value="{{style.id}}">{{style.name}}</option>
                     </select>
-                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'hops'">
-                        <option ng-repeat="hop in hopList" value="{{hop.name}}">{{ hop.name }} / {{ hop.alpha }}</option>
-                    </select>
-                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'yeasts'">
-                        <option ng-repeat="yeast in yeastList" value="{{yeast.name}}">{{ yeast.name }} / {{ yeast.minAttenuation }}</option>
-                    </select>
-                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'misc'">
-                        <option ng-repeat="misc in miscList" value="{{misc.name}}">{{ misc.name }}</option>
-                    </select>
-                </td>
-                <td></td>
-            </tr>
-            <tr ng-show="newIngredient">
-                <td colspan="3">
-                    <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'"></div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <button ng-click="save()">Spara</button>
-    <span ng-if="saved">Sparad</span>
+                </div>
+            </form>
+            <div ng-if="beer.style">Vald stil: {{ beer.style }} - {{ beer.fullStyle.name }}</div>
+            <table class="table editIngredientList">
+                <thead>
+                    <tr>
+                        <th>Typ</th>
+                        <th>Namn</th>
+                        <th>Mängd</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="ingredient in beer.ingredients.malts">
+                    <tr ng-click="toggleIngredient('malts', $index)">
+                        <td>{{ ingredient.type | ingredientType }}</td>
+                        <td>{{ ingredient.name }}</td>
+                        <td>
+                            <input ng-model="ingredient.amount" type="number" class="form-control"> {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                        </td>
+                        <td>
+                            <button class="glyphicon glyphicon-remove btn btn-default"></button>
+                        </td>
+                    </tr>
+                    <tr ng-show="editIndex == $index && editType == 'malts'">
+                        <td colspan="4">
+                            <div ng-include="'editBeer/editMalt.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-repeat="ingredient in beer.ingredients.hops">
+                    <tr ng-click="toggleIngredient('hops', $index)">
+                        <td>{{ ingredient.type | ingredientType }}</td>
+                        <td>{{ ingredient.name }}</td>
+                        <td>
+                            <input ng-model="ingredient.amount" type="number" class="form-control"> {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                        </td>
+                        <td>
+                            <button class="glyphicon glyphicon-remove btn btn-default"></button>
+                        </td>
+                    </tr>
+                    <tr ng-show="editIndex == $index && editType == 'hops'">
+                        <td colspan="4">
+                            <div ng-include="'editBeer/editHops.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-repeat="ingredient in beer.ingredients.misc">
+                    <tr>
+                        <td>{{ ingredient.type | ingredientType }}</td>
+                        <td>{{ ingredient.name }}</td>
+                        <td>
+                            <input ng-model="ingredient.amount" type="number" class="form-control"> {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                        </td>
+                        <td>
+                            <button class="glyphicon glyphicon-remove btn btn-default"></button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-repeat="ingredient in beer.ingredients.yeasts">
+                    <tr>
+                        <td>{{ ingredient.type | ingredientType }}</td>
+                        <td>{{ ingredient.name }}</td>
+                        <td>
+                            <input ng-model="ingredient.amount" type="number" class="form-control"> {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                        </td>
+                        <td>
+                            <button class="glyphicon glyphicon-remove btn btn-default"></button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>
+                            <select ng-model="newIngredientType" class="form-control">
+                                <option value="malt">Malt</option>
+                                <option value="hops">Humle</option>
+                                <option value="yeasts">Jäst</option>
+                                <option value="misc">Övrigt</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select ng-model="selectedIngredient" ng-show="newIngredientType == 'malt'" class="form-control">
+                                <option ng-repeat="malt in grainList" value="{{malt.name}}">{{ malt.name }} / {{ malt.color }}</option>
+                            </select>
+                            <select ng-model="selectedIngredient" ng-show="newIngredientType == 'hops'" class="form-control">
+                                <option ng-repeat="hop in hopList" value="{{hop.name}}">{{ hop.name }} / {{ hop.alpha }}</option>
+                            </select>
+                            <select ng-model="selectedIngredient" ng-show="newIngredientType == 'yeasts'" class="form-control">
+                                <option ng-repeat="yeast in yeastList" value="{{yeast.name}}">{{ yeast.name }} / {{ yeast.minAttenuation }}</option>
+                            </select>
+                            <select ng-model="selectedIngredient" ng-show="newIngredientType == 'misc'" class="form-control">
+                                <option ng-repeat="misc in miscList" value="{{misc.name}}">{{ misc.name }}</option>
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr ng-show="editedIngredient">
+                        <td colspan="3">
+                            <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'"></div>
+                            <div ng-include="'editBeer/editHops.html'" ng-if="newIngredientType == 'hops'"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <button ng-click="save()" class="btn btn-default">Spara</button>
+    <span class="alert alert-success" role="alert" ng-if="saved">Sparad</span>
 </div>
