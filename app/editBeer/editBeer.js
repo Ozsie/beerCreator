@@ -9,7 +9,7 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
   });
 }])
 
-.controller('EditBeerCtrl', ['$scope', '$http', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', function($scope, $http, Ingredients, ColorConversion, EditBeer, BeerStyles) {
+.controller('EditBeerCtrl', ['$scope', '$http', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', function($scope, $http, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles) {
     $scope.beerStyles = BeerStyles.query({}, function(styles) {
         $scope.styles = styles;
         $scope.beer = EditBeer.getBeerToEdit();
@@ -30,6 +30,17 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
             $scope.miscList = misc;
         });
 
+        Profiles.equipment().query({}, function(equipment) {
+            $scope.equipmentList = equipment;
+        });
+
+        Profiles.fermentationProfiles().query({}, function(fermentationProfiles) {
+            $scope.fermentationProfiles = fermentationProfiles;
+        });
+
+        Profiles.mashProfiles().query({}, function(mashProfiles) {
+            $scope.mashProfiles = mashProfiles;
+        });
     });
     
     $scope.$watch(function() {
@@ -174,6 +185,19 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
     
     $scope.removeIngredient = function(index, type) {
         $scope.beer.ingredients[type].splice(index, 1);
+    };
+    
+    $scope.updateBoilVolume = function() {
+        if ($scope.beer.equipment && $scope.beer.equipment.boiler.calculatBoilVolume) {
+            var afterMash = $scope.beer.equipment.mashLauterTun.volume;
+            if ($scope.beer.equipment.mashLauterTun.adjustVolumeForDeadSpace) {
+                afterMash -= $scope.beer.equipment.mashLauterTun.deadSpace;
+            }
+            
+            var volume = (afterMash + $scope.beer.equipment.boiler.kettleTopUp) * 0.864;
+            
+            $scope.beer.equipment.boiler.boilVolume = Math.round(volume * 100) / 100;
+        }
     };
     
     $scope.save = function() {

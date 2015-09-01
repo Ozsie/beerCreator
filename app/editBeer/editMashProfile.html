@@ -1,0 +1,151 @@
+<div>
+    <div class="panel panel-default width100">
+        <div class="panel-heading">
+            <h3 class="panel-title">Grund</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="mash1" class="editLabelWidth">Namn</label>
+                    <input ng-model="beer.mash.name" class="form-control editInputWidth" id="mash1">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="mash6" class="editLabelWidth">Maltviktbas</label>
+                    <input ng-model="beer.mash.properties.grainWeightBasis" class="form-control editInputWidth" id="mash6" type="number">
+                </div>
+                <div class="form-group width25">
+                    <label for="mash7" class="editLabelWidth">Koktemperatur</label>
+                    <input ng-model="beer.mash.properties.boliingTemp" class="form-control editInputWidth" id="mash7" type="number"> C
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="mash8" class="editLabelWidth">pH</label>
+                    <input ng-model="beer.mash.properties.ph" class="form-control editInputWidth" id="mash8" type="number">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default width100">
+        <div class="panel-heading">
+            <h3 class="panel-title">Temperaturer</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="mash3" class="editLabelWidth">Malt</label>
+                    <input ng-model="beer.mash.temperatures.grain" class="form-control editInputWidth" id="mash3" type="number"> C
+                </div>
+                <div class="form-group width25">
+                    <label for="mash4" class="editLabelWidth">Tunna</label>
+                    <input ng-model="beer.mash.temperatures.tun" class="form-control editInputWidth" id="mash4" type="number"> C
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="mash5" class="editLabelWidth">Strilning</label>
+                    <input ng-model="beer.mash.temperatures.sparge" class="form-control editInputWidth" id="mash5" type="number"> C
+                </div>
+                <div class="form-group width25">
+                    <label for="mash2" class="editLabelWidth">Justera temperaturer</label>
+                    <input ng-model="beer.mash.equipmentTemperatureAdjustment" class="form-control editInputWidth" id="mash2" type="checkbox">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default width100">
+        <div class="panel-heading">
+            <h3 class="panel-title">Satsstril</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="mash9" class="editLabelWidth">Använd satsstril</label>
+                    <input ng-model="beer.mash.batchSpargeOptions.batchSparge" class="form-control editInputWidth" id="mash9" type="checkbox">
+                </div>
+                <div class="form-group width25" ng-if="beer.mash.batchSpargeOptions.batchSparge">
+                    <label for="mash10" class="editLabelWidth">Lika satser</label>
+                    <input ng-model="beer.mash.batchSpargeOptions.equalBatches" class="form-control editInputWidth" id="mash10" type="checkbox">
+                </div>
+            </form>
+            <form class="form-inline width100" ng-if="beer.mash.batchSpargeOptions.batchSparge">
+                <div class="form-group width25">
+                    <label for="mash11" class="editLabelWidth">Fyll mäsktunnan</label>
+                    <input ng-model="beer.mash.batchSpargeOptions.fillMashTun" class="form-control editInputWidth" id="mash11" type="checkbox">
+                </div>
+                <div class="form-group width25">
+                    <label for="mash12" class="editLabelWidth">Töm tunnan innan strilning</label>
+                    <input ng-model="beer.mash.batchSpargeOptions.dainTunBeforeSparge" class="form-control editInputWidth" id="mash12" type="checkbox">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default width100">
+        <div class="panel-heading">
+            <h3 class="panel-title">Brew-in-bag</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="mash13" class="editLabelWidth">Tvinga full kokning</label>
+                    <input ng-model="beer.mash.brewInBagAndFullBoilMashes.forceFullBoil" class="form-control editInputWidth" id="mash13" type="checkbox">
+                </div>
+                <div class="form-group width25">
+                    <label for="mash14" class="editLabelWidth">Kokvolymbas</label>
+                        <input ng-model="beer.mash.brewInBagAndFullBoilMashes.boilVolumeBasis" class="form-control editInputWidth" id="mash14" type="number">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default width100" ng-repeat="step in beer.mash.steps">
+        <div class="panel-heading">
+            <h3 class="panel-title">Steg {{ $index + 1 }}</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="step1" class="editLabelWidth">Namn</label>
+                    <input ng-model="step.name" class="form-control editInputWidth" id="step1">
+                </div>
+                <div class="form-group width25">
+                    <label for="step2" class="editLabelWidth">Typ</label>
+                    <input ng-model="step.type" class="form-control editInputWidth" id="step2">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="step1" class="editLabelWidth">Temperatur</label>
+                    <input ng-model="step.temperature" class="form-control editInputWidth" id="step1" type="number"> C
+                </div>
+                <div class="form-group width25">
+                    <label for="step2" class="editLabelWidth">Tid</label>
+                    <input ng-model="step.time" class="form-control editInputWidth" id="step2" type="number"> min
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="step1" class="editLabelWidth">Stegringstid</label>
+                    <input ng-model="step.riseTime" class="form-control editInputWidth" id="step1" type="number"> min
+                </div>
+                <div class="form-group width25">
+                    <label for="step2" class="editLabelWidth">Vattenmängd</label>
+                    <input ng-model="step.waterToAdd" class="form-control editInputWidth" id="step2" type="number"> l
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="step1" class="editLabelWidth">Vatten/malt-ration</label>
+                    <input ng-model="step.waterGrainRation" class="form-control editInputWidth" id="step1" type="number"> min
+                </div>
+            </form>
+        </div>
+    </div>
+    <form class="form-inline width100">
+        <div class="form-group width25">
+            <label for="malt16" class="editLabelWidth">Anteckningar</label>
+            <input ng-model="beer.mash.notes" class="form-control editInputWidth" id="malt16">
+        </div>
+    </form>
+</div>

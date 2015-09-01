@@ -52,12 +52,12 @@ alcoholService.factory('Alcohol', function() {
         var attenuation = 0;
         for (var yeastIndex in beer.ingredients.yeasts) {
             var yeast = beer.ingredients.yeasts[yeastIndex];
-            attenuation += (yeast.maxAttenuation - yeast.minAttenuation) / 2;
+            attenuation += (yeast.maxAttenuation + yeast.minAttenuation) / 2;
         }
         
         attenuation = attenuation / beer.ingredients.yeasts.length;
         
-        fg = 1 + ((beer.og * (1 - attenuation)) / 1000);
+        fg = 1 + ((1000 * (beer.og - 1) * (1 - attenuation)) / 1000);
         beer.fg = fg;
         
         return fg;
