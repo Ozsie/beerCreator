@@ -12,22 +12,21 @@
         <div class="panel-body">
             <form class="form-inline width100">
                 <div class="form-group width100">
-                    <label for="style" class="editLabelWidth">Ändra stil</label>
-                    <select ng-model="superStyleId" id="style" class="form-control">
-                        <option ng-repeat="style in styles" value="{{style.id}}">{{style.name}}</option>
+                    <label for="style" class="editLabelWidth">Stil</label>
+                    <select ng-model="beer.parentStyle" id="style" class="form-control" convert-to-number
+                            ng-options="style.id as style.name for style in styles">
                     </select>
-                    <select ng-model="styleId" ng-show="subStyles" class="form-control">
-                        <option ng-repeat="style in subStyles" value="{{style.id}}">{{style.name}}</option>
+                    <select ng-model="beer.style" ng-show="subStyles" class="form-control" convert-to-number
+                            ng-options="style.id as style.name for style in subStyles">
                     </select>
                 </div>
             </form>
-            <div ng-if="beer.style">Vald stil: {{ beer.style }} - {{ beer.fullStyle.name }}</div>
             <table class="table editIngredientList">
                 <thead>
                     <tr>
                         <th>Typ</th>
                         <th>Namn</th>
-                        <th>Mängd</th>
+                        <th colspan="2">Mängd</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -36,14 +35,20 @@
                         <td>{{ ingredient.type | ingredientType }}</td>
                         <td>{{ ingredient.name }}</td>
                         <td>
-                            <input ng-model="ingredient.amount" type="number" class="form-control"> {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                            <div class="input-group width100">
+                                <input ng-model="ingredient.amount" type="number" class="form-control" aria-describedby="basic-addon2">
+                                <span class="input-group-addon" id="basic-addon2">g</span>
+                            </div>
                         </td>
                         <td>
-                            <button class="glyphicon glyphicon-remove btn btn-default"></button>
+                            <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                        </td>
+                        <td>
+                            <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'malts')"></button>
                         </td>
                     </tr>
                     <tr ng-show="editIndex == $index && editType == 'malts'">
-                        <td colspan="4">
+                        <td colspan="5">
                             <div ng-include="'editBeer/editMalt.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
                         </td>
                     </tr>
@@ -53,14 +58,23 @@
                         <td>{{ ingredient.type | ingredientType }}</td>
                         <td>{{ ingredient.name }}</td>
                         <td>
-                            <input ng-model="ingredient.amount" type="number" class="form-control"> {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                            <div class="input-group width100">
+                                <input ng-model="ingredient.amount" type="number" class="form-control" aria-describedby="basic-addon2">
+                                <span class="input-group-addon" id="basic-addon2">g</span>
+                            </div>
                         </td>
                         <td>
-                            <button class="glyphicon glyphicon-remove btn btn-default"></button>
+                            <div class="input-group width100">
+                                <input ng-model="ingredient.time" type="number" class="form-control" aria-describedby="basic-addon2">
+                                <span class="input-group-addon" id="basic-addon2">min</span>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'hops')"></button>
                         </td>
                     </tr>
                     <tr ng-show="editIndex == $index && editType == 'hops'">
-                        <td colspan="4">
+                        <td colspan="5">
                             <div ng-include="'editBeer/editHops.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
                         </td>
                     </tr>
@@ -69,11 +83,14 @@
                     <tr>
                         <td>{{ ingredient.type | ingredientType }}</td>
                         <td>{{ ingredient.name }}</td>
-                        <td>
-                            <input ng-model="ingredient.amount" type="number" class="form-control"> {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                        <td colspan="2">
+                            <div class="input-group width100">
+                                <input ng-model="ingredient.amount" type="number" class="form-control" aria-describedby="basic-addon2">
+                                <span class="input-group-addon" id="basic-addon2">{{ ingredient.unit }}</span>
+                            </div>
                         </td>
                         <td>
-                            <button class="glyphicon glyphicon-remove btn btn-default"></button>
+                            <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'misc')"></button>
                         </td>
                     </tr>
                 </tbody>
@@ -81,11 +98,14 @@
                     <tr>
                         <td>{{ ingredient.type | ingredientType }}</td>
                         <td>{{ ingredient.name }}</td>
-                        <td>
-                            <input ng-model="ingredient.amount" type="number" class="form-control"> {{ ingredient.unit }} <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                        <td colspan="2">
+                            <div class="input-group width100">
+                                <input ng-model="ingredient.amount" type="number" class="form-control" aria-describedby="basic-addon2">
+                                <span class="input-group-addon" id="basic-addon2">pkg</span>
+                            </div>
                         </td>
                         <td>
-                            <button class="glyphicon glyphicon-remove btn btn-default"></button>
+                            <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'yeasts')"></button>
                         </td>
                     </tr>
                 </tbody>
@@ -116,7 +136,7 @@
                         <td></td>
                     </tr>
                     <tr ng-show="editedIngredient">
-                        <td colspan="3">
+                        <td colspan="5">
                             <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'"></div>
                             <div ng-include="'editBeer/editHops.html'" ng-if="newIngredientType == 'hops'"></div>
                         </td>

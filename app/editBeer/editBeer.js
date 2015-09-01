@@ -74,11 +74,13 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
     
         
     $scope.$watch(function() {
-        return $scope.superStyleId;
+        if ($scope.beer) {
+            return $scope.beer.parentStyle;
+        }
     }, function() {
-        if ($scope.superStyleId) {
+        if ($scope.beer && $scope.beer.parentStyle) {
             for (var styleIndex in $scope.styles) {
-                if ($scope.styles[styleIndex].id === $scope.superStyleId) {
+                if ($scope.styles[styleIndex].id === $scope.beer.parentStyle) {
                     $scope.subStyles = $scope.styles[styleIndex].styles;
                     return;
                 }
@@ -87,18 +89,19 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
     }, true);
     
     $scope.$watch(function() {
-        return $scope.styleId;
+        if ($scope.beer) {
+            return $scope.beer.style;
+        }
     }, function() {
-        if ($scope.styleId) {
-            $scope.beer.style = $scope.styleId;
+        if ($scope.beer && $scope.beer.style) {
             for (var styleIndex in $scope.styles) {
-                if ($scope.styles[styleIndex].id === $scope.styleId) {
+                if ($scope.styles[styleIndex].id === $scope.beer.style) {
                     $scope.beer.fullStyle = angular.copy($scope.styles[styleIndex]);
                     return;
                 } else if ($scope.styles[styleIndex].styles){
                     for (var subIndex in $scope.styles[styleIndex].styles) {
                         var subStyle = $scope.styles[styleIndex].styles[subIndex];
-                        if (subStyle.id === $scope.styleId) {
+                        if (subStyle.id === $scope.beer.style) {
                             $scope.beer.fullStyle = angular.copy(subStyle);
                             return;
                         }
@@ -154,13 +157,23 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
     };
     
     $scope.saveMalt = function() {
-        $scope.beer.ingredients.malts.push($scope.editedIngredient);
+        $scope.beer.ingredients.malts.push(angular.copy($scope.editedIngredient));
+        $scope.cancelNewIngredient();
+    };
+    
+    $scope.saveHop = function() {
+        $scope.beer.ingredients.hops.push(angular.copy($scope.editedIngredient));
+        $scope.cancelNewIngredient();
     };
     
     $scope.cancelNewIngredient = function() {
         $scope.editedIngredient = undefined;
         $scope.selectedIngredient = undefined;
         $scope.newIngredientType = undefined;;
+    };
+    
+    $scope.removeIngredient = function(index, type) {
+        $scope.beer.ingredients[type].splice(index, 1);
     };
     
     $scope.save = function() {

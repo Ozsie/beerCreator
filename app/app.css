@@ -131,6 +131,9 @@
 .width25 {
     width: 49%;
 }
+.width80 {
+    width: 51% !important;
+}
 
 .editIngredientList > tbody > tr > td:nth-child(1) {
     width: 8%;
@@ -141,5 +144,9 @@
 }
 
 .editIngredientList > tbody > tr > td:nth-child(3) {
-    width: 35%;
+    width: 15%;
+}
+
+.editIngredientList > tbody > tr > td:nth-child(4) {
+    width: 15%;
 }
