@@ -95,7 +95,7 @@
                     </tr>
                 </tbody>
                 <tbody ng-repeat="ingredient in beer.ingredients.yeasts">
-                    <tr>
+                    <tr ng-click="toggleIngredient('yeasts', $index)">
                         <td>{{ ingredient.type | ingredientType }}</td>
                         <td>{{ ingredient.name }}</td>
                         <td colspan="2">
@@ -106,6 +106,11 @@
                         </td>
                         <td>
                             <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'yeasts')"></button>
+                        </td>
+                    </tr>
+                    <tr ng-show="editIndex == $index && editType == 'yeasts'">
+                        <td colspan="5">
+                            <div ng-include="'editBeer/editYeast.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
                         </td>
                     </tr>
                 </tbody>
@@ -139,6 +144,7 @@
                         <td colspan="5">
                             <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'"></div>
                             <div ng-include="'editBeer/editHops.html'" ng-if="newIngredientType == 'hops'"></div>
+                            <div ng-include="'editBeer/editYeast.html'" ng-if="newIngredientType == 'yeasts'"></div>
                         </td>
                     </tr>
                 </tbody>
@@ -177,12 +183,20 @@
             </div>
             
             
-            
-            <div class="form-group width100">
-                <label for="fermentation" class="editLabelWidth">Jäsningsprofil</label>
-                <select ng-model="beer.fermentation" id="fermentation" class="form-control"
-                        ng-options="fermentationProfile as fermentationProfile.name for fermentationProfile in fermentationProfiles">
-                </select>
+            <div class="panel panel-default width100">
+                <div class="panel-heading" ng-click="showEditFermentation = !showEditFermentation">
+                    <div class="form-group width100">
+                        <form class="form-inline width100">
+                            <label for="fermentation" class="editLabelWidth">Jäsningsprofil</label>
+                            <select ng-model="beer.fermentation" id="fermentation" class="form-control"
+                                    ng-options="fermentationProfile as fermentationProfile.name for fermentationProfile in fermentationProfiles">
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-body" ng-show="showEditFermentation">
+                    <div ng-include="'editBeer/editFermentationProfile.html'" ng-show="beer.fermentation"></div>
+                </div>
             </div>
         </div>
     </div>

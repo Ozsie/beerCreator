@@ -1,0 +1,115 @@
+<div class="width100">
+    {{ editedIngredient | json }}
+    <div class="panel panel-default width100">
+        <div class="panel-heading">
+            <h3 class="panel-title">Grund</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="yeast1" class="editLabelWidth">Namn</label>
+                    <input ng-model="editedIngredient.name" class="form-control editInputWidth" id="yeast1">
+                </div>
+                <div class="form-group width25">
+                    <label for="yeast2" class="editLabelWidth">Typ</label>
+                    <input ng-model="editedIngredient.useFor" class="form-control editInputWidth" id="yeast2">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="yeast2" class="editLabelWidth">Producent</label>
+                    <input ng-model="editedIngredient.producer" class="form-control editInputWidth" id="yeast2">
+                </div>
+                <div class="form-group width25">
+                    <label for="yeast2" class="editLabelWidth">Produkt-ID</label>
+                    <input ng-model="editedIngredient.productId" class="form-control editInputWidth" id="yeast2">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="yeast2" class="editLabelWidth">Min. dämpning</label>
+                    <input ng-model="editedIngredient.minAttenuation" class="form-control editInputWidth" id="yeast2">
+                </div>
+                <div class="form-group width25">
+                    <label for="yeast2" class="editLabelWidth">Max. dämpning</label>
+                    <input ng-model="editedIngredient.maxAttenuation" class="form-control editInputWidth" id="yeast2">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="yeast2" class="editLabelWidth">I sekundär jäsning</label>
+                    <input ng-model="editedIngredient.addToSecondary" class="form-control editInputWidth" id="yeast2" type="checkbox">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default width100">
+        <div class="panel-heading" ng-click="showAdvanced = !showAdvanced">
+            <h3 class="panel-title">Avancerat</h3>
+        </div>
+        <div class="panel-body" ng-show="showAdvanced">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="yeast5" class="editLabelWidth">Flockulering</label>
+                    <input ng-model="editedIngredient.flocculation" class="form-control editInputWidth" id="yeast5">
+                </div>
+                <div class="form-group width25">
+                    <label for="yeast2" class="editLabelWidth">Återanvädningar</label>
+                    <input ng-model="editedIngredient.maxReuses" class="form-control editInputWidth" id="yeast2" type="number">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="yeast5" class="editLabelWidth">Gigaceller/paket</label>
+                    <input ng-model="editedIngredient.billionCellsPerPack" class="form-control editInputWidth" id="yeast5" type="number">
+                </div>
+                <div class="form-group width25">
+                    <label for="yeast2" class="editLabelWidth">Form</label>
+                    <input ng-model="editedIngredient.form" class="form-control editInputWidth" id="yeast2">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="yeast5" class="editLabelWidth">Använd starter</label>
+                    <input ng-model="editedIngredient.useStarter" class="form-control editInputWidth" id="yeast5" type="checkbox">
+                </div>
+                <div class="form-group width25">
+                    <label for="yeast6" class="editLabelWidth">Starterstorlek</label>
+                    <input ng-model="editedIngredient.startSize" class="form-control editInputWidth" id="yeast6" type="number">
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="yeast5" class="editLabelWidth">Min. temperatur</label>
+                    <input ng-model="editedIngredient.minTemperature" class="form-control editInputWidth" id="yeast5" type="number">
+                </div>
+                <div class="form-group width25">
+                    <label for="yeast6" class="editLabelWidth">Max. temperatur</label>
+                    <input ng-model="editedIngredient.maxTemperature" class="form-control editInputWidth" id="yeast6" type="number">
+                </div>
+            </form>
+        </div>
+    </div>
+    <form class="form-inline width100">
+        <div class="form-group width25">
+            <label for="yeast16" class="editLabelWidth">Anteckningar</label>
+            <input ng-model="editedIngredient.notes" class="form-control editInputWidth" id="yeast16">
+        </div>
+        <div class="form-group width25">
+            <label for="yeast16" class="editLabelWidth">Bäst till</label>
+            <input ng-model="editedIngredient.bestFor" class="form-control editInputWidth" id="yeast16">
+        </div>
+    </form>
+    <form class="form-inline width100">
+        <div class="form-group width25">
+            <label for="yeast15" class="editLabelWidth">Mängd</label>
+            <input ng-model="editedIngredient.amount" class="form-control editInputWidth" id="yeast15" type="number"> pkg
+        </div>
+        <div class="form-group width25" ng-if="editIndex != $index">
+            <button class="btn btn-default" type="submit" ng-click="saveYeast()">Spara</button>
+        </div>
+        <div class="form-group width25" ng-if="editIndex != $index">
+            <button class="btn btn-default" type="submit" ng-click="cancelNewIngredient()">Ångra</button>
+        </div>
+    </form>
+</div>

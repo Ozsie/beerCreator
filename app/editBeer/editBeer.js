@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beerCreator.editBeer', ['ngRoute'])
+angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/editBeer', {
@@ -75,6 +75,9 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
                     $scope.editedIngredient = angular.copy(list[index]);
                     if (unit) {
                         $scope.editedIngredient.unit = unit;
+                    }
+                    if ($scope.newIngredientType === 'yeasts') {
+                        $scope.editedIngredient.useFor = $scope.editedIngredient.type;
                     }
                     $scope.editedIngredient.type = type;
                     return;
@@ -174,6 +177,11 @@ angular.module('beerCreator.editBeer', ['ngRoute'])
     
     $scope.saveHop = function() {
         $scope.beer.ingredients.hops.push(angular.copy($scope.editedIngredient));
+        $scope.cancelNewIngredient();
+    };
+    
+    $scope.saveYeast = function() {
+        $scope.beer.ingredients.yeasts.push(angular.copy($scope.editedIngredient));
         $scope.cancelNewIngredient();
     };
     
