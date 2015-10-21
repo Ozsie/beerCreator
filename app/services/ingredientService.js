@@ -7,32 +7,28 @@
 
 var ingredientService = angular.module('beerCreator.services');
 
-ingredientService.factory('Ingredients', ['$resource',
-    function($resource){
+ingredientService.factory('Ingredients', ['$firebaseArray',
+    function($firebaseArray){
         var ingredients = {};
       
         ingredients.grains = function() {
-            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/malts/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
-                query: {method:'GET', params:{}, isArray:true}
-            });
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/malts");
+            return $firebaseArray(ref);
         };
       
         ingredients.hops = function() {
-            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/hops/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
-                query: {method:'GET', params:{}, isArray:true}
-            });
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/hops");
+            return $firebaseArray(ref);
         };
       
         ingredients.yeasts = function() {
-            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/yeasts/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
-                query: {method:'GET', params:{}, isArray:true}
-            });
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/yeasts");
+            return $firebaseArray(ref);
         };
       
         ingredients.misc = function() {
-            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/misc/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
-                query: {method:'GET', params:{}, isArray:true}
-            });
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/misc");
+            return $firebaseArray(ref);
         };
         
         return ingredients;

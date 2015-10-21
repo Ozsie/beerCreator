@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beerCreator.beerList', ['ngRoute'])
+angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/beerList', {
@@ -9,13 +9,15 @@ angular.module('beerCreator.beerList', ['ngRoute'])
   });
 }])
 
-.controller('BeerListCtrl', ['$scope', '$http', '$location', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', 'EditBeer', function($scope, $http, $location, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients, EditBeer) {
+.controller('BeerListCtrl', ['$scope', '$http', '$location', '$firebaseArray', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', 'EditBeer', function($scope, $http, $location, $firebaseArray, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients, EditBeer) {
     $scope.beerList = [];
     
     $scope.loadBeers = function() {
-        $scope.beerStyles = BeerStyles.query({}, function(styles) {
+        $scope.beerStyles = BeerStyles.getStyles().$loaded().then(function(styles) {
             $scope.beerStyles = styles;
-            $http.get("https://api.mongolab.com/api/1/databases/beercreator/collections/beerlist/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M").success(function(data, status) {
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist");
+            $scope.beerList = $firebaseArray(ref);
+            $scope.beerList.$loaded().then(function(data) {
                 if (data) {
                     $scope.beerList = data;
                     for (var index in $scope.beerList) {
@@ -107,19 +109,19 @@ angular.module('beerCreator.beerList', ['ngRoute'])
     
     $scope.loadBeers();
     
-    Ingredients.grains().query({}, function(grains) {
+    Ingredients.grains().$loaded().then(function(grains) {
         $scope.grainList = grains;
     });
         
-    Ingredients.hops().query({}, function(hops) {
+    Ingredients.hops().$loaded().then(function(hops) {
         $scope.hopList = hops;
     });
         
-    Ingredients.yeasts().query({}, function(yeasts) {
+    Ingredients.yeasts().$loaded().then(function(yeasts) {
         $scope.yeastList = yeasts;
     });
         
-    Ingredients.misc().query({}, function(misc) {
+    Ingredients.misc().$loaded().then(function(misc) {
         $scope.miscList = misc;
     });
 }]);

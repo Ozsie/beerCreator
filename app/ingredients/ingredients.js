@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beerCreator.ingredients', ['ngRoute'])
+angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/ingredients', {
@@ -9,23 +9,23 @@ angular.module('beerCreator.ingredients', ['ngRoute'])
   });
 }])
 
-.controller('IngredientsCtrl', ['$scope', '$http', 'Ingredients', 'ColorConversion', function($scope, $http, Ingredients, ColorConversion) {
+.controller('IngredientsCtrl', ['$scope', '$http', '$firebaseArray', 'Ingredients', 'ColorConversion', function($scope, $http, $firebaseArray, Ingredients, ColorConversion) {
         
     $scope.selectedList = 'malt';
         
-    Ingredients.grains().query({}, function(grains) {
+    Ingredients.grains().$loaded().then(function(grains) {
         $scope.grainList = grains;
     });
         
-    Ingredients.hops().query({}, function(hops) {
+    Ingredients.hops().$loaded().then(function(hops) {
         $scope.hopList = hops;
     });
         
-    Ingredients.yeasts().query({}, function(yeasts) {
+    Ingredients.yeasts().$loaded().then(function(yeasts) {
         $scope.yeastList = yeasts;
     });
         
-    Ingredients.misc().query({}, function(misc) {
+    Ingredients.misc().$loaded().then(function(misc) {
         $scope.miscList = misc;
     });
     

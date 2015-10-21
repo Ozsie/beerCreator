@@ -5,11 +5,16 @@
  */
 'use strict';
 
-var beerStyleService = angular.module('beerCreator.services', ['ngResource']);
+var beerStyleService = angular.module('beerCreator.services', ['ngResource', 'firebase']);
 
-beerStyleService.factory('BeerStyles', ['$resource',
-  function($resource){
-    return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/styles/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
-        query: {method:'GET', params:{}, isArray:true}
-    });
+beerStyleService.factory('BeerStyles', ['$firebaseArray',
+  function($firebaseArray){
+    var beerStyle = {}; 
+
+    beerStyle.getStyles = function () {
+        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerstyles");
+        return $firebaseArray(ref);
+    };
+      
+    return beerStyle;
   }]);

@@ -7,26 +7,23 @@
 
 var profilesService = angular.module('beerCreator.services');
 
-profilesService.factory('Profiles', ['$resource',
-    function($resource){
+profilesService.factory('Profiles', ['$firebaseArray',
+    function($firebaseArray){
         var profiles = {};
       
         profiles.equipment = function() {
-            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/equipment/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
-                query: {method:'GET', params:{}, isArray:true}
-            });
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/equipment");
+            return $firebaseArray(ref);
         };
       
         profiles.fermentationProfiles = function() {
-            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/fermentationProfiles/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
-                query: {method:'GET', params:{}, isArray:true}
-            });
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/fermentationProfiles");
+            return $firebaseArray(ref);
         };
       
         profiles.mashProfiles = function() {
-            return $resource('https://api.mongolab.com/api/1/databases/beercreator/collections/mashProfiles/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M', {}, {
-                query: {method:'GET', params:{}, isArray:true}
-            });
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/mashProfiles");
+            return $firebaseArray(ref);
         };
         
         return profiles;

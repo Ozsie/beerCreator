@@ -10,15 +10,15 @@ angular.module('beerCreator.profiles', ['ngRoute'])
 }])
 
 .controller('ProfilesCtrl', ['$scope', 'Profiles', function($scope, Profiles) {
-    Profiles.equipment().query({}, function(equipment) {
-        $scope.equipment = equipment;
+    Profiles.equipment().$loaded().then(function(equipment) {
+        $scope.equipmentList = equipment;
     });
-    
-    Profiles.fermentationProfiles().query({}, function(fermentationProfiles) {
+
+    Profiles.fermentationProfiles().$loaded().then(function(fermentationProfiles) {
         $scope.fermentationProfiles = fermentationProfiles;
     });
-    
-    Profiles.mashProfiles().query({}, function(mashProfiles) {
+
+    Profiles.mashProfiles().$loaded().then(function(mashProfiles) {
         $scope.mashProfiles = mashProfiles;
     });
 }]);

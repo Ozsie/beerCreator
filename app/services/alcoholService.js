@@ -22,10 +22,7 @@ alcoholService.factory('Alcohol', function() {
         var POUND_GRAM_RATION = 453.59237;
         
         var totalOg = 1000;
-        var volume = beer.equipment.mashLauterTun.volume;
-        if (beer.equipment.mashLauterTun.adjustVolumeForDeadSpace) {
-            volume = volume - beer.equipment.mashLauterTun.deadSpace;
-        }
+        var volume = beer.equipment.boiler.boilVolume;
         volume = volume / GALLON_LITRE_RATIO;
         for (var maltIndex in beer.ingredients.malts) {
             var malt = beer.ingredients.malts[maltIndex];
@@ -65,7 +62,9 @@ alcoholService.factory('Alcohol', function() {
     
     alcohol.calculateABV = function(beer) {
         var abv = 0;
-        abv = (beer.og - beer.fg) * 131;
+        if (beer.og && beer.fg) {
+            abv = (beer.og - beer.fg) * 131;
+        }
         beer.abv = abv;
         return abv;
     };

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap'])
+angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/editBeer', {
@@ -9,36 +9,36 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap'])
   });
 }])
 
-.controller('EditBeerCtrl', ['$scope', '$http', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', function($scope, $http, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles) {
-    $scope.beerStyles = BeerStyles.query({}, function(styles) {
+.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', function($scope, $firebaseArray, $interval, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles) {
+    $scope.beerStyles = BeerStyles.getStyles().$loaded().then(function(styles) {
         $scope.styles = styles;
         $scope.beer = EditBeer.getBeerToEdit();
 
-        Ingredients.grains().query({}, function(grains) {
+        Ingredients.grains().$loaded().then(function(grains) {
             $scope.grainList = grains;
         });
 
-        Ingredients.hops().query({}, function(hops) {
+        Ingredients.hops().$loaded().then(function(hops) {
             $scope.hopList = hops;
         });
 
-        Ingredients.yeasts().query({}, function(yeasts) {
+        Ingredients.yeasts().$loaded().then(function(yeasts) {
             $scope.yeastList = yeasts;
         });
 
-        Ingredients.misc().query({}, function(misc) {
+        Ingredients.misc().$loaded().then(function(misc) {
             $scope.miscList = misc;
         });
 
-        Profiles.equipment().query({}, function(equipment) {
+        Profiles.equipment().$loaded().then(function(equipment) {
             $scope.equipmentList = equipment;
         });
 
-        Profiles.fermentationProfiles().query({}, function(fermentationProfiles) {
+        Profiles.fermentationProfiles().$loaded().then(function(fermentationProfiles) {
             $scope.fermentationProfiles = fermentationProfiles;
         });
 
-        Profiles.mashProfiles().query({}, function(mashProfiles) {
+        Profiles.mashProfiles().$loaded().then(function(mashProfiles) {
             $scope.mashProfiles = mashProfiles;
         });
     });
@@ -209,11 +209,30 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap'])
     };
     
     $scope.save = function() {
-        var toSave = angular.copy($scope.beer);
-        delete toSave.$$hashKey;
-        $http.post("https://api.mongolab.com/api/1/databases/beercreator/collections/beerlist/?apiKey=n_pSs2E3Xtofxp4Ybar08_XFjKucV64M",
-                    JSON.stringify(toSave)).success(function(data, status) {
-                        $scope.saved = true;
+        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist");
+        $scope.beerList = $firebaseArray(ref);
+        
+        $scope.beerList.$loaded().then(function(data) {
+            if ($scope.beer.$id) {
+                var index = $scope.beerList.$indexFor($scope.beer.$id);
+                $scope.beerList.$remove(index);
+            }
+            $scope.beerList.$add($scope.beer).then(function(ref) {
+                if ($scope.beer.$id !== ref.key()) {
+                    $scope.beer.$id = ref.key();
+                }
+                $scope.saved = true;
             });
+        });
     };
+    
+    $scope.$watch(function() {
+        return $scope.saved;
+    }, function() {
+        if ($scope.saved) {
+            $interval(function() {
+                $scope.saved = false;
+            }, 2000, 1);
+        }
+    })
 }]);
