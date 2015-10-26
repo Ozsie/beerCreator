@@ -24,4 +24,16 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
             console.error("Authentication failed:", error);
         });
     };
+    
+    $scope.googleLogin = function() {
+        ref.authWithOAuthPopup("google", function(error, authData) {
+            if (error) {
+              console.log("Login Failed!", error);
+            } else {
+              console.log("Authenticated successfully with payload:", authData);
+              User.login(authData);
+              $location.path('beerList');
+            }
+        });
+    }
 }]);
