@@ -13,12 +13,15 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     $scope.beerStyles = BeerStyles.getStyles().$loaded().then(function(styles) {
         $scope.styles = styles;
         $scope.tempBeer = EditBeer.getBeerToEdit();
+        $scope.beerColor = "#ffffff";
+        
+        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + User.authData.uid);
+        $scope.beerList = $firebaseArray(ref);
         
         if ($scope.tempBeer.$id) {
-            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + User.authData.uid);
-            $scope.beerList = $firebaseArray(ref);
             $scope.beerList.$loaded().then(function(data) {
                 $scope.beer = $scope.beerList.$getRecord($scope.tempBeer.$id);
+                $scope.beerColor = $scope.getColor($scope.beer);
             });
         } else {
             $scope.beer = $scope.tempBeer;
@@ -204,6 +207,14 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         $scope.cancelNewIngredient();
     };
     
+    $scope.saveMisc = function() {
+        if (!$scope.beer.ingredients.misc) {
+            $scope.beer.ingredients.misc = [];
+        }
+        $scope.beer.ingredients.misc.push(angular.copy($scope.editedIngredient));
+        $scope.cancelNewIngredient();
+    };
+    
     $scope.cancelNewIngredient = function() {
         $scope.editedIngredient = undefined;
         $scope.selectedIngredient = undefined;
@@ -229,15 +240,22 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         Alcohol.calculateOriginalGravity($scope.beer);
         Alcohol.calculateFinalGravity($scope.beer);
         Alcohol.calculateABV($scope.beer);
-        ColorConversion.calculateTotalEBC($scope.beer);
+        $scope.beer.color = ColorConversion.calculateTotalEBC($scope.beer);
+        $scope.beerColor = $scope.getColor($scope.beer);
     };
     
     $scope.save = function() {
         var doSave = function(isPublic) {
             $scope.beerList.$loaded().then(function(data) {
                 if ($scope.beer.$id) {
-                    var index = $scope.beerList.$indexFor($scope.beer.$id);
                     $scope.beerList.$save($scope.beer).then(function(ref) {
+                        $scope.saved = true;
+                    }).catch(function(error) {
+                        console.log(error);
+                    });
+                } else if ($scope.added) {
+                    var index = $scope.beerList.$indexFor($scope.key);
+                    $scope.beerList.$save(index).then(function(ref) {
                         $scope.saved = true;
                     }).catch(function(error) {
                         console.log(error);
@@ -245,6 +263,8 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
                 } else {
                     $scope.beerList.$add($scope.beer).then(function(ref) {
                         $scope.saved = true;
+                        $scope.added = true;
+                        $scope.key = ref.key();
                     });
                 }
             });

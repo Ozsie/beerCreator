@@ -12,8 +12,8 @@ colorConversionService.factory('ColorConversion', function() {
     var colorConversion = {}; 
 
     colorConversion.convert = function(ebc) {
-        var rounded = Math.round(ebc);
-        switch (rounded) {
+        var srm = Math.round(ebc * 0.508);
+        switch (srm) {
             case 0:
             case 1: return "#F3F993";
             case 2: return "#F5F75C";
