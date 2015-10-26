@@ -23,6 +23,7 @@ bitternessService.factory('Bitterness', function() {
                 totalIBU += concentration * utilization;
             }
         }
+        beer.ibu = totalIBU;
         return totalIBU;
     };
     

@@ -9,19 +9,35 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('BeerListCtrl', ['$scope', '$http', '$location', '$firebaseArray', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', 'EditBeer', function($scope, $http, $location, $firebaseArray, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients, EditBeer) {
+.controller('BeerListCtrl', ['$scope', '$http', '$location', '$firebaseArray', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', 'EditBeer', 'User', function($scope, $http, $location, $firebaseArray, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients, EditBeer, User) {
     $scope.beerList = [];
     
     $scope.loadBeers = function() {
         $scope.beerStyles = BeerStyles.getStyles().$loaded().then(function(styles) {
             $scope.beerStyles = styles;
-            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist");
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + User.authData.uid);
             $scope.beerList = $firebaseArray(ref);
             $scope.beerList.$loaded().then(function(data) {
                 if (data) {
                     $scope.beerList = data;
                     for (var index in $scope.beerList) {
                         var beer = $scope.beerList[index];
+                        var style = beer.style;
+                        if (!beer.fullStyle) {
+                            var fullStyle = $scope.findStyle(style, $scope.beerStyles);
+                            beer.fullStyle = fullStyle;
+                        }
+                    }
+                }
+            });
+            
+            var refPublic = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/public");
+            $scope.beerListPublic = $firebaseArray(refPublic);
+            $scope.beerListPublic.$loaded().then(function(data) {
+                if (data) {
+                    $scope.beerListPublic = data;
+                    for (var index in $scope.beerListPublic) {
+                        var beer = $scope.beerListPublic[index];
                         var style = beer.style;
                         if (!beer.fullStyle) {
                             var fullStyle = $scope.findStyle(style, $scope.beerStyles);
@@ -124,4 +140,8 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
     Ingredients.misc().$loaded().then(function(misc) {
         $scope.miscList = misc;
     });
+    
+    $scope.logout = function() {
+        User.logout();
+    };
 }]);

@@ -4,7 +4,7 @@
             <form class="form-inline width100">
                 <div class="form-group width100">
                     <h3 class="panel-title">
-                        <label for="name" class="editLabelWidth">Namn</label> <input ng-model="beer.name" class="form-control" id="name">
+                        <label for="name" class="editLabelWidth">Namn</label> <input ng-model="beer.name" class="form-control" id="name"> <span>{{ beer.$id }}</span>
                     </h3>
                 </div>
             </form>
@@ -21,6 +21,15 @@
                     </select>
                 </div>
             </form>
+            <div>
+                <ul>
+                    <li>ABV: {{ beer.abv }}</li>
+                    <li>IBU: {{ beer.ibu }}</li>
+                    <li>OG: {{ beer.og }}</li>
+                    <li>FG: {{ beer.fg }}</li>
+                </ul>
+                
+            </div>
             <table class="table editIngredientList">
                 <thead>
                     <tr>
@@ -36,7 +45,7 @@
                         <td>{{ ingredient.name }}</td>
                         <td>
                             <div class="input-group width100">
-                                <input ng-model="ingredient.amount" type="number" class="form-control" aria-describedby="basic-addon2">
+                                <input ng-model="ingredient.amount" ng-change="update()" type="number" class="form-control" aria-describedby="basic-addon2">
                                 <span class="input-group-addon" id="basic-addon2">g</span>
                             </div>
                         </td>
@@ -201,5 +210,6 @@
         </div>
     </div>
     <button ng-click="save()" class="btn btn-default">Spara</button>
+    <span>Publik <input type="checkbox" ng-model="beer.public"></span>
     <span class="alert alert-success" role="alert" ng-if="saved">Sparad</span>
 </div>

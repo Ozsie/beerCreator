@@ -9,10 +9,20 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
   });
 }])
 
-.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', function($scope, $firebaseArray, $interval, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles) {
+.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', function($scope, $firebaseArray, $interval, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles, User, Bitterness, Alcohol) {
     $scope.beerStyles = BeerStyles.getStyles().$loaded().then(function(styles) {
         $scope.styles = styles;
-        $scope.beer = EditBeer.getBeerToEdit();
+        $scope.tempBeer = EditBeer.getBeerToEdit();
+        
+        if ($scope.tempBeer.$id) {
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + User.authData.uid);
+            $scope.beerList = $firebaseArray(ref);
+            $scope.beerList.$loaded().then(function(data) {
+                $scope.beer = $scope.beerList.$getRecord($scope.tempBeer.$id);
+            });
+        } else {
+            $scope.beer = $scope.tempBeer;
+        }
 
         Ingredients.grains().$loaded().then(function(grains) {
             $scope.grainList = grains;
@@ -171,16 +181,25 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.saveMalt = function() {
+        if (!$scope.beer.ingredients.malts) {
+            $scope.beer.ingredients.malts = [];
+        }
         $scope.beer.ingredients.malts.push(angular.copy($scope.editedIngredient));
         $scope.cancelNewIngredient();
     };
     
     $scope.saveHop = function() {
+        if (!$scope.beer.ingredients.hops) {
+            $scope.beer.ingredients.hops = [];
+        }
         $scope.beer.ingredients.hops.push(angular.copy($scope.editedIngredient));
         $scope.cancelNewIngredient();
     };
     
     $scope.saveYeast = function() {
+        if (!$scope.beer.ingredients.yeasts) {
+            $scope.beer.ingredients.yeasts = [];
+        }
         $scope.beer.ingredients.yeasts.push(angular.copy($scope.editedIngredient));
         $scope.cancelNewIngredient();
     };
@@ -188,42 +207,49 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     $scope.cancelNewIngredient = function() {
         $scope.editedIngredient = undefined;
         $scope.selectedIngredient = undefined;
-        $scope.newIngredientType = undefined;;
+        $scope.newIngredientType = undefined;
+        $scope.update();
     };
     
     $scope.removeIngredient = function(index, type) {
         $scope.beer.ingredients[type].splice(index, 1);
+        $scope.update();
     };
     
     $scope.updateBoilVolume = function() {
         if ($scope.beer.equipment && $scope.beer.equipment.boiler.calculatBoilVolume) {
-            var afterMash = $scope.beer.equipment.mashLauterTun.volume;
-            if ($scope.beer.equipment.mashLauterTun.adjustVolumeForDeadSpace) {
-                afterMash -= $scope.beer.equipment.mashLauterTun.deadSpace;
-            }
-            
-            var volume = (afterMash + $scope.beer.equipment.boiler.kettleTopUp) * 0.864;
-            
-            $scope.beer.equipment.boiler.boilVolume = Math.round(volume * 100) / 100;
+            var boiler = $scope.beer.equipment.boiler;
+            boiler.boilVolume = $scope.beer.equipment.batchSize + boiler.boilOff + boiler.coolingLoss + boiler.kettleTopUp;
+            boiler.postBoilVolume = boiler.boilVolume - boiler.boilOff - boiler.kettleTopUp;
         }
     };
     
+    $scope.update = function() {
+        Bitterness.tinseth($scope.beer);
+        Alcohol.calculateOriginalGravity($scope.beer);
+        Alcohol.calculateFinalGravity($scope.beer);
+        Alcohol.calculateABV($scope.beer);
+        ColorConversion.calculateTotalEBC($scope.beer);
+    };
+    
     $scope.save = function() {
-        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist");
-        $scope.beerList = $firebaseArray(ref);
-        
-        $scope.beerList.$loaded().then(function(data) {
-            if ($scope.beer.$id) {
-                var index = $scope.beerList.$indexFor($scope.beer.$id);
-                $scope.beerList.$remove(index);
-            }
-            $scope.beerList.$add($scope.beer).then(function(ref) {
-                if ($scope.beer.$id !== ref.key()) {
-                    $scope.beer.$id = ref.key();
+        var doSave = function(isPublic) {
+            $scope.beerList.$loaded().then(function(data) {
+                if ($scope.beer.$id) {
+                    var index = $scope.beerList.$indexFor($scope.beer.$id);
+                    $scope.beerList.$save($scope.beer).then(function(ref) {
+                        $scope.saved = true;
+                    }).catch(function(error) {
+                        console.log(error);
+                    });
+                } else {
+                    $scope.beerList.$add($scope.beer).then(function(ref) {
+                        $scope.saved = true;
+                    });
                 }
-                $scope.saved = true;
             });
-        });
+        };
+        doSave(false);
     };
     
     $scope.$watch(function() {

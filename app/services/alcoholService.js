@@ -22,7 +22,7 @@ alcoholService.factory('Alcohol', function() {
         var POUND_GRAM_RATION = 453.59237;
         
         var totalOg = 1000;
-        var volume = beer.equipment.boiler.boilVolume;
+        var volume = beer.equipment.boiler.postBoilVolume;
         volume = volume / GALLON_LITRE_RATIO;
         for (var maltIndex in beer.ingredients.malts) {
             var malt = beer.ingredients.malts[maltIndex];

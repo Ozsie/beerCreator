@@ -7,13 +7,28 @@
 
 var userService = angular.module('beerCreator.services');
 
-userService.factory('User', function() {
+userService.factory('User', ['$firebaseAuth', '$location', function($firebaseAuth, $location) {
 
-    var user = {}; 
+    var user = {
+        authData: undefined
+    };
     
     user.login = function(authData) {
-        user.authData = authData;
+        this.authData = authData;
+    };
+    
+    user.logout = function() {
+        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com");
+        var authObj = $firebaseAuth(ref);
+        authObj.$unauth();
+        
+        authObj.$onAuth(function(authData) {
+            if (!authData) {
+                console.log("Logged out");
+                $location.path("login");
+            }
+        });
     };
     
     return user;
-});
+}]);
