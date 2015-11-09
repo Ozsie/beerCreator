@@ -35,5 +35,5 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
               $location.path('beerList');
             }
         });
-    }
+    };
 }]);

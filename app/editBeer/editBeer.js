@@ -10,7 +10,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
 }])
 
 .controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', function($scope, $firebaseArray, $interval, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles, User, Bitterness, Alcohol) {
-    $scope.beerStyles = BeerStyles.getStyles().$loaded().then(function(styles) {
+    BeerStyles.getStyles().$loaded().then(function(styles) {
         $scope.styles = styles;
         $scope.tempBeer = EditBeer.getBeerToEdit();
         $scope.beerColor = "#ffffff";
@@ -237,9 +237,9 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     
     $scope.update = function() {
         Bitterness.tinseth($scope.beer);
-        Alcohol.calculateOriginalGravity($scope.beer);
-        Alcohol.calculateFinalGravity($scope.beer);
-        Alcohol.calculateABV($scope.beer);
+        $scope.beer.og = Alcohol.calculateOriginalGravity($scope.beer);
+        $scope.beer.fg = Alcohol.calculateFinalGravity($scope.beer);
+        $scope.beer.abv = Alcohol.calculateABV($scope.beer);
         $scope.beer.color = ColorConversion.calculateTotalEBC($scope.beer);
         $scope.beerColor = $scope.getColor($scope.beer);
     };
@@ -253,14 +253,15 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
                     }).catch(function(error) {
                         console.log(error);
                     });
-                } else if ($scope.added) {
-                    var index = $scope.beerList.$indexFor($scope.key);
-                    $scope.beerList.$save(index).then(function(ref) {
-                        $scope.saved = true;
-                    }).catch(function(error) {
-                        console.log(error);
-                    });
                 } else {
+                    var index = $scope.beerList.$indexFor($scope.key);
+                    if (index > -1) {
+                        $scope.beerList.$remove(index).then(function(ref) {
+                            $scope.saved = true;
+                        }).catch(function(error) {
+                            console.log(error);
+                        });
+                    }
                     $scope.beerList.$add($scope.beer).then(function(ref) {
                         $scope.saved = true;
                         $scope.added = true;
@@ -280,5 +281,17 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
                 $scope.saved = false;
             }, 2000, 1);
         }
-    })
+    });
+    
+    $scope.$on("$destroy", function(){
+        $scope.miscList.$destroy();
+        $scope.yeastList.$destroy();
+        $scope.hopList.$destroy();
+        $scope.grainList.$destroy();
+        $scope.beerList.$destroy();
+        $scope.styles.$destroy();
+        $scope.equipmentList.$destroy();
+        $scope.fermentationProfiles.$destroy();
+        $scope.mashProfiles.$destroy();
+    });
 }]);

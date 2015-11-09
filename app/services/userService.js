@@ -7,7 +7,7 @@
 
 var userService = angular.module('beerCreator.services');
 
-userService.factory('User', ['$firebaseAuth', '$location', function($firebaseAuth, $location) {
+userService.factory('User', ['$firebaseAuth', '$location', 'Ingredients', function($firebaseAuth, $location, Ingredients) {
 
     var user = {
         authData: undefined

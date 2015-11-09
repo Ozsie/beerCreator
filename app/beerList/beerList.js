@@ -142,6 +142,23 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
     });
     
     $scope.logout = function() {
+        $scope.miscList.$destroy();
+        $scope.yeastList.$destroy();
+        $scope.hopList.$destroy();
+        $scope.grainList.$destroy();
+        $scope.beerList.$destroy();
+        $scope.beerListPublic.$destroy();
+        $scope.beerStyles.$destroy();
         User.logout();
     };
+    
+    $scope.$on("$destroy", function(){
+        $scope.miscList.$destroy();
+        $scope.yeastList.$destroy();
+        $scope.hopList.$destroy();
+        $scope.grainList.$destroy();
+        $scope.beerList.$destroy();
+        $scope.beerListPublic.$destroy();
+        $scope.beerStyles.$destroy();
+    });
 }]);

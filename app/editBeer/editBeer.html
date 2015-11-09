@@ -23,11 +23,11 @@
             </form>
             <div>
                 <ul>
-                    <li>ABV: {{ beer.abv | number: 2}} %</li>
-                    <li>IBU: {{ beer.ibu | number: 2 }}</li>
-                    <li>OG: {{ beer.og | number: 3 }}</li>
-                    <li>FG: {{ beer.fg | number: 3 }}</li>
-                    <li>Color: {{ beer.color | number: 2 }} EBC</li>
+                    <li>ABV: {{ beer.abv | number: 2}} % ({{beer.fullStyle.abvMin}} - {{beer.fullStyle.abvMax}})</li>
+                    <li>IBU: {{ beer.ibu | number: 2 }} ({{beer.fullStyle.ibuMin}} - {{beer.fullStyle.ibuMax}})</li>
+                    <li>OG: {{ beer.og | number: 3 }} ({{beer.fullStyle.ogMin}} - {{beer.fullStyle.ogMax}})</li>
+                    <li>FG: {{ beer.fg | number: 3 }} ({{beer.fullStyle.fgMin}} - {{beer.fullStyle.fgMax}})</li>
+                    <li>Color: {{ beer.color | number: 2 }} EBC ({{beer.fullStyle.ebcMin}} - {{beer.fullStyle.ebcMax}})</li>
                 </ul>
             </div>
             <div class="width100" style="background-color: {{ beerColor }}; height: 10px;"></div>
@@ -141,13 +141,13 @@
                         </td>
                         <td>
                             <select ng-model="selectedIngredient" ng-show="newIngredientType == 'malt'" class="form-control">
-                                <option ng-repeat="malt in grainList" value="{{malt.name}}">{{ malt.name }} / {{ malt.color }}</option>
+                                <option ng-repeat="malt in grainList" value="{{malt.name}}">{{ malt.name }} / {{ malt.color }} EBC / {{ malt.yield * 100 }} / {{malt.origin}}</option>
                             </select>
                             <select ng-model="selectedIngredient" ng-show="newIngredientType == 'hops'" class="form-control">
-                                <option ng-repeat="hop in hopList" value="{{hop.name}}">{{ hop.name }} / {{ hop.alpha }}</option>
+                                <option ng-repeat="hop in hopList" value="{{hop.name}}">{{ hop.name }} / {{ hop.alpha }} / {{ hop.origin }}</option>
                             </select>
                             <select ng-model="selectedIngredient" ng-show="newIngredientType == 'yeasts'" class="form-control">
-                                <option ng-repeat="yeast in yeastList" value="{{yeast.name}}">{{ yeast.name }} / {{ yeast.minAttenuation }}</option>
+                                <option ng-repeat="yeast in yeastList" value="{{yeast.name}}">{{ yeast.productId }} {{ yeast.name }} / {{ yeast.minAttenuation }} / {{ yeast.bestFor }}</option>
                             </select>
                             <select ng-model="selectedIngredient" ng-show="newIngredientType == 'misc'" class="form-control">
                                 <option ng-repeat="misc in miscList" value="{{misc.name}}">{{ misc.name }}</option>

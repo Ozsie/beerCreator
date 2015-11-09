@@ -1,5 +1,68 @@
-{{ equipment }}
-<br>
-{{ mashProfiles }}
-<br>
-{{ fermentationProfiles }}
+<div class="containerDiv">
+    <ul class="menu">
+        <li ng-click="selectList('equipment')">Utrustning</li>
+        <li ng-click="selectList('mashProfiles')">Mäskprofiler</li>
+        <li ng-click="selectList('fermentationProfiles')">Jäsningsprofiler</li>
+    </ul>
+    <button ng-click="addNew(selectedList)" class="btn btn-default">Lägg till</button>
+    <div ng-show="addEquipment">
+        <div ng-include="'editBeer/editEquipment.html'" ng-show="add === 'equipment'"></div>
+        <div ng-include="'editBeer/editMashProfile.html'" ng-show="add === 'mashProfiles'"></div>
+        <div ng-include="'editBeer/editFermentationProfile.html'" ng-show="add === 'fermentationProfiles'"></div>
+        <div>
+            <button ng-click="save()" class="btn btn-default">Spara</button>
+            <button ng-click="cancel()" class="btn btn-default">Ångra</button>
+        </div>
+    </div>
+    <table class="beerTable" ng-if="selectedList === 'equipment'">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Satsstorlek</th>
+                <th>Mäsktunna</th>
+                <th>Kokvolym</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="equipment in equipmentList" ng-click="toggle(equipment, $index)"
+               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
+            <tr>
+                <td>{{ equipment.name }}</td>
+                <td>{{ equipment.batchSize | number: 2 }} l</td>
+                <td>{{ equipment.mashLauterTun.volume | number: 2 }} l</td>
+                <td>{{ equipment.boiler.boilVolume | number: 2 }} l</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="beerTable" ng-if="selectedList === 'mashProfiles'">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Steg</th>
+                <th>Anteckningar</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="mash in mashProfiles" ng-click="toggle(mash, $index)"
+               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
+            <tr>
+                <td>{{ mash.name }}</td>
+                <td>{{ mash.steps.length }}</td>
+                <td>{{ mash.notes }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="beerTable" ng-if="selectedList === 'fermentationProfiles'">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Anteckningar</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="fermentation in fermentationProfiles" ng-click="toggle(fermentation, $index)"
+               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
+            <tr>
+                <td>{{ fermentation.name }}</td>
+                <td>{{ fermentation.notes }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

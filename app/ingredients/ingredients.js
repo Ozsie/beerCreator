@@ -9,7 +9,7 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('IngredientsCtrl', ['$scope', '$http', '$firebaseArray', 'Ingredients', 'ColorConversion', function($scope, $http, $firebaseArray, Ingredients, ColorConversion) {
+.controller('IngredientsCtrl', ['$scope', 'Ingredients', 'ColorConversion', function($scope, Ingredients, ColorConversion) {
         
     $scope.selectedList = 'malt';
         
@@ -43,4 +43,11 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
     $scope.selectList = function(type) {
         $scope.selectedList = type;
     };
+    
+    $scope.$on("$destroy", function(){
+        $scope.miscList.$destroy();
+        $scope.yeastList.$destroy();
+        $scope.hopList.$destroy();
+        $scope.grainList.$destroy();
+    });
 }]);
