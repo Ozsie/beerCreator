@@ -1,0 +1,94 @@
+<div>
+    <div class="panel panel-default width100">
+        <div class="panel-heading">
+            <h3 class="panel-title">Grund</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="fermentation1" class="editLabelWidth">Namn</label>
+                    {{ beer.fermentation.name }}
+                </div>
+                <div class="form-group width25">
+                    <label for="fermentation6" class="editLabelWidth">Typ</label>
+                    {{ beer.fermentation.type }}
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default width100" ng-if="beer.fermentation.primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Primär</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="fermentation3" class="editLabelWidth">Tid</label>
+                    {{ beer.fermentation.primary.time}} dagar
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="fermentation5" class="editLabelWidth">Strilning</label>
+                    {{ beer.fermentation.primary.temperature.min }} C
+                </div>
+                <div class="form-group width25">
+                    <label for="fermentation2" class="editLabelWidth">Justera temperaturer</label>
+                    {{ beer.fermentation.primary.temperature.max }} C
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default width100" ng-if="beer.fermentation.secondary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Sekundär</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="fermentation3" class="editLabelWidth">Tid</label>
+                    {{ beer.fermentation.primary.time }} dagar
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="fermentation5" class="editLabelWidth">Strilning</label>
+                    {{ beer.fermentation.primary.temperature.min }} C
+                </div>
+                <div class="form-group width25">
+                    <label for="fermentation2" class="editLabelWidth">Justera temperaturer</label>
+                    {{ beer.fermentation.primary.temperature.max }} C
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default width100" ng-if="beer.fermentation.aging">
+        <div class="panel-heading">
+            <h3 class="panel-title">Lagring</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="fermentation3" class="editLabelWidth">Tid</label>
+                    {{ beer.fermentation.aging.time }} dagar
+                </div>
+            </form>
+            <form class="form-inline width100">
+                <div class="form-group width25">
+                    <label for="fermentation5" class="editLabelWidth">Strilning</label>
+                    {{ beer.fermentation.aging.temperature.min }} C
+                </div>
+                <div class="form-group width25">
+                    <label for="fermentation2" class="editLabelWidth">Justera temperaturer</label>
+                    {{ beer.fermentation.aging.temperature.max }} C
+                </div>
+            </form>
+        </div>
+    </div>
+    <form class="form-inline width100">
+        <div class="form-group width25">
+            <label for="malt16" class="editLabelWidth">Anteckningar</label>
+            {{ beer.fermentation.notes }}
+        </div>
+    </form>
+</div>

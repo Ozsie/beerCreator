@@ -1,0 +1,130 @@
+<div class="containerDiv">
+    <div class="panel panel-default width100">
+        <div class="panel-heading">
+            <form class="form-inline width100">
+                <div class="form-group width100" id="apan">
+                    <h3 class="panel-title">
+                        {{ beer.name }} <button class="btn btn-default glyphicon glyphicon-download-alt" ng-click="downloadJSON()">
+                    </h3>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <span>{{ beer.fullStyle.name }} ({{ beer.parentStyle }}:{{ beer.style }})</span>
+            <div>
+                <ul>
+                    <li>ABV: {{ beer.abv | number: 2}} %</li>
+                    <li>IBU: {{ beer.ibu | number: 2 }}</li>
+                    <li>OG: {{ beer.og | number: 3 }}</li>
+                    <li>FG: {{ beer.fg | number: 3 }}</li>
+                    <li>Color: {{ beer.color | number: 2 }} EBC</li>
+                </ul>
+            </div>
+            <div class="width100" style="background-color: {{ beerColor }}; height: 10px;"></div>
+            <table class="table editIngredientList">
+                <thead>
+                    <tr>
+                        <th>Typ</th>
+                        <th>Namn</th>
+                        <th colspan="2">Mängd</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="ingredient in beer.ingredients.malts">
+                    <tr ng-click="toggleIngredient('malts', $index)">
+                        <td>{{ ingredient.type | ingredientType }}</td>
+                        <td>{{ ingredient.name }}</td>
+                        <td>
+                            <div class="input-group width100">
+                                {{ ingredient.amount }} g
+                            </div>
+                        </td>
+                        <td>
+                            <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-repeat="ingredient in beer.ingredients.hops">
+                    <tr ng-click="toggleIngredient('hops', $index)">
+                        <td>{{ ingredient.type | ingredientType }}</td>
+                        <td>{{ ingredient.name }}</td>
+                        <td>
+                            <div class="input-group width100">
+                                {{ ingredient.amount }} g
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group width100">
+                                {{ ingredient.time }} min
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-repeat="ingredient in beer.ingredients.misc">
+                    <tr>
+                        <td>{{ ingredient.type | ingredientType }}</td>
+                        <td>{{ ingredient.name }}</td>
+                        <td colspan="2">
+                            <div class="input-group width100">
+                                {{ ingredient.amount }} {{ ingredient.unit }}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-repeat="ingredient in beer.ingredients.yeasts">
+                    <tr ng-click="toggleIngredient('yeasts', $index)">
+                        <td>{{ ingredient.type | ingredientType }}</td>
+                        <td>{{ ingredient.name }}</td>
+                        <td colspan="2">
+                            <div class="input-group width100">
+                                {{ ingredient.amount }} pkg
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="panel panel-default width100">
+                <div class="panel-heading" ng-click="showEditEquipment = !showEditEquipment">
+                    <div class="form-group width100">
+                        <form class="form-inline width100">
+                            <label for="equipment" class="width100">Utrustning: {{ beer.equipment.name }}</label>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-body" ng-show="showEditEquipment">
+                    <div ng-include="'public/showEquipment.html'" ng-show="beer.equipment"></div>
+                </div>
+            </div>
+            
+            
+            <div class="panel panel-default width100">
+                <div class="panel-heading" ng-click="showEditMash = !showEditMash">
+                    <div class="form-group width100">
+                        <form class="form-inline width100">
+                            <label for="mash" class="width100">Mäskningsprofil: {{ beer.mash.name }}</label>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-body" ng-show="showEditMash">
+                    <div ng-include="'public/showMashProfile.html'" ng-show="beer.mash"></div>
+                </div>
+            </div>
+            
+            
+            <div class="panel panel-default width100">
+                <div class="panel-heading" ng-click="showEditFermentation = !showEditFermentation">
+                    <div class="form-group width100">
+                        <form class="form-inline width100">
+                            <label for="fermentation" class="width100">Jäsningsprofil: {{ beer.fermentation.name }}</label>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-body" ng-show="showEditFermentation">
+                    <div ng-include="'public/showFermentationProfile.html'" ng-show="beer.fermentation"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button ng-click="save()" class="btn btn-default">Spara</button>
+    <span>Publik <input type="checkbox" ng-model="beer.public"></span>
+    <span class="alert alert-success" role="alert" ng-if="saved">Sparad</span>
+</div>
