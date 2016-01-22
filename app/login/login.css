@@ -8,3 +8,17 @@ and open the template in the editor.
     Author     : Ozsie
 */
 
+.center {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.loginButton {
+    width: 60%;
+    margin-top: 10px;
+}
+
+.loginRow {
+    margin-top: 10px;
+    width: 100%;
+}

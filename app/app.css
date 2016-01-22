@@ -106,8 +106,19 @@
 }
 
 .ingredientDiv {
+    width: 100%
+}
+
+.newBeerButton {
     float: left;
-    width: 65%
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.logOutButton {
+    float: right;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .otherDiv {
@@ -131,7 +142,7 @@
 .width25 {
     width: 49%;
 }
-.width80 {
+.width51 {
     width: 51% !important;
 }
 

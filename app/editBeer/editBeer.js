@@ -245,32 +245,29 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.save = function() {
-        var doSave = function(isPublic) {
-            $scope.beerList.$loaded().then(function(data) {
-                if ($scope.beer.$id) {
-                    $scope.beerList.$save($scope.beer).then(function(ref) {
+        $scope.beerList.$loaded().then(function(data) {
+            if ($scope.beer.$id) {
+                $scope.beerList.$save($scope.beer).then(function(ref) {
+                    $scope.saved = true;
+                }).catch(function(error) {
+                    console.log(error);
+                });
+            } else {
+                var index = $scope.beerList.$indexFor($scope.key);
+                if (index > -1) {
+                    $scope.beerList.$remove(index).then(function(ref) {
                         $scope.saved = true;
                     }).catch(function(error) {
                         console.log(error);
                     });
-                } else {
-                    var index = $scope.beerList.$indexFor($scope.key);
-                    if (index > -1) {
-                        $scope.beerList.$remove(index).then(function(ref) {
-                            $scope.saved = true;
-                        }).catch(function(error) {
-                            console.log(error);
-                        });
-                    }
-                    $scope.beerList.$add($scope.beer).then(function(ref) {
-                        $scope.saved = true;
-                        $scope.added = true;
-                        $scope.key = ref.key();
-                    });
                 }
-            });
-        };
-        doSave(false);
+                $scope.beerList.$add($scope.beer).then(function(ref) {
+                    $scope.saved = true;
+                    $scope.added = true;
+                    $scope.key = ref.key();
+                });
+            }
+        });
     };
     
     $scope.$watch(function() {

@@ -1,7 +1,17 @@
+<ul class="nav nav-tabs">
+    <li role="presentation" class="active"><a href="#/beerList">Öllista</a></li>
+    <li role="presentation"><a href="#/stock">Förråd</a></li>
+    <li role="presentation"><a href="#/ingredients">Ingredienser</a></li>
+    <li role="presentation"><a href="#/profiles">Profiler</a></li>
+</ul>
 <div class="containerDiv">
-    <div><button ng-click="logout()">Logga ut</button></div>
-    <div><button ng-click="newBeer()">Ny öl</button></div>
-    <table class="beerTable">
+    <div class="newBeerButton">
+        <button ng-click="newBeer()" class="btn btn-default">Ny öl</button>
+    </div>
+    <div class="logOutButton">
+        <button ng-click="logout()" class="btn btn-default">Logga ut</button>
+    </div>
+    <table class="table beerTable">
         <thead>
             <tr>
                 <th>Namn</th>
@@ -24,6 +34,12 @@
                 <td>{{ getIBU(beer) | number : 0 }}</td>
                 <td>{{ beer.color | number: 1 }} EBC</td>
                 <td style="background-color: {{ getColor(beer) }}">
+                </td>
+            </tr>
+            <tr ng-if="openIndex == $index">
+                <td colspan="6"></td>
+                <td colspan="2">
+                    <button ng-click="edit(beer)" class="btn btn-default width100">Redigera</button>
                 </td>
             </tr>
             <tr ng-if="openIndex == $index">
@@ -50,9 +66,6 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="otherDiv">
-                        <button ng-click="edit(beer)">Redigera</button>
                     </div>
                 </td>
             </tr>

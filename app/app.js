@@ -10,7 +10,8 @@ angular.module('beerCreator', [
   'beerCreator.profiles',
   'beerCreator.services',
   'beerCreator.filters',
-  'beerCreator.login'
+  'beerCreator.login',
+  'beerCreator.public'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/login'});

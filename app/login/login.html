@@ -1,9 +1,19 @@
-<div>
-    <form>
-        <label for="email">e-mail</label><input type="email" ng-model="email" id="email">
-        <label for="password">password</label><input type="password" ng-model="password" id="password">
-        <button ng-click="login()">login</button>
-        <button ng-click="googleLogin()">login with google</button>
+<div class="panel-body center">
+    <form class="form-inline width100">
+        <div class="form-group width100">
+            <div class="loginRow">
+                <label for="email" class="editLabelWidth">e-mail</label>
+                <input type="email" ng-model="email" id="email" class="form-control">
+            </div>
+            <div class="loginRow">
+                <label for="password" class="editLabelWidth">password</label>
+                <input type="password" ng-model="password" id="password" class="form-control">
+            </div>
+            <div class="center">
+                <button class="btn btn-default loginButton" ng-click="login()">login</button>
+                <br>
+                <button class="btn btn-default loginButton" ng-click="googleLogin()">login with google</button>
+            </div>
+        </div>
     </form>
 </div>
-    
