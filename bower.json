@@ -1,8 +1,8 @@
 {
-  "name": "angular-seed",
-  "description": "A starter project for AngularJS",
-  "version": "0.0.0",
-  "homepage": "https://github.com/angular/angular-seed",
+  "name": "beer-creator",
+  "description": "An application for creating beer recipes",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Ozsie/beerCreator",
   "license": "MIT",
   "private": true,
   "dependencies": {
