@@ -1,15 +1,15 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs marginTop10px">
     <li role="presentation"><a href="#/beerList">Öllista</a></li>
     <li role="presentation"><a href="#/stock">Förråd</a></li>
     <li role="presentation" class="active"><a href="#/ingredients">Ingredienser</a></li>
     <li role="presentation"><a href="#/profiles">Profiler</a></li>
 </ul>
 <div class="containerDiv">
-    <ul class="menu">
-        <li ng-click="selectList('malt')">Malt</li>
-        <li ng-click="selectList('hops')">Humle</li>
-        <li ng-click="selectList('yeast')">Jäst</li>
-        <li ng-click="selectList('misc')">Övrigt</li>
+    <ul class="nav nav-tabs marginTop10px">
+        <li role="presentation" ng-click="selectList('malt')" ng-class='{active: selectedList === "malt"}'><a>Malt</a></li>
+        <li role="presentation" ng-click="selectList('hops')" ng-class='{active: selectedList === "hops"}'><a>Humle</a></li>
+        <li role="presentation" ng-click="selectList('yeast')" ng-class='{active: selectedList === "yeast"}'><a>Jäst</a></li>
+        <li role="presentation" ng-click="selectList('misc')" ng-class='{active: selectedList === "misc"}'><a>Övrigt</a></li>
     </ul>
     <table class="beerTable" ng-if="selectedList == 'malt'">
         <thead>

@@ -146,6 +146,10 @@
     width: 51% !important;
 }
 
+.marginTop10px {
+    margin-top: 10px;
+}
+
 .editIngredientList > tbody > tr > td:nth-child(1) {
     width: 8%;
 }

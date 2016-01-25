@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs marginTop10px">
     <li role="presentation" class="active"><a href="#/beerList">Öllista</a></li>
     <li role="presentation"><a href="#/stock">Förråd</a></li>
     <li role="presentation"><a href="#/ingredients">Ingredienser</a></li>
@@ -45,61 +45,6 @@
             </tr>
             <tr ng-if="openIndex == $index">
                 <td colspan="9">
-                    <div class="ingredientDiv">
-                        <span>Ingredienser</span>
-                        <table class="beerIngredientList">
-                            <thead>
-                                <tr>
-                                    <th>Namn</th>
-                                    <th>Mängd</th>
-                                    <th>Typ</th>
-                                </tr>
-                            </thead>
-                            <tbody ng-repeat="ingredientType in beer.ingredients">
-                                <tr ng-repeat="ingredient in ingredientType">
-                                    <td>{{ ingredient.name }}</td>
-                                    <td>
-                                        {{ ingredient.amount }} {{ ingredient.unit }}
-                                        <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> / {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
-                                        <span ng-if="ingredient.type == 'hops'"> / {{ ingredient.time | number: 2 }} min</span>
-                                    </td>
-                                    <td>{{ ingredient.type | ingredientType }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    Publika
-    <table class="beerTable">
-        <thead>
-            <tr>
-                <th>Namn</th>
-                <th>Stil</th>
-                <th>OG</th>
-                <th>FG</th>
-                <th>ABV</th>
-                <th>IBU</th>
-                <th colspan="2">Färg</th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="beer in beerListPublic"
-               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
-            <tr ng-click="toggle(beer, $index)">
-                <td>{{ beer.name }}</td>
-                <td>{{ beer.fullStyle.name }}</td>
-                <td>{{ getOG(beer) | number : 3 }}</td>
-                <td>{{ getFG(beer) | number : 3 }}</td>
-                <td>{{ getABV(beer) | number : 1 }} %</td>
-                <td>{{ getIBU(beer) | number : 0 }}</td>
-                <td>{{ beer.color | number: 1 }} EBC</td>
-                <td style="background-color: {{ getColor(beer) }}">
-                </td>
-            </tr>
-            <tr ng-if="openIndex == $index">
-                <td colspan="8">
                     <div class="ingredientDiv">
                         <span>Ingredienser</span>
                         <table class="beerIngredientList">

@@ -1,14 +1,14 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs marginTop10px">
     <li role="presentation"><a href="#/beerList">Öllista</a></li>
     <li role="presentation"><a href="#/stock">Förråd</a></li>
     <li role="presentation"><a href="#/ingredients">Ingredienser</a></li>
     <li role="presentation" class="active"><a href="#/profiles">Profiler</a></li>
 </ul>
 <div class="containerDiv">
-    <ul class="menu">
-        <li ng-click="selectList('equipment')">Utrustning</li>
-        <li ng-click="selectList('mashProfiles')">Mäskprofiler</li>
-        <li ng-click="selectList('fermentationProfiles')">Jäsningsprofiler</li>
+    <ul class="nav nav-tabs marginTop10px">
+        <li role="presentation" ng-click="selectList('equipment')" ng-class='{active: selectedList === "equipment"}'><a>Utrustning</a></li>
+        <li role="presentation" ng-click="selectList('mashProfiles')" ng-class='{active: selectedList === "mashProfiles"}'><a>Mäskprofiler</a></li>
+        <li role="presentation" ng-click="selectList('fermentationProfiles')" ng-class='{active: selectedList === "fermentationProfiles"}'><a>Jäsningsprofiler</a></li>
     </ul>
     <button ng-click="addNew(selectedList)" class="btn btn-default">Lägg till</button>
     <div ng-show="addEquipment">
