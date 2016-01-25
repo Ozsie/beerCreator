@@ -175,7 +175,8 @@
                         <form class="form-inline width100">
                             <label for="equipment" class="editLabelWidth">Utrustning</label>
                             <select ng-model="beer.equipment" id="equipment" class="form-control"
-                                    ng-options="equipment as equipment.name for equipment in equipmentList">
+                                    ng-options="equipment as equipment.name for equipment in equipmentList"
+                                    ng-change='updateBoilVolume(); update();'>
                             </select>
                         </form>
                     </div>
@@ -192,7 +193,8 @@
                         <form class="form-inline width100">
                             <label for="mash" class="editLabelWidth">Mäskningsprofil</label>
                             <select ng-model="beer.mash" id="mash" class="form-control"
-                                    ng-options="mashProfile as mashProfile.name for mashProfile in mashProfiles">
+                                    ng-options="mashProfile as mashProfile.name for mashProfile in mashProfiles"
+                                    ng-change='update();'>
                             </select>
                         </form>
                     </div>
@@ -209,7 +211,8 @@
                         <form class="form-inline width100">
                             <label for="fermentation" class="editLabelWidth">Jäsningsprofil</label>
                             <select ng-model="beer.fermentation" id="fermentation" class="form-control"
-                                    ng-options="fermentationProfile as fermentationProfile.name for fermentationProfile in fermentationProfiles">
+                                    ng-options="fermentationProfile as fermentationProfile.name for fermentationProfile in fermentationProfiles"
+                                    ng-change='update();'>
                             </select>
                         </form>
                     </div>

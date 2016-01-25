@@ -228,12 +228,14 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.updateBoilVolume = function() {
-        if ($scope.beer.equipment && $scope.beer.equipment.boiler.calculatBoilVolume) {
+        if ($scope.beer && $scope.beer.equipment && $scope.beer.equipment.boiler.calculatBoilVolume) {
             var boiler = $scope.beer.equipment.boiler;
             boiler.boilVolume = $scope.beer.equipment.batchSize + boiler.boilOff + boiler.coolingLoss + boiler.kettleTopUp;
             boiler.postBoilVolume = boiler.boilVolume - boiler.boilOff - boiler.kettleTopUp;
         }
     };
+    
+    $scope.updateBoilVolume();
     
     $scope.update = function() {
         Bitterness.tinseth($scope.beer);
