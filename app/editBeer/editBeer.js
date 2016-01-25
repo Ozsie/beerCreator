@@ -291,4 +291,9 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         $scope.fermentationProfiles.$destroy();
         $scope.mashProfiles.$destroy();
     });
+    
+    
+    $scope.openPublic = function(beer) {
+        window.open('index.html#public/' + User.authData.uid + '/' + beer.$id, '_blank');
+    };
 }]);

@@ -21,6 +21,7 @@
                 <th>ABV</th>
                 <th>IBU</th>
                 <th colspan="2">Färg</th>
+                <th>Publik</th>
             </tr>
         </thead>
         <tbody ng-repeat="beer in beerList"
@@ -33,17 +34,17 @@
                 <td>{{ getABV(beer) | number : 1 }} %</td>
                 <td>{{ getIBU(beer) | number : 0 }}</td>
                 <td>{{ beer.color | number: 1 }} EBC</td>
-                <td style="background-color: {{ getColor(beer) }}">
-                </td>
+                <td style="background-color: {{ getColor(beer) }}"></td>
+                <td><button class="btn btn-default glyphicon glyphicon-globe" ng-click="openPublic(beer)" ng-if='beer.public'></td>
             </tr>
             <tr ng-if="openIndex == $index">
-                <td colspan="6"></td>
+                <td colspan="7"></td>
                 <td colspan="2">
                     <button ng-click="edit(beer)" class="btn btn-default width100">Redigera</button>
                 </td>
             </tr>
             <tr ng-if="openIndex == $index">
-                <td colspan="8">
+                <td colspan="9">
                     <div class="ingredientDiv">
                         <span>Ingredienser</span>
                         <table class="beerIngredientList">

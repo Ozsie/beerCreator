@@ -8,6 +8,7 @@
                 <div class="form-group width100">
                     <h3 class="panel-title">
                         <label for="name" class="editLabelWidth">Namn</label> <input ng-model="beer.name" class="form-control" id="name"> <span>{{ beer.$id }}</span>
+                        <button class="btn btn-default glyphicon glyphicon-globe" ng-click="openPublic(beer)" ng-if='beer.public'>
                     </h3>
                 </div>
             </form>

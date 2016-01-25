@@ -25,13 +25,42 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
     });
     
     $scope.downloadJSON = function() {
-        var obj = {abv: $scope.beer.abv,
-                   color: $scope.beer.color}
+        var obj = {
+                    abv: angular.copy($scope.beer.abv),
+                    color: angular.copy($scope.beer.color),
+                    equipment: angular.copy($scope.beer.equipment),
+                    fermentation: angular.copy($scope.beer.fermentation),
+                    fg: angular.copy($scope.beer.fg),
+                    finalVolume: angular.copy($scope.beer.finalVolume),
+                    fullStyle: angular.copy($scope.beer.fullStyle),
+                    ibu: angular.copy($scope.beer.ibu),
+                    ingredients: angular.copy($scope.beer.ingredients),
+                    mash: angular.copy($scope.beer.mash),
+                    name: angular.copy($scope.beer.name),
+                    og: angular.copy($scope.beer.org),
+                    parentStyle: angular.copy($scope.beer.parentStyle),
+                    style: angular.copy($scope.beer.style)
+                };
         var beer = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj));
         var a = document.createElement('a');
         a.href = 'data:' + beer;
         a.download = 'data.json';
         a.innerHTML = 'download JSON';
         a.click();
+    };
+    
+    $scope.downloadPDF = function() {
+        var doc = new jsPDF();
+        var specialElementHandlers = {
+            '#editor': function (element, renderer) {
+                return true;
+            }
+        };
+        
+        doc.fromHTML($('#content').html(), 15, 15, {
+            'width': 170,
+                'elementHandlers': specialElementHandlers
+        });
+        doc.save($scope.beer.name + '.pdf');
     };
 }]);

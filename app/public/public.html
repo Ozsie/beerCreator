@@ -4,12 +4,14 @@
             <form class="form-inline width100">
                 <div class="form-group width100" id="apan">
                     <h3 class="panel-title">
-                        {{ beer.name }} <button class="btn btn-default glyphicon glyphicon-download-alt" ng-click="downloadJSON()">
+                        {{ beer.name }}
+                        <button class="btn btn-default glyphicon glyphicon-download" ng-click="downloadJSON()">
+                        <button class="btn btn-default glyphicon glyphicon-book" ng-click="downloadPDF()">
                     </h3>
                 </div>
             </form>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" id="content">
             <span>{{ beer.fullStyle.name }} ({{ beer.parentStyle }}:{{ beer.style }})</span>
             <div>
                 <ul>
@@ -26,7 +28,8 @@
                     <tr>
                         <th>Typ</th>
                         <th>Namn</th>
-                        <th colspan="2">Mängd</th>
+                        <th>Mängd</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody ng-repeat="ingredient in beer.ingredients.malts">
@@ -63,22 +66,24 @@
                     <tr>
                         <td>{{ ingredient.type | ingredientType }}</td>
                         <td>{{ ingredient.name }}</td>
-                        <td colspan="2">
+                        <td>
                             <div class="input-group width100">
                                 {{ ingredient.amount }} {{ ingredient.unit }}
                             </div>
                         </td>
+                        <td></td>
                     </tr>
                 </tbody>
                 <tbody ng-repeat="ingredient in beer.ingredients.yeasts">
                     <tr ng-click="toggleIngredient('yeasts', $index)">
                         <td>{{ ingredient.type | ingredientType }}</td>
                         <td>{{ ingredient.name }}</td>
-                        <td colspan="2">
+                        <td>
                             <div class="input-group width100">
                                 {{ ingredient.amount }} pkg
                             </div>
                         </td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -124,7 +129,4 @@
             </div>
         </div>
     </div>
-    <button ng-click="save()" class="btn btn-default">Spara</button>
-    <span>Publik <input type="checkbox" ng-model="beer.public"></span>
-    <span class="alert alert-success" role="alert" ng-if="saved">Sparad</span>
 </div>
