@@ -298,4 +298,50 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     $scope.openPublic = function(beer) {
         window.open('index.html#public/' + User.authData.uid + '/' + beer.$id, '_blank');
     };
+    
+    $scope.addMashStep = function(mash) {
+        if (!mash) {
+            return;
+        }
+        if (!mash.steps) {
+            mash.steps = [];
+        }
+        mash.steps.push({});
+    };
+    
+    $scope.addAging = function(fermentation) {
+        fermentation.aging = {};
+        if (fermentation.secondary) {
+            fermentation.type = "Three stage";
+        } else {
+            fermentation.type = "Two stage";
+        }
+    };
+    
+    $scope.removeAging = function(fermentation) {
+        fermentation.aging = undefined;
+        if (fermentation.secondary) {
+            fermentation.type = "Two stage";
+        } else {
+            fermentation.type = "One stage";
+        }
+    };
+    
+    $scope.addSecondary = function(fermentation) {
+        fermentation.secondary = {};
+        if (fermentation.aging) {
+            fermentation.type = "Three stage";
+        } else {
+            fermentation.type = "Two stage";
+        }
+    };
+    
+    $scope.removeAging = function(fermentation) {
+        fermentation.secondary = undefined;
+        if (fermentation.aging) {
+            fermentation.type = "Two stage";
+        } else {
+            fermentation.type = "One stage";
+        }
+    };
 }]);

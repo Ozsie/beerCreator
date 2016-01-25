@@ -101,7 +101,9 @@
     </div>
     <div class="panel panel-default width100" ng-repeat="step in beer.mash.steps">
         <div class="panel-heading">
-            <h3 class="panel-title">Steg {{ $index + 1 }}</h3>
+            <h3 class="panel-title">
+                <button class="btn btn-default glyphicon glyphicon-remove" id="malt17" ng-click='removeMashStep(beer.mash, $index)'></button>
+                Steg {{ $index + 1 }}</h3>
         </div>
         <div class="panel-body">
             <form class="form-inline width100">
@@ -142,6 +144,11 @@
             </form>
         </div>
     </div>
+    <form class="form-inline width100">
+        <div class="form-group width25">
+            <button class="btn btn-default" id="malt17" ng-click='addMashStep(beer.mash)'>Lägg till steg</button>
+        </div>
+    </form>
     <form class="form-inline width100">
         <div class="form-group width25">
             <label for="malt16" class="editLabelWidth">Anteckningar</label>

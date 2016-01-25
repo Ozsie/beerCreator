@@ -36,7 +36,7 @@ angular.module('beerCreator.profiles', ['ngRoute'])
         } else if (type === 'mashProfiles') {
             $scope.beer = {mash: {}};
         } else if (type === 'fermentationProfiles') {
-            $scope.beer = {fermentation: {}};
+            $scope.beer = {fermentation: {primary: {}, type: "One stage"}};
         }
         $scope.addEquipment = true;
     };
@@ -71,4 +71,60 @@ angular.module('beerCreator.profiles', ['ngRoute'])
         $scope.fermentationProfiles.$destroy();
         $scope.mashProfiles.$destroy();
     });
+    
+    $scope.addMashStep = function(mash) {
+        if (!mash) {
+            return;
+        }
+        if (!mash.steps) {
+            mash.steps = [];
+        }
+        mash.steps.push({});
+    
+    };
+    $scope.removeMashStep = function(mash, index) {
+        if (!mash) {
+            return;
+        }
+        if (!mash.steps) {
+            return
+        }
+        mash.steps.splice(index, 1);
+    };
+    
+    $scope.addAging = function(fermentation) {
+        fermentation.aging = {};
+        if (fermentation.secondary) {
+            fermentation.type = "Three stage";
+        } else {
+            fermentation.type = "Two stage";
+        }
+    };
+    
+    $scope.removeAging = function(fermentation) {
+        fermentation.aging = undefined;
+        if (fermentation.secondary) {
+            fermentation.type = "Two stage";
+        } else {
+            fermentation.type = "One stage";
+        }
+    };
+    
+    $scope.addSecondary = function(fermentation) {
+        fermentation.secondary = {};
+        if (fermentation.aging) {
+            fermentation.type = "Three stage";
+        } else {
+            fermentation.type = "Two stage";
+        }
+    };
+    
+    $scope.removeSecondary = function(fermentation) {
+        fermentation.secondary = undefined;
+        if (fermentation.aging) {
+            fermentation.type = "Two stage";
+        } else {
+            fermentation.type = "One stage";
+        }
+    };
 }]);
