@@ -9,7 +9,7 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('PublicCtrl', ['$scope', '$firebaseObject', '$routeParams', function($scope, $firebaseObject, $routeParams) {
+.controller('PublicCtrl', ['$scope', '$firebaseObject', '$routeParams', 'ColorConversion', function($scope, $firebaseObject, $routeParams, ColorConversion) {
     $scope.userId = $routeParams.userId;
     $scope.beerId = $routeParams.beerId;
     var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + $scope.userId + "/" + $scope.beerId);
@@ -21,6 +21,7 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
         console.log("loaded record:", obj.$id, obj.someOtherKeyInData);
         if (data.public) {
             $scope.beer = data;
+            $scope.beerColor = $scope.getColor($scope.beer);
         }
     });
     
@@ -62,5 +63,20 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
                 'elementHandlers': specialElementHandlers
         });
         doc.save($scope.beer.name + '.pdf');
+    };
+    
+    $scope.getPercentage = function(beer, malt) {
+        var totalAmount = 0;
+        for (var index in beer.ingredients.malts) {
+            totalAmount += beer.ingredients.malts[index].amount;
+        }
+        
+        var percent = (malt.amount / totalAmount) * 100;
+        return percent;
+    };
+    
+    $scope.getColor = function(grain) {
+        var rgb = ColorConversion.convert(grain.color);
+        return rgb;
     };
 }]);
