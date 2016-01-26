@@ -14,8 +14,12 @@
         </div>
         <div class="center">
             <button class="btn btn-default loginButton" ng-click="login()" ng-hide="true">login</button>
-            <button class="btn btn-default loginButton" ng-click="login('google')">login with google</button>
-            <button class="btn btn-default loginButton" ng-click="login('github')">login with github</button>
+            <a class="btn btn-block btn-social btn-google loginButton" ng-click="login('google')">
+                <span class="fa fa-google"></span> Sign in with Google
+            </a>
+            <a class="btn btn-block btn-social btn-github loginButton" ng-click="login('github')">
+                <span class="fa fa-github"></span> Sign in with GitHub
+            </a>
         </div>
     </div>
 </div>

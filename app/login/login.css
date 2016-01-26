@@ -14,7 +14,7 @@ and open the template in the editor.
 }
 
 .loginButton {
-    width: 60%;
+    width: 60% !important;
     margin-top: 10px;
 }
 
