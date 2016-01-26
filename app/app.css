@@ -150,6 +150,10 @@
     margin-top: 10px;
 }
 
+.marginBottom10px {
+    margin-bottom: 10px;
+}
+
 .editIngredientList > tbody > tr > td:nth-child(1) {
     width: 8%;
 }
@@ -164,4 +168,14 @@
 
 .editIngredientList > tbody > tr > td:nth-child(4) {
     width: 15%;
+}
+
+img.resize{
+    width: 38px;/* you can use % */
+    height: auto;
+}
+
+img.hopimg {
+    width: 210px;
+    height: auto;
 }

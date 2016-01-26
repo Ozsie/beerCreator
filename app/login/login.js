@@ -27,9 +27,8 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
     
     $scope.googleLogin = function() {
         $scope.authObj.$authWithOAuthPopup("google").then(function(authData) {
-            console.log("Authenticated successfully with payload:", authData);
-              User.login(authData);
-              $location.path('beerList');
+            User.login(authData);
+            $location.path('beerList');
         }).catch(function(error) {
             console.log("Login Failed!", error);
         });

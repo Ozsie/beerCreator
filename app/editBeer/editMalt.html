@@ -94,6 +94,17 @@
             <label for="malt15" class="editLabelWidth">Mängd</label>
             <input ng-model="editedIngredient.amount" class="form-control editInputWidth" id="malt15" type="number"> g
         </div>
+        <div class="form-group width25" ng-if="editIndex == $index">
+            <label for="malt15" class="editLabelWidth">Typ</label>
+            <select ng-model="editedIngredient.type" class="form-control editInputWidth" id="malt17">
+                <option value="dryExtract">Torrt extrakt</option>
+                <option value="liquidExtract">Flytande extrakt</option>
+                <option value="hull">Skal</option>
+                <option value="malt" selected>Malt</option>
+            </select>
+        </div>
+    </form>
+    <form class="form-inline width100">
         <div class="form-group width25" ng-if="editIndex != $index">
             <button class="btn btn-default" type="submit" ng-click="saveMalt()">Spara</button>
         </div>

@@ -9,10 +9,12 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('IngredientsCtrl', ['$scope', 'Ingredients', 'ColorConversion', function($scope, Ingredients, ColorConversion) {
+.controller('IngredientsCtrl', ['$scope', 'Ingredients', 'ColorConversion', 'User', function($scope, Ingredients, ColorConversion, User) {
         
     $scope.selectedList = 'malt';
-        
+
+    $scope.user = User;
+    
     Ingredients.grains().$loaded().then(function(grains) {
         $scope.grainList = grains;
     });
@@ -50,4 +52,57 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
         $scope.hopList.$destroy();
         $scope.grainList.$destroy();
     });
+    
+    $scope.addIngredient = function(selectedList) {
+        $scope.toAdd = selectedList;
+    };
+    
+    $scope.add = function() {
+        if (!$scope.editedIngredient.name) {
+            $scope.error = "no-name";
+            return;
+        }
+        $scope.editedIngredient.user = {displayName: User.displayName, uid: User.authData.uid};
+        switch($scope.toAdd) {
+            case 'malt':
+                $scope.grainList.$add(angular.copy($scope.editedIngredient));
+                break;
+            case 'hops':
+                $scope.hopList.$add(angular.copy($scope.editedIngredient));
+                break;
+            case 'yeast':
+                $scope.yeastList.$add(angular.copy($scope.editedIngredient));
+                break;
+            case 'misc':
+                $scope.miscList.$add(angular.copy($scope.editedIngredient));
+                break;
+        }
+        
+        $scope.cancel();
+    };
+    
+    $scope.cancel = function() {
+        $scope.editedIngredient = undefined;
+        $scope.toAdd = undefined;
+        $scope.error = undefined;
+    };
+    
+    $scope.remove = function(ingredient) {
+        if (ingredient.user.uid === User.authData.uid) {
+            switch ($scope.selectedList) {
+                case 'malt':
+                    $scope.grainList.$remove(ingredient);
+                    break;
+                case 'hops':
+                    $scope.hopList.$remove(ingredient);
+                    break;
+                case 'yeast':
+                    $scope.yeastList.$remove(ingredient);
+                    break;
+                case 'misc':
+                    $scope.miscList.$remove(ingredient);
+                    break;
+            }
+        }
+    };
 }]);

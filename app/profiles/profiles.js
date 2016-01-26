@@ -9,9 +9,10 @@ angular.module('beerCreator.profiles', ['ngRoute'])
   });
 }])
 
-.controller('ProfilesCtrl', ['$scope', 'Profiles', function($scope, Profiles) {
+.controller('ProfilesCtrl', ['$scope', 'Profiles', 'User', function($scope, Profiles, User) {
         
     $scope.selectedList = 'equipment';
+    $scope.user = User;
 
     Profiles.equipment().$loaded().then(function(equipment) {
         $scope.equipmentList = equipment;

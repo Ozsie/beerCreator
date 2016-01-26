@@ -1,7 +1,11 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs marginTop10px">
     <li role="presentation"><a href="#/beerList">Öllista</a></li>
     <li role="presentation" class="active"><a href="#/stock">Förråd</a></li>
     <li role="presentation"><a href="#/ingredients">Ingredienser</a></li>
     <li role="presentation"><a href="#/profiles">Profiler</a></li>
+    <li role="presentation">
+        <img src="{{user.picture}}" alt="Profilbild" class="resize" >
+        {{user.displayName}}
+    </li>
 </ul>
 <p>This is the partial for view 1.</p>

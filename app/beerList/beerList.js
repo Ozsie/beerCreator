@@ -11,6 +11,7 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
 
 .controller('BeerListCtrl', ['$scope', '$http', '$location', '$firebaseArray', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', 'EditBeer', 'User', function($scope, $http, $location, $firebaseArray, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients, EditBeer, User) {
     $scope.beerList = [];
+    $scope.user = User;
     
     $scope.loadBeers = function() {
         if (!User.authData) {

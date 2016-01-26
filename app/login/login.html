@@ -1,19 +1,21 @@
 <div class="panel-body center">
-    <form class="form-inline width100">
-        <div class="form-group width100">
-            <div class="loginRow">
-                <label for="email" class="editLabelWidth">e-mail</label>
-                <input type="email" ng-model="email" id="email" class="form-control">
-            </div>
-            <div class="loginRow">
-                <label for="password" class="editLabelWidth">password</label>
-                <input type="password" ng-model="password" id="password" class="form-control">
-            </div>
-            <div class="center">
-                <button class="btn btn-default loginButton" ng-click="login()">login</button>
-                <br>
-                <button class="btn btn-default loginButton" ng-click="googleLogin()">login with google</button>
-            </div>
+    <div class="width100">
+        <div class="center">
+            <img src="login/noun_27506_cc.png" alt="hops" class="hopimg">
+            <h1>Beer Creator</h1>
         </div>
-    </form>
+        <div class="loginRow" ng-hide="true">
+            <label for="email" class="editLabelWidth">e-mail</label>
+            <input type="email" ng-model="email" id="email" class="form-control">
+        </div>
+        <div class="loginRow" ng-hide="true">
+            <label for="password" class="editLabelWidth">password</label>
+            <input type="password" ng-model="password" id="password" class="form-control">
+        </div>
+        <div class="center">
+            <button class="btn btn-default loginButton" ng-click="login()" ng-hide="true">login</button>
+            <button class="btn btn-default loginButton" ng-click="googleLogin()">login with google</button>
+        </div>
+    </div>
 </div>
+<div>Hops by Mark Caron from the Noun Project (<a href="http://creativecommons.org/licenses/by/3.0/us/">CC</a>)</div>

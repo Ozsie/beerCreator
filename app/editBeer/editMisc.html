@@ -11,7 +11,7 @@
                     <input ng-model="editedIngredient.name" class="form-control editInputWidth" id="yeast1">
                 </div>
                 <div class="form-group width25">
-                    <label for="yeast2" class="editLabelWidth">Typ</label>
+                    <label for="yeast2" class="editLabelWidth">Används till</label>
                     <input ng-model="editedIngredient.useFor" class="form-control editInputWidth" id="yeast2">
                 </div>
             </form>
@@ -31,6 +31,19 @@
         <div class="form-group width25">
             <label for="yeast15" class="editLabelWidth">Mängd</label>
             <input ng-model="editedIngredient.amount" class="form-control editInputWidth" id="yeast15" type="number"> {{ editedIngredient.unit }}
+        </div>
+    </form>
+    <form class="form-inline width100">
+        <div class="form-group width25" ng-if="editIndex == $index">
+            <label for="malt15" class="editLabelWidth">Typ</label>
+            <select ng-model="editedIngredient.type" class="form-control editInputWidth" id="malt17">
+                <option value="other" selected>Övrigt</option>
+                <option value="spice">Krydda</option>
+                <option value="flavor">Smak</option>
+                <option value="waterAgent">Vattenbehandling</option>
+                <option value="Clarity">Klarning</option>
+                <option value="herb">Ört</option>
+            </select>
         </div>
     </form>
     <form class="form-inline width100">

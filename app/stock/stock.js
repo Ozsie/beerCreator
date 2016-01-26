@@ -9,6 +9,6 @@ angular.module('beerCreator.stock', ['ngRoute'])
   });
 }])
 
-.controller('StockCtrl', [function() {
-
+.controller('StockCtrl', ['$scope', 'User', function($scope, User) {
+    $scope.user = User;
 }]);

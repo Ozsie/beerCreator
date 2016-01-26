@@ -15,6 +15,10 @@ userService.factory('User', ['$firebaseAuth', '$location', 'Ingredients', functi
     
     user.login = function(authData) {
         this.authData = authData;
+        if (authData.provider === "google") {
+            this.displayName = authData.google.displayName;
+            this.picture = authData.google.profileImageURL;
+        }
     };
     
     user.logout = function() {

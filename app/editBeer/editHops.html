@@ -67,6 +67,18 @@
             <label for="hops15" class="editLabelWidth">Tid</label>
             <input ng-model="editedIngredient.time" class="form-control editInputWidth" id="hops15" type="number"> min
         </div>
+    </form>
+    <form class="form-inline width100">
+        <div class="form-group width25" ng-if="editIndex == $index">
+            <label for="hops16" class="editLabelWidth">Typ</label>
+            <select ng-model="editedIngredient.type" class="form-control editInputWidth" id="malt17">
+                <option value="bitter" selected>Bitter</option>
+                <option value="aroma">Arom</option>
+                <option value="both">Båda</option>
+            </select>
+        </div>
+    </form>
+    <form class="form-inline width100">
         <div class="form-group width25" ng-if="editIndex != $index">
             <button class="btn btn-default" type="submit" ng-click="saveHop()">Spara</button>
         </div>
