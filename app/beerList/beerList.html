@@ -21,13 +21,14 @@
             <tr>
                 <th>Namn</th>
                 <th>Stil</th>
-                <th>OG</th>
-                <th>FG</th>
-                <th>ABV</th>
-                <th>IBU</th>
-                <th colspan="2">Färg</th>
-                <th>Publik</th>
-                <th>Ta bort</th>
+                <th class="width6">OG</th>
+                <th class="width6">FG</th>
+                <th class="width6">ABV</th>
+                <th class="width6">IBU</th>
+                <th class="width10" colspan="2">Färg</th>
+                <th class="width6">Redigera</th>
+                <th class="width6">Publik</th>
+                <th class="width6">Ta bort</th>
             </tr>
         </thead>
         <tbody ng-repeat="beer in beerList"
@@ -41,17 +42,12 @@
                 <td>{{ getIBU(beer) | number : 0 }}</td>
                 <td>{{ beer.color | number: 1 }} EBC</td>
                 <td style="background-color: {{ getColor(beer) }}"></td>
+                <td><button class="btn btn-default glyphicon glyphicon-edit" ng-click="edit(beer)"></td>
                 <td><button class="btn btn-default glyphicon glyphicon-globe" ng-click="openPublic(beer)" ng-if='beer.public'></td>
                 <td><button class="btn btn-default glyphicon glyphicon-minus" ng-click="remove(beer)"></button></td>
             </tr>
             <tr ng-if="openIndex == $index">
-                <td colspan="8"></td>
-                <td colspan="2">
-                    <button ng-click="edit(beer)" class="btn btn-default width100">Redigera</button>
-                </td>
-            </tr>
-            <tr ng-if="openIndex == $index">
-                <td colspan="10">
+                <td colspan="11">
                     <div class="ingredientDiv">
                         <span>Ingredienser</span>
                         <table class="beerIngredientList">

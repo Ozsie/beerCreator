@@ -146,6 +146,14 @@
     width: 51% !important;
 }
 
+.width6 {
+    width: 6%;
+}
+
+.width10 {
+    width: 10%;
+}
+
 .marginTop10px {
     margin-top: 10px;
 }
