@@ -15,9 +15,9 @@ userService.factory('User', ['$firebaseAuth', '$location', 'Ingredients', functi
     
     user.login = function(authData) {
         this.authData = authData;
-        if (authData.provider === "google") {
-            this.displayName = authData.google.displayName;
-            this.picture = authData.google.profileImageURL;
+        if (authData.provider) {
+            this.displayName = authData[authData.provider].displayName;
+            this.picture = authData[authData.provider].profileImageURL;
         }
     };
     

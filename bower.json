@@ -1,7 +1,7 @@
 {
   "name": "beer-creator",
   "description": "An application for creating beer recipes",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "homepage": "https://github.com/Ozsie/beerCreator",
   "license": "MIT",
   "private": true,

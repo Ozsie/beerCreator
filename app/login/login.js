@@ -12,10 +12,6 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
 .controller('LoginCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$location', 'User', function($scope, $firebaseAuth, $firebaseArray, $location, User) {
     var ref = new Firebase("https://luminous-heat-8761.firebaseio.com");
     $scope.authObj = $firebaseAuth(ref);
-    
-    var loginLogRef = new Firebase("https://luminous-heat-8761.firebaseio.com/loginLog/");
-
-    $scope.loginLog = $firebaseArray(loginLogRef);
         
     $scope.login = function() {
         $scope.authObj.$authWithPassword({
@@ -29,13 +25,16 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
         });
     };
     
-    $scope.googleLogin = function() {
-        $scope.authObj.$authWithOAuthPopup("google").then(function(authData) {
+    $scope.login = function(provider) {
+        $scope.authObj.$authWithOAuthPopup(provider).then(function(authData) {
+            var loginLogRef = new Firebase("https://luminous-heat-8761.firebaseio.com/loginLog/");
+            var loginLog = $firebaseArray(loginLogRef);
+            
             User.login(authData);
             $location.path('beerList');
-            $scope.loginLog.$add({uid: authData.uid, displayName: authData.google.displayName, time: Firebase.ServerValue.TIMESTAMP});
-            if ($scope.loginLog.length > 50) {
-                $scope.loginLog.$remove(0);
+            loginLog.$add({uid: authData.uid, displayName: authData[provider].displayName, time: Firebase.ServerValue.TIMESTAMP});
+            if (loginLog.length > 50) {
+                loginLog.$remove(0);
             }
         }).catch(function(error) {
             console.log("Login Failed!", error);
