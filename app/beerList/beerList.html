@@ -10,7 +10,8 @@
 </ul>
 <div class="containerDiv">
     <div class="newBeerButton">
-        <button ng-click="newBeer()" class="btn btn-default">Ny öl</button>
+        <button ng-click="newBeer()" class="btn btn-default" ng-disabled="!beerList || beerList.length >= 20">Ny öl</button>
+        <span ng-if="beerList.length >= 20">Max antal recept sparade</span>
     </div>
     <div class="logOutButton">
         <button ng-click="logout()" class="btn btn-default">Logga ut</button>
@@ -26,6 +27,7 @@
                 <th>IBU</th>
                 <th colspan="2">Färg</th>
                 <th>Publik</th>
+                <th>Ta bort</th>
             </tr>
         </thead>
         <tbody ng-repeat="beer in beerList"
@@ -40,15 +42,16 @@
                 <td>{{ beer.color | number: 1 }} EBC</td>
                 <td style="background-color: {{ getColor(beer) }}"></td>
                 <td><button class="btn btn-default glyphicon glyphicon-globe" ng-click="openPublic(beer)" ng-if='beer.public'></td>
+                <td><button class="btn btn-default glyphicon glyphicon-minus" ng-click="remove(beer)"></button></td>
             </tr>
             <tr ng-if="openIndex == $index">
-                <td colspan="7"></td>
+                <td colspan="8"></td>
                 <td colspan="2">
                     <button ng-click="edit(beer)" class="btn btn-default width100">Redigera</button>
                 </td>
             </tr>
             <tr ng-if="openIndex == $index">
-                <td colspan="9">
+                <td colspan="8">
                     <div class="ingredientDiv">
                         <span>Ingredienser</span>
                         <table class="beerIngredientList">

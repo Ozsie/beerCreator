@@ -173,4 +173,8 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
     $scope.openPublic = function(beer) {
         window.open('index.html#public/' + User.authData.uid + '/' + beer.$id, '_blank');
     };
+    
+    $scope.remove = function(beer) {
+        $scope.beerList.$remove(beer);
+    };
 }]);
