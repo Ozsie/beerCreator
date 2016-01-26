@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="beerCreator" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="beerCreator" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="beerCreator" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="beerCreator" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html lang="en" ng-app="beerCreator" class="no-js lt-ie9 lt-ie8 lt-ie7" ng-controller="MainCtrl"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="beerCreator" class="no-js lt-ie9 lt-ie8" ng-controller="MainCtrl"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="beerCreator" class="no-js lt-ie9" ng-controller="MainCtrl"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="beerCreator" class="no-js" ng-controller="MainCtrl"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Beer Creator</title>
+  <title>{{ Page.title() }}</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
@@ -55,6 +55,7 @@
   <script src="services/editBeerService.js"></script>
   <script src="services/profilesService.js"></script>
   <script src="services/userService.js"></script>
+  <script src="services/pageService.js"></script>
   
   <script src="filters/grainTypeFilter.js"></script>
   <script src="filters/hopTypeFilter.js"></script>

@@ -9,7 +9,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
   });
 }])
 
-.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', function($scope, $firebaseArray, $interval, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles, User, Bitterness, Alcohol) {
+.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', 'Page', function($scope, $firebaseArray, $interval, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles, User, Bitterness, Alcohol, Page) {
     BeerStyles.getStyles().$loaded().then(function(styles) {
         $scope.styles = styles;
         $scope.tempBeer = EditBeer.getBeerToEdit();
@@ -22,6 +22,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
             $scope.beerList.$loaded().then(function(data) {
                 $scope.beer = $scope.beerList.$getRecord($scope.tempBeer.$id);
                 $scope.beerColor = $scope.getColor($scope.beer);
+                Page.setTitle("Beer Creator - " + $scope.beer.name);
             });
         } else {
             $scope.beer = $scope.tempBeer;
@@ -283,6 +284,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     });
     
     $scope.$on("$destroy", function(){
+        Page.setTitle("Beer Creator");
         $scope.miscList.$destroy();
         $scope.yeastList.$destroy();
         $scope.hopList.$destroy();

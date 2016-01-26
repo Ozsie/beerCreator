@@ -9,7 +9,7 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('PublicCtrl', ['$scope', '$firebaseObject', '$routeParams', 'ColorConversion', function($scope, $firebaseObject, $routeParams, ColorConversion) {
+.controller('PublicCtrl', ['$scope', '$firebaseObject', '$routeParams', 'ColorConversion', 'Page', function($scope, $firebaseObject, $routeParams, ColorConversion, Page) {
     $scope.userId = $routeParams.userId;
     $scope.beerId = $routeParams.beerId;
     var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + $scope.userId + "/" + $scope.beerId);
@@ -18,10 +18,10 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
 
     // to take an action after the data loads, use the $loaded() promise
     obj.$loaded().then(function(data) {
-        console.log("loaded record:", obj.$id, obj.someOtherKeyInData);
         if (data.public) {
             $scope.beer = data;
             $scope.beerColor = $scope.getColor($scope.beer);
+            Page.setTitle("Beer Creator - " + $scope.beer.name);
         }
     });
     
