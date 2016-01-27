@@ -50,10 +50,13 @@ angular.module('beerCreator.profiles', ['ngRoute'])
     
     $scope.save = function() {
         if ($scope.add === 'equipment') {
+            $scope.beer.equipment.user = {displayName: User.displayName, uid: User.authData.uid};
             $scope.equipmentList.$add($scope.beer.equipment);
         } else if ($scope.add === 'equipment') {
+            $scope.beer.mash.user = {displayName: User.displayName, uid: User.authData.uid};
             $scope.mashProfiles.$add($scope.beer.mash);
         } else if ($scope.add === 'fermentationProfiles') {
+            $scope.beer.fermentation.user = {displayName: User.displayName, uid: User.authData.uid};
             $scope.fermentationProfiles.$add($scope.beer.fermentation);
         }
         $scope.cancel();

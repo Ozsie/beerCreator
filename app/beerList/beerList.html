@@ -43,7 +43,7 @@
                 <td>{{ beer.color | number: 1 }} EBC</td>
                 <td style="background-color: {{ getColor(beer) }}"></td>
                 <td><button class="btn btn-default glyphicon glyphicon-edit" ng-click="edit(beer)"></td>
-                <td><button class="btn btn-default glyphicon glyphicon-globe" ng-click="openPublic(beer)" ng-if='beer.public'></td>
+                <td><button class="btn btn-default glyphicon glyphicon-globe" ng-click="openPublic(user.authData.uid, beer.$id)" ng-if='beer.public'></td>
                 <td><button class="btn btn-default glyphicon glyphicon-minus" ng-click="remove(beer)"></button></td>
             </tr>
             <tr ng-if="openIndex == $index">
@@ -72,6 +72,22 @@
                         </table>
                     </div>
                 </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class='table beerTable'>
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Stil</th>
+                <th class="width6">Publik</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="beer in publicList">
+            <tr ng-if='beer.owner !== user.authData.uid'>
+                <td>{{beer.name}}</td>
+                <td>{{beer.fullStyle.name}}
+                <td><button class="btn btn-default glyphicon glyphicon-globe" ng-click="openPublic(user.authData.uid, beer.id)"></td>
             </tr>
         </tbody>
     </table>

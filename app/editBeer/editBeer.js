@@ -175,8 +175,8 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.getInvertedColor = function(grain) {
-        var rgb = $scope.getColor(grain)
-        var inverted = ColorConversion.invert(rgb)
+        var rgb = $scope.getColor(grain);
+        var inverted = ColorConversion.invert(rgb);
         return inverted;
     };
     
@@ -247,10 +247,34 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         $scope.beerColor = $scope.getColor($scope.beer);
     };
     
+    $scope.addToPublicList = function() {
+        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/public/");
+        var publicList = $firebaseArray(ref);
+        publicList.$loaded().then(function(data) {
+            var exists = false;
+            for (var i = 0; i < publicList.length; i++) {
+                if (publicList[i].beerId === $scope.beer.$id) {
+                    exists = true;
+                    break;
+                }
+            }
+            if ($scope.beer.public && !exists) {
+                var publicBeer = {beerId: $scope.beer.$id,
+                                  owner: User.authData.uid,
+                                  name: $scope.beer.name,
+                                  style: parseInt($scope.beer.style),
+                                  parentStyle: $scope.beer.parentStyle};
+                publicList.$add(publicBeer);
+            }
+            publicList.$destroy();
+        });
+    };
+    
     $scope.save = function() {
         $scope.beerList.$loaded().then(function(data) {
             if ($scope.beer.$id) {
                 $scope.beerList.$save($scope.beer).then(function(ref) {
+                    $scope.addToPublicList();
                     $scope.saved = true;
                 }).catch(function(error) {
                     console.log(error);
@@ -259,12 +283,14 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
                 var index = $scope.beerList.$indexFor($scope.key);
                 if (index > -1) {
                     $scope.beerList.$remove(index).then(function(ref) {
+                        $scope.addToPublicList();
                         $scope.saved = true;
                     }).catch(function(error) {
                         console.log(error);
                     });
                 }
                 $scope.beerList.$add($scope.beer).then(function(ref) {
+                    $scope.addToPublicList();
                     $scope.saved = true;
                     $scope.added = true;
                     $scope.key = ref.key();

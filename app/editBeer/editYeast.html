@@ -104,7 +104,7 @@
             <label for="yeast15" class="editLabelWidth">Mängd</label>
             <input ng-model="editedIngredient.amount" class="form-control editInputWidth" id="yeast15" type="number"> pkg
         </div>
-        <div class="form-group width25" ng-if="editIndex == $index">
+        <div class="form-group width25" ng-if="newIngredient">
             <label for="malt15" class="editLabelWidth">Typ</label>
             <select ng-model="editedIngredient.type" class="form-control editInputWidth" id="malt15">
                 <option value="ale" selected>Ale</option>
@@ -116,10 +116,10 @@
     </form>
     <form class="form-inline width100">
         <div class="form-group width25" ng-if="editIndex != $index">
-            <button class="btn btn-default" type="submit" ng-click="saveYeast()">Spara</button>
+            <button class="btn btn-default" type="submit" ng-click="saveYeast(editedIngredient)">Spara</button>
         </div>
         <div class="form-group width25" ng-if="editIndex != $index">
-            <button class="btn btn-default" type="submit" ng-click="cancelNewIngredient()">Ångra</button>
+            <button class="btn btn-default" type="submit" ng-click="cancelNewIngredient(editedIngredient)">Ångra</button>
         </div>
     </form>
 </div>

@@ -34,19 +34,17 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
                         }
                     }
                 });
-
-                var refPublic = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/public");
-                $scope.beerListPublic = $firebaseArray(refPublic);
-                $scope.beerListPublic.$loaded().then(function(data) {
-                    if (data) {
-                        $scope.beerListPublic = data;
-                        for (var index in $scope.beerListPublic) {
-                            var beer = $scope.beerListPublic[index];
-                            var style = beer.style;
-                            if (!beer.fullStyle) {
-                                var fullStyle = $scope.findStyle(style, $scope.beerStyles);
-                                beer.fullStyle = fullStyle;
-                            }
+                
+                var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/public/");
+                $scope.publicList = $firebaseArray(ref);
+                $scope.publicList.$loaded().then(function(data) {
+                    $scope.publicList = data;
+                    for (var index in $scope.publicList) {
+                        var beer = $scope.publicList[index];
+                        var style = beer.style;
+                        if (!beer.fullStyle) {
+                            var fullStyle = $scope.findStyle(style, $scope.beerStyles);
+                            beer.fullStyle = fullStyle;
                         }
                     }
                 });
@@ -152,8 +150,8 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
         $scope.hopList.$destroy();
         $scope.grainList.$destroy();
         $scope.beerList.$destroy();
-        $scope.beerListPublic.$destroy();
         $scope.beerStyles.$destroy();
+        $scope.publicList.$destroy();
         User.logout();
     };
     
@@ -166,15 +164,19 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
         $scope.hopList.$destroy();
         $scope.grainList.$destroy();
         $scope.beerList.$destroy();
-        $scope.beerListPublic.$destroy();
         $scope.beerStyles.$destroy();
+        $scope.publicList.$destroy();
     });
     
-    $scope.openPublic = function(beer) {
-        window.open('index.html#public/' + User.authData.uid + '/' + beer.$id, '_blank');
+    $scope.openPublic = function(uid, beerId) {
+        window.open('index.html#public/' + uid + '/' + beerId, '_blank');
     };
     
     $scope.remove = function(beer) {
         $scope.beerList.$remove(beer);
+    };
+    
+    $scope.currentUserIsOwner = function(beer) {
+        return beer.owner === User.authData.uid;
     };
 }]);

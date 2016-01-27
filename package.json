@@ -1,7 +1,7 @@
 {
   "name": "beer-creator",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A starter project for AngularJS",
   "repository": {
     "type": "git",

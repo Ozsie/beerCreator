@@ -57077,19 +57077,17 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
                         }
                     }
                 });
-
-                var refPublic = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/public");
-                $scope.beerListPublic = $firebaseArray(refPublic);
-                $scope.beerListPublic.$loaded().then(function(data) {
-                    if (data) {
-                        $scope.beerListPublic = data;
-                        for (var index in $scope.beerListPublic) {
-                            var beer = $scope.beerListPublic[index];
-                            var style = beer.style;
-                            if (!beer.fullStyle) {
-                                var fullStyle = $scope.findStyle(style, $scope.beerStyles);
-                                beer.fullStyle = fullStyle;
-                            }
+                
+                var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/public/");
+                $scope.publicList = $firebaseArray(ref);
+                $scope.publicList.$loaded().then(function(data) {
+                    $scope.publicList = data;
+                    for (var index in $scope.publicList) {
+                        var beer = $scope.publicList[index];
+                        var style = beer.style;
+                        if (!beer.fullStyle) {
+                            var fullStyle = $scope.findStyle(style, $scope.beerStyles);
+                            beer.fullStyle = fullStyle;
                         }
                     }
                 });
@@ -57195,8 +57193,8 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
         $scope.hopList.$destroy();
         $scope.grainList.$destroy();
         $scope.beerList.$destroy();
-        $scope.beerListPublic.$destroy();
         $scope.beerStyles.$destroy();
+        $scope.publicList.$destroy();
         User.logout();
     };
     
@@ -57209,16 +57207,20 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
         $scope.hopList.$destroy();
         $scope.grainList.$destroy();
         $scope.beerList.$destroy();
-        $scope.beerListPublic.$destroy();
         $scope.beerStyles.$destroy();
+        $scope.publicList.$destroy();
     });
     
-    $scope.openPublic = function(beer) {
-        window.open('index.html#public/' + User.authData.uid + '/' + beer.$id, '_blank');
+    $scope.openPublic = function(uid, beerId) {
+        window.open('index.html#public/' + uid + '/' + beerId, '_blank');
     };
     
     $scope.remove = function(beer) {
         $scope.beerList.$remove(beer);
+    };
+    
+    $scope.currentUserIsOwner = function(beer) {
+        return beer.owner === User.authData.uid;
     };
 }]);
 'use strict';
@@ -57278,11 +57280,30 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
     
     $scope.addIngredient = function(selectedList) {
         $scope.toAdd = selectedList;
+        switch (selectedList) {
+            case 'malt':
+                $scope.editedIngredient = {name: 'Ny malt', type: 'malt'};
+                break;
+            case 'hops':
+                $scope.editedIngredient = {name: 'Ny humle', type: 'bitter'};
+                break;
+            case 'yeast':
+                $scope.editedIngredient = {name: 'Ny jäst', type: 'ale'};
+                break;
+            case 'misc':
+                $scope.editedIngredient = {name: 'Ny övrigt', type: 'other'};
+                break;
+        };
+        
     };
     
     $scope.add = function() {
         if (!$scope.editedIngredient.name) {
             $scope.error = "no-name";
+            return;
+        }
+        if (!$scope.editedIngredient.type) {
+            $scope.error = "no-type";
             return;
         }
         $scope.editedIngredient.user = {displayName: User.displayName, uid: User.authData.uid};
@@ -57327,6 +57348,10 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
                     break;
             }
         }
+    };
+    
+    $scope.isOk = function() {
+        return (!$scope.editedIngredient.type || !$scope.editedIngredient.name)
     };
 }]);
 'use strict';
@@ -57506,8 +57531,8 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.getInvertedColor = function(grain) {
-        var rgb = $scope.getColor(grain)
-        var inverted = ColorConversion.invert(rgb)
+        var rgb = $scope.getColor(grain);
+        var inverted = ColorConversion.invert(rgb);
         return inverted;
     };
     
@@ -57578,10 +57603,34 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         $scope.beerColor = $scope.getColor($scope.beer);
     };
     
+    $scope.addToPublicList = function() {
+        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/public/");
+        var publicList = $firebaseArray(ref);
+        publicList.$loaded().then(function(data) {
+            var exists = false;
+            for (var i = 0; i < publicList.length; i++) {
+                if (publicList[i].beerId === $scope.beer.$id) {
+                    exists = true;
+                    break;
+                }
+            }
+            if ($scope.beer.public && !exists) {
+                var publicBeer = {beerId: $scope.beer.$id,
+                                  owner: User.authData.uid,
+                                  name: $scope.beer.name,
+                                  style: parseInt($scope.beer.style),
+                                  parentStyle: $scope.beer.parentStyle};
+                publicList.$add(publicBeer);
+            }
+            publicList.$destroy();
+        });
+    };
+    
     $scope.save = function() {
         $scope.beerList.$loaded().then(function(data) {
             if ($scope.beer.$id) {
                 $scope.beerList.$save($scope.beer).then(function(ref) {
+                    $scope.addToPublicList();
                     $scope.saved = true;
                 }).catch(function(error) {
                     console.log(error);
@@ -57590,12 +57639,14 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
                 var index = $scope.beerList.$indexFor($scope.key);
                 if (index > -1) {
                     $scope.beerList.$remove(index).then(function(ref) {
+                        $scope.addToPublicList();
                         $scope.saved = true;
                     }).catch(function(error) {
                         console.log(error);
                     });
                 }
                 $scope.beerList.$add($scope.beer).then(function(ref) {
+                    $scope.addToPublicList();
                     $scope.saved = true;
                     $scope.added = true;
                     $scope.key = ref.key();
@@ -57730,10 +57781,13 @@ angular.module('beerCreator.profiles', ['ngRoute'])
     
     $scope.save = function() {
         if ($scope.add === 'equipment') {
+            $scope.beer.equipment.user = {displayName: User.displayName, uid: User.authData.uid};
             $scope.equipmentList.$add($scope.beer.equipment);
         } else if ($scope.add === 'equipment') {
+            $scope.beer.mash.user = {displayName: User.displayName, uid: User.authData.uid};
             $scope.mashProfiles.$add($scope.beer.mash);
         } else if ($scope.add === 'fermentationProfiles') {
+            $scope.beer.fermentation.user = {displayName: User.displayName, uid: User.authData.uid};
             $scope.fermentationProfiles.$add($scope.beer.fermentation);
         }
         $scope.cancel();
@@ -58007,6 +58061,13 @@ colorConversionService.factory('ColorConversion', function() {
     };
     
     colorConversion.calculateTotalEBC = function(beer) {
+        if (!beer.ingredients) {
+            return 0;
+        }
+        
+        if (!beer.equipment) {
+            return 0;
+        }
         var colorSum = 0;
         for (var maltIndex in beer.ingredients.malts) {
             var malt = beer.ingredients.malts[maltIndex];
@@ -58090,6 +58151,9 @@ alcoholService.factory('Alcohol', function() {
     var alcohol = {}; 
     
     alcohol.calculateOriginalGravity = function(beer) {
+        if (!beer.equipment) {
+            return 0;
+        }
         if (!beer.equipment.mashLauterTun) {
             return 0;
         }
@@ -58101,6 +58165,9 @@ alcoholService.factory('Alcohol', function() {
         
         var totalOg = 1000;
         var volume = beer.equipment.boiler.postBoilVolume;
+        if (!volume) {
+            volume = 0;
+        }
         volume = volume / GALLON_LITRE_RATIO;
         for (var maltIndex in beer.ingredients.malts) {
             var malt = beer.ingredients.malts[maltIndex];
@@ -58116,6 +58183,9 @@ alcoholService.factory('Alcohol', function() {
     };
 
     alcohol.calculateFinalGravity = function(beer) {
+        if (!beer.ingredients) {
+            return 0;
+        }
         if (!beer.ingredients.yeasts || beer.ingredients.yeasts.length === 0) {
             return 0;
         }

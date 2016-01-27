@@ -19,14 +19,15 @@
         </li>
     </ul>
     <div ng-show="toAdd" class="marginBottom10px">
-        <div ng-include="'editBeer/editMalt.html'" ng-init="editedIngredient = {type: 'malt'};" ng-show="toAdd === 'malt'"></div>
-        <div ng-include="'editBeer/editHops.html'" ng-init="editedIngredient = {type: 'bitter'};" ng-show="toAdd === 'hops'"></div>
-        <div ng-include="'editBeer/editYeast.html'" ng-init="editedIngredient = {type: 'ale'};" ng-show="toAdd === 'yeast'"></div>
-        <div ng-include="'editBeer/editMisc.html'" ng-init="editedIngredient = {type: 'other'};" ng-show="toAdd === 'misc'"></div>
+        <div ng-include="'editBeer/editMalt.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'malt'"></div>
+        <div ng-include="'editBeer/editHops.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'hops'"></div>
+        <div ng-include="'editBeer/editYeast.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'yeast'"></div>
+        <div ng-include="'editBeer/editMisc.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'misc'"></div>
         <div>
-            <button ng-click="add()" class="btn btn-default" ng-disabled="!editedIngredient.type || !editedIngredient.name">Spara</button>
+            <button ng-click="add()" class="btn btn-default">Spara</button>
             <button ng-click="cancel()" class="btn btn-default">Ångra</button>
             <span ng-if="error === 'no-name'">Ingrediensen måste ha ett namn</span>
+            <span ng-if="error === 'no-name'">Ingrediensen måste ha en typ</span>
         </div>
     </div>
     <table class="beerTable" ng-if="selectedList == 'malt'">

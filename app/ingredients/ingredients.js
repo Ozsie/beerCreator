@@ -55,11 +55,30 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
     
     $scope.addIngredient = function(selectedList) {
         $scope.toAdd = selectedList;
+        switch (selectedList) {
+            case 'malt':
+                $scope.editedIngredient = {name: 'Ny malt', type: 'malt'};
+                break;
+            case 'hops':
+                $scope.editedIngredient = {name: 'Ny humle', type: 'bitter'};
+                break;
+            case 'yeast':
+                $scope.editedIngredient = {name: 'Ny jäst', type: 'ale'};
+                break;
+            case 'misc':
+                $scope.editedIngredient = {name: 'Ny övrigt', type: 'other'};
+                break;
+        };
+        
     };
     
     $scope.add = function() {
         if (!$scope.editedIngredient.name) {
             $scope.error = "no-name";
+            return;
+        }
+        if (!$scope.editedIngredient.type) {
+            $scope.error = "no-type";
             return;
         }
         $scope.editedIngredient.user = {displayName: User.displayName, uid: User.authData.uid};
@@ -104,5 +123,9 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
                     break;
             }
         }
+    };
+    
+    $scope.isOk = function() {
+        return (!$scope.editedIngredient.type || !$scope.editedIngredient.name)
     };
 }]);

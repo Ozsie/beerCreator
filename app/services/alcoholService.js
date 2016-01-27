@@ -12,6 +12,9 @@ alcoholService.factory('Alcohol', function() {
     var alcohol = {}; 
     
     alcohol.calculateOriginalGravity = function(beer) {
+        if (!beer.equipment) {
+            return 0;
+        }
         if (!beer.equipment.mashLauterTun) {
             return 0;
         }
@@ -23,6 +26,9 @@ alcoholService.factory('Alcohol', function() {
         
         var totalOg = 1000;
         var volume = beer.equipment.boiler.postBoilVolume;
+        if (!volume) {
+            volume = 0;
+        }
         volume = volume / GALLON_LITRE_RATIO;
         for (var maltIndex in beer.ingredients.malts) {
             var malt = beer.ingredients.malts[maltIndex];
@@ -38,6 +44,9 @@ alcoholService.factory('Alcohol', function() {
     };
 
     alcohol.calculateFinalGravity = function(beer) {
+        if (!beer.ingredients) {
+            return 0;
+        }
         if (!beer.ingredients.yeasts || beer.ingredients.yeasts.length === 0) {
             return 0;
         }

@@ -51,6 +51,13 @@ colorConversionService.factory('ColorConversion', function() {
     };
     
     colorConversion.calculateTotalEBC = function(beer) {
+        if (!beer.ingredients) {
+            return 0;
+        }
+        
+        if (!beer.equipment) {
+            return 0;
+        }
         var colorSum = 0;
         for (var maltIndex in beer.ingredients.malts) {
             var malt = beer.ingredients.malts[maltIndex];
