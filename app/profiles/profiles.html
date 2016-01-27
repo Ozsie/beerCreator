@@ -13,8 +13,10 @@
         <li role="presentation" ng-click="selectList('equipment')" ng-class='{active: selectedList === "equipment"}'><a>Utrustning</a></li>
         <li role="presentation" ng-click="selectList('mashProfiles')" ng-class='{active: selectedList === "mashProfiles"}'><a>Mäskprofiler</a></li>
         <li role="presentation" ng-click="selectList('fermentationProfiles')" ng-class='{active: selectedList === "fermentationProfiles"}'><a>Jäsningsprofiler</a></li>
+        <li role="presentation" ng-hide="toAdd">
+            <button class="btn btn-default glyphicon glyphicon-plus" ng-click="addNew(selectedList)">
+        </li>
     </ul>
-    <button ng-click="addNew(selectedList)" class="btn btn-default">Lägg till</button>
     <div ng-show="addEquipment">
         <div ng-include="'editBeer/editEquipment.html'" ng-show="add === 'equipment'"></div>
         <div ng-include="'editBeer/editMashProfile.html'" ng-show="add === 'mashProfiles'"></div>
