@@ -4,7 +4,6 @@
 angular.module('beerCreator', [
   'ngRoute',
   'beerCreator.beerList',
-  'beerCreator.stock',
   'beerCreator.ingredients',
   'beerCreator.editBeer',
   'beerCreator.profiles',

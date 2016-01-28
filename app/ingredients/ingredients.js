@@ -9,8 +9,10 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('IngredientsCtrl', ['$scope', 'Ingredients', 'ColorConversion', 'User', function($scope, Ingredients, ColorConversion, User) {
-        
+.controller('IngredientsCtrl', ['$scope', '$location', 'Ingredients', 'ColorConversion', 'User', function($scope, $location, Ingredients, ColorConversion, User) {
+    if (!User.authData) {
+        $location.path('login');
+    }
     $scope.selectedList = 'malt';
 
     $scope.user = User;
