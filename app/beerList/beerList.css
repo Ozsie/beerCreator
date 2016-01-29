@@ -8,3 +8,9 @@ and open the template in the editor.
     Author     : Ozsie
 */
 
+.loadingIcon {
+    width: 40px;
+    height: auto;
+    margin: auto;
+    display: block;
+}

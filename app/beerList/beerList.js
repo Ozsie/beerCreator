@@ -10,46 +10,49 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
 }])
 
 .controller('BeerListCtrl', ['$scope', '$http', '$location', '$firebaseArray', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', 'EditBeer', 'User', function($scope, $http, $location, $firebaseArray, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients, EditBeer, User) {
+    if (!User.authData) {
+        $location.path('login');
+    }
     $scope.beerList = [];
     $scope.user = User;
+    $scope.beerListAvailable = false;
+    $scope.publicListAvailable = false;
     
     $scope.loadBeers = function() {
-        if (!User.authData) {
-            $location.path('login');
-        } else {
-            $scope.beerStyles = BeerStyles.getStyles().$loaded().then(function(styles) {
-                $scope.beerStyles = styles;
-                var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + User.authData.uid);
-                $scope.beerList = $firebaseArray(ref);
-                $scope.beerList.$loaded().then(function(data) {
-                    if (data) {
-                        $scope.beerList = data;
-                        for (var index in $scope.beerList) {
-                            var beer = $scope.beerList[index];
-                            var style = beer.style;
-                            if (!beer.fullStyle) {
-                                var fullStyle = $scope.findStyle(style, $scope.beerStyles);
-                                beer.fullStyle = fullStyle;
-                            }
-                        }
-                    }
-                });
-                
-                var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/public/");
-                $scope.publicList = $firebaseArray(ref);
-                $scope.publicList.$loaded().then(function(data) {
-                    $scope.publicList = data;
-                    for (var index in $scope.publicList) {
-                        var beer = $scope.publicList[index];
+        $scope.beerStyles = BeerStyles.getStyles().$loaded().then(function(styles) {
+            $scope.beerStyles = styles;
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + User.authData.uid);
+            $scope.beerList = $firebaseArray(ref);
+            $scope.beerList.$loaded().then(function(data) {
+                if (data) {
+                    $scope.beerList = data;
+                    $scope.beerListAvailable = true;
+                    for (var index in $scope.beerList) {
+                        var beer = $scope.beerList[index];
                         var style = beer.style;
                         if (!beer.fullStyle) {
                             var fullStyle = $scope.findStyle(style, $scope.beerStyles);
                             beer.fullStyle = fullStyle;
                         }
                     }
-                });
+                }
             });
-        }
+
+            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/public/");
+            $scope.publicList = $firebaseArray(ref);
+            $scope.publicList.$loaded().then(function(data) {
+                $scope.publicListAvailable = true;
+                $scope.publicList = data;
+                for (var index in $scope.publicList) {
+                    var beer = $scope.publicList[index];
+                    var style = beer.style;
+                    if (!beer.fullStyle) {
+                        var fullStyle = $scope.findStyle(style, $scope.beerStyles);
+                        beer.fullStyle = fullStyle;
+                    }
+                }
+            });
+        });
     };
     
     $scope.findStyle = function(id, styles) {

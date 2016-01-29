@@ -9,7 +9,11 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
   });
 }])
 
-.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', 'Page', function($scope, $firebaseArray, $interval, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles, User, Bitterness, Alcohol, Page) {
+.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', '$location', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', 'Page', function($scope, $firebaseArray, $interval, $location, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles, User, Bitterness, Alcohol, Page) {
+    if (!User.authData) {
+        $location.path('login');
+    }
+    
     BeerStyles.getStyles().$loaded().then(function(styles) {
         $scope.styles = styles;
         $scope.tempBeer = EditBeer.getBeerToEdit();
@@ -185,6 +189,9 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.saveMalt = function() {
+        if (!$scope.beer.ingredients) {
+            $scope.beer.ingredients = {};
+        }
         if (!$scope.beer.ingredients.malts) {
             $scope.beer.ingredients.malts = [];
         }
@@ -193,6 +200,9 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.saveHop = function() {
+        if (!$scope.beer.ingredients) {
+            $scope.beer.ingredients = {};
+        }
         if (!$scope.beer.ingredients.hops) {
             $scope.beer.ingredients.hops = [];
         }
@@ -201,6 +211,9 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.saveYeast = function() {
+        if (!$scope.beer.ingredients) {
+            $scope.beer.ingredients = {};
+        }
         if (!$scope.beer.ingredients.yeasts) {
             $scope.beer.ingredients.yeasts = [];
         }
@@ -209,6 +222,9 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.saveMisc = function() {
+        if (!$scope.beer.ingredients) {
+            $scope.beer.ingredients = {};
+        }
         if (!$scope.beer.ingredients.misc) {
             $scope.beer.ingredients.misc = [];
         }

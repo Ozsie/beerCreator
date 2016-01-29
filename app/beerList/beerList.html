@@ -1,6 +1,5 @@
 <ul class="nav nav-tabs marginTop10px">
     <li role="presentation" class="active"><a href="#/beerList">Öllista</a></li>
-    <li role="presentation"><a href="#/stock">Förråd</a></li>
     <li role="presentation"><a href="#/ingredients">Ingredienser</a></li>
     <li role="presentation"><a href="#/profiles">Profiler</a></li>
     <li role="presentation">
@@ -16,7 +15,7 @@
     <div class="logOutButton">
         <button ng-click="logout()" class="btn btn-default">Logga ut</button>
     </div>
-    <table class="table beerTable">
+    <table class="table beerTable" ng-if="beerListAvailable">
         <thead>
             <tr>
                 <th>Namn</th>
@@ -75,7 +74,8 @@
             </tr>
         </tbody>
     </table>
-    <table class='table beerTable'>
+    <img src="squares.gif" alt="Laddar" class="loadingIcon" ng-if="!beerListAvailable">
+    <table class='table beerTable' ng-if="publicListAvailable">
         <thead>
             <tr>
                 <th>Namn</th>
@@ -91,4 +91,5 @@
             </tr>
         </tbody>
     </table>
+    <img src="squares.gif" alt="Laddar" class="loadingIcon" ng-if="!publicListAvailable && beerListAvailable">
 </div>

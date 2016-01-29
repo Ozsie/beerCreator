@@ -10,7 +10,9 @@ angular.module('beerCreator.profiles', ['ngRoute'])
 }])
 
 .controller('ProfilesCtrl', ['$scope', 'Profiles', 'User', function($scope, Profiles, User) {
-        
+    if (!User.authData) {
+        $location.path('login');
+    }
     $scope.selectedList = 'equipment';
     $scope.user = User;
 
