@@ -18,6 +18,9 @@ alcoholService.factory('Alcohol', function() {
         if (!beer.equipment.mashLauterTun) {
             return 0;
         }
+        if (!beer.ingredients) {
+            return 0;
+        }
         if (!beer.ingredients.malts || beer.ingredients.malts.length === 0) {
             return 0;
         }
