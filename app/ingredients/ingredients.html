@@ -1,30 +1,39 @@
-<ul class="nav nav-tabs marginTop10px">
-    <li role="presentation"><a href="#/beerList">Öllista</a></li>
-    <li role="presentation" class="active"><a href="#/ingredients">Ingredienser</a></li>
-    <li role="presentation"><a href="#/profiles">Profiler</a></li>
-    <li role="presentation">
-        <img src="{{user.picture}}" alt="Profilbild" class="resize" >
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right">
+          <img src="{{user.picture}}" alt="Profilbild" class="resize" >
         {{user.displayName}}
-    </li>
-</ul>
+      </a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="#/beerList">Öllista</a></li>
+        <li class="active"><a href="#/ingredients">Ingredienser</a></li>
+        <li><a href="#/profiles">Profiler</a></li>
+        <li><a ng-click="logout()">Logga ut</a></li>
+      </ul>
+    </div>
+  </nav>
 <div class="containerDiv">
-    <ul class="nav nav-tabs marginTop10px">
-        <li role="presentation" ng-click="selectList('malt'); cancel();" ng-class='{active: selectedList === "malt"}'><a>Malt</a></li>
-        <li role="presentation" ng-click="selectList('hops'); cancel();" ng-class='{active: selectedList === "hops"}'><a>Humle</a></li>
-        <li role="presentation" ng-click="selectList('yeast'); cancel();" ng-class='{active: selectedList === "yeast"}'><a>Jäst</a></li>
-        <li role="presentation" ng-click="selectList('misc'); cancel();" ng-class='{active: selectedList === "misc"}'><a>Övrigt</a></li>
-        <li role="presentation" ng-hide="toAdd">
-            <button class="btn btn-default glyphicon glyphicon-plus" ng-click="addIngredient(selectedList)">
-        </li>
-    </ul>
+    <nav>
+        <div class="nav-wrapper">
+          <a class="brand-logo right" ng-hide="toAdd">
+              <button class="btn-floating btn waves-effect waves-light red" ng-click="addIngredient(selectedList)">
+                <i class="material-icons marginTopNeg13">add</i>
+            </button>
+          </a>
+          <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li ng-class='{active: selectedList === "malt"}'><a ng-click="selectList('malt'); cancel();">Malt</a></li>
+            <li ng-class='{active: selectedList === "hops"}'><a ng-click="selectList('hops'); cancel();">Humle</a></li>
+            <li ng-class='{active: selectedList === "yeast"}'><a ng-click="selectList('yeast'); cancel();">Jäst</a></li>
+            <li ng-class='{active: selectedList === "misc"}'><a ng-click="selectList('misc'); cancel();">Övrigt</a></li>
+          </ul>
+        </div>
+      </nav>
     <div ng-show="toAdd" class="marginBottom10px">
         <div ng-include="'editBeer/editMalt.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'malt'"></div>
         <div ng-include="'editBeer/editHops.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'hops'"></div>
         <div ng-include="'editBeer/editYeast.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'yeast'"></div>
         <div ng-include="'editBeer/editMisc.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'misc'"></div>
         <div>
-            <button ng-click="add()" class="btn btn-default">Spara</button>
-            <button ng-click="cancel()" class="btn btn-default">Ångra</button>
             <span ng-if="error === 'no-name'">Ingrediensen måste ha ett namn</span>
             <span ng-if="error === 'no-name'">Ingrediensen måste ha en typ</span>
         </div>

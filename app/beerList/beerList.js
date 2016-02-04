@@ -182,4 +182,8 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
     $scope.currentUserIsOwner = function(beer) {
         return beer.owner === User.authData.uid;
     };
+    
+    $scope.getUser = function() {
+        return user;
+    };
 }]);

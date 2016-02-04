@@ -9,7 +9,7 @@ angular.module('beerCreator.profiles', ['ngRoute'])
   });
 }])
 
-.controller('ProfilesCtrl', ['$scope', 'Profiles', 'User', function($scope, Profiles, User) {
+.controller('ProfilesCtrl', ['$scope', '$location', 'Profiles', 'User', function($scope, $location, Profiles, User) {
     if (!User.authData) {
         $location.path('login');
     }

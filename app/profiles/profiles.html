@@ -1,21 +1,32 @@
-<ul class="nav nav-tabs marginTop10px">
-    <li role="presentation"><a href="#/beerList">Öllista</a></li>
-    <li role="presentation"><a href="#/ingredients">Ingredienser</a></li>
-    <li role="presentation" class="active"><a href="#/profiles">Profiler</a></li>
-    <li role="presentation">
-        <img src="{{user.picture}}" alt="Profilbild" class="resize" >
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right">
+          <img src="{{user.picture}}" alt="Profilbild" class="resize" >
         {{user.displayName}}
-    </li>
-</ul>
+      </a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="#/beerList">Öllista</a></li>
+        <li><a href="#/ingredients">Ingredienser</a></li>
+        <li class="active"><a href="#/profiles">Profiler</a></li>
+        <li><a ng-click="logout()">Logga ut</a></li>
+      </ul>
+    </div>
+  </nav>
 <div class="containerDiv">
-    <ul class="nav nav-tabs marginTop10px">
-        <li role="presentation" ng-click="selectList('equipment')" ng-class='{active: selectedList === "equipment"}'><a>Utrustning</a></li>
-        <li role="presentation" ng-click="selectList('mashProfiles')" ng-class='{active: selectedList === "mashProfiles"}'><a>Mäskprofiler</a></li>
-        <li role="presentation" ng-click="selectList('fermentationProfiles')" ng-class='{active: selectedList === "fermentationProfiles"}'><a>Jäsningsprofiler</a></li>
-        <li role="presentation" ng-hide="toAdd">
-            <button class="btn btn-default glyphicon glyphicon-plus" ng-click="addNew(selectedList)">
-        </li>
-    </ul>
+    <nav>
+        <div class="nav-wrapper">
+          <a class="brand-logo right" ng-hide="toAdd">
+              <button class="btn-floating btn waves-effect waves-light red" ng-click="addNew(selectedList)">
+                <i class="material-icons marginTopNeg13">add</i>
+            </button>
+          </a>
+          <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li ng-class='{active: selectedList === "malt"}'><a ng-click="selectList('equipment'); cancel();">Utrustning</a></li>
+            <li ng-class='{active: selectedList === "hops"}'><a ng-click="selectList('mashProfiles'); cancel();">Mäskprofiler</a></li>
+            <li ng-class='{active: selectedList === "yeast"}'><a ng-click="selectList('fermentationProfiles'); cancel();">Jäsningsprofiler</a></li>
+          </ul>
+        </div>
+      </nav>
     <div ng-show="addEquipment">
         <div ng-include="'editBeer/editEquipment.html'" ng-show="add === 'equipment'"></div>
         <div ng-include="'editBeer/editMashProfile.html'" ng-show="add === 'mashProfiles'"></div>

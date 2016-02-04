@@ -1,26 +1,27 @@
-<div class="panel-body center">
-    <div class="width100">
-        <div class="center">
-            <img src="login/noun_27506_cc.png" alt="hops" class="hopimg">
-            <h1>Beer Creator</h1>
+<div class="valign-card-wrapper width100">
+    <div class="valign-card">
+        <div class="row">
+            <div class="col s12 m7 width100">
+                <div class="card hoverable">
+                    <div class="card-image">
+                        <img src="login/noun_27506_cc.png" alt="hops" class="loginImg">
+                        <span class="card-title">Beer Creator</span>
+                    </div>
+                    <div class="card-content">
+                        
+                    </div>
+                    <div class="card-action">
+                        <a class="btn btn-block btn-social btn-google loginButton" ng-click="login('google')">
+                            <span class="fa fa-google"></span> Sign in with Google
+                        </a>
+                        <br>
+                        <a class="btn btn-block btn-social btn-github loginButton" ng-click="login('github')">
+                            <span class="fa fa-github"></span> Sign in with GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="loginRow" ng-hide="true">
-            <label for="email" class="editLabelWidth">e-mail</label>
-            <input type="email" ng-model="email" id="email" class="form-control">
-        </div>
-        <div class="loginRow" ng-hide="true">
-            <label for="password" class="editLabelWidth">password</label>
-            <input type="password" ng-model="password" id="password" class="form-control">
-        </div>
-        <div class="center">
-            <button class="btn btn-default loginButton" ng-click="login()" ng-hide="true">login</button>
-            <a class="btn btn-block btn-social btn-google loginButton" ng-click="login('google')">
-                <span class="fa fa-google"></span> Sign in with Google
-            </a>
-            <a class="btn btn-block btn-social btn-github loginButton" ng-click="login('github')">
-                <span class="fa fa-github"></span> Sign in with GitHub
-            </a>
-        </div>
+        <div>Hops by Mark Caron from the Noun Project (<a href="http://creativecommons.org/licenses/by/3.0/us/">CC</a>)</div>
     </div>
 </div>
-<div>Hops by Mark Caron from the Noun Project (<a href="http://creativecommons.org/licenses/by/3.0/us/">CC</a>)</div>

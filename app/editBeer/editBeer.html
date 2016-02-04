@@ -1,6 +1,14 @@
-<ul class="nav">
-    <li role="presentation" class="active"><a href="#/beerList">Hem</a></li>
-</ul>
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo right">
+        <img src="{{user.picture}}" alt="Profilbild" class="resize" >
+      {{user.displayName}}
+    </a>
+    <ul id="nav-mobile" class="left hide-on-med-and-down">
+      <li><a href="#/beerList">Hem</a></li>
+    </ul>
+  </div>
+</nav>
 <div class="containerDiv">
     <div class="panel panel-default width100">
         <div class="panel-heading">
@@ -227,3 +235,4 @@
     <span>Publik <input type="checkbox" ng-model="beer.public"></span>
     <span class="alert alert-success" role="alert" ng-if="saved">Sparad</span>
 </div>
+<div after-render="afterRender"></div>

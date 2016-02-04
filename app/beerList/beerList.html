@@ -1,19 +1,21 @@
-<ul class="nav nav-tabs marginTop10px">
-    <li role="presentation" class="active"><a href="#/beerList">Öllista</a></li>
-    <li role="presentation"><a href="#/ingredients">Ingredienser</a></li>
-    <li role="presentation"><a href="#/profiles">Profiler</a></li>
-    <li role="presentation">
-        <img src="{{user.picture}}" alt="Profilbild" class="resize" >
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right">
+          <img src="{{user.picture}}" alt="Profilbild" class="resize" >
         {{user.displayName}}
-    </li>
-</ul>
+      </a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li class="active"><a href="#/beerList">Öllista</a></li>
+        <li><a href="#/ingredients">Ingredienser</a></li>
+        <li><a href="#/profiles">Profiler</a></li>
+        <li><a ng-click="logout()">Logga ut</a></li>
+      </ul>
+    </div>
+  </nav>
 <div class="containerDiv">
     <div class="newBeerButton">
-        <button ng-click="newBeer()" class="btn btn-default" ng-disabled="!beerList || beerList.length >= 20">Ny öl</button>
+        <button ng-click="newBeer()" class="waves-effect waves-light btn" ng-disabled="!beerList || beerList.length >= 20">Ny öl</button>
         <span ng-if="beerList.length >= 20">Max antal recept sparade</span>
-    </div>
-    <div class="logOutButton">
-        <button ng-click="logout()" class="btn btn-default">Logga ut</button>
     </div>
     <table class="table beerTable" ng-if="beerListAvailable">
         <thead>
@@ -25,9 +27,9 @@
                 <th class="width6">ABV</th>
                 <th class="width6">IBU</th>
                 <th class="width10" colspan="2">Färg</th>
-                <th class="width6">Redigera</th>
-                <th class="width6">Publik</th>
-                <th class="width6">Ta bort</th>
+                <th class="width6"></th>
+                <th class="width6"></th>
+                <th class="width6"></th>
             </tr>
         </thead>
         <tbody ng-repeat="beer in beerList"
@@ -41,9 +43,9 @@
                 <td>{{ getIBU(beer) | number : 0 }}</td>
                 <td>{{ beer.color | number: 1 }} EBC</td>
                 <td style="background-color: {{ getColor(beer) }}"></td>
-                <td><button class="btn btn-default glyphicon glyphicon-edit" ng-click="edit(beer)"></td>
-                <td><button class="btn btn-default glyphicon glyphicon-globe" ng-click="openPublic(user.authData.uid, beer.$id)" ng-if='beer.public'></td>
-                <td><button class="btn btn-default glyphicon glyphicon-minus" ng-click="remove(beer)"></button></td>
+                <td><button class="btn-floating btn waves-effect waves-light red" ng-click="edit(beer)"><i class="material-icons">mode_edit</i></button></td>
+                <td><button class="btn-floating btn waves-effect waves-light red" ng-click="openPublic(user.authData.uid, beer.$id)" ng-if='beer.public'><i class="material-icons">open_in_new</i></button></td>
+                <td><button class="btn-floating btn waves-effect waves-light red" ng-click="remove(beer)"><i class="material-icons">delete</i></button></td>
             </tr>
             <tr ng-if="openIndex == $index">
                 <td colspan="11">
@@ -74,7 +76,17 @@
             </tr>
         </tbody>
     </table>
-    <img src="squares.gif" alt="Laddar" class="loadingIcon" ng-if="!beerListAvailable">
+      <div class="preloader-wrapper big active loadingIcon" ng-if="!beerListAvailable">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
     <table class='table beerTable' ng-if="publicListAvailable">
         <thead>
             <tr>
@@ -87,9 +99,19 @@
             <tr ng-if='beer.owner !== user.authData.uid'>
                 <td>{{beer.name}}</td>
                 <td>{{beer.fullStyle.name}}
-                <td><button class="btn btn-default glyphicon glyphicon-globe" ng-click="openPublic(user.authData.uid, beer.id)"></td>
+                <td><button class="btn-floating btn waves-effect waves-light red" ng-click="openPublic(user.authData.uid, beer.$id)"><i class="material-icons">open_in_new</i></button></td>
             </tr>
         </tbody>
     </table>
-    <img src="squares.gif" alt="Laddar" class="loadingIcon" ng-if="!publicListAvailable && beerListAvailable">
+      <div class="preloader-wrapper big active loadingIcon" ng-if="!publicListAvailable && beerListAvailable">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
 </div>

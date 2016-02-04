@@ -14,11 +14,22 @@ and open the template in the editor.
 }
 
 .loginButton {
-    width: 60% !important;
-    margin-top: 10px;
+    width: 100% !important;
 }
 
 .loginRow {
     margin-top: 10px;
     width: 100%;
+}
+
+.valign-card-wrapper {
+    text-align: center;
+}
+
+.valign-card {
+    display: inline-block;
+}
+
+.loginImg {
+    width: 100% !important;
 }

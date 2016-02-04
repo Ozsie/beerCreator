@@ -14,6 +14,8 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         $location.path('login');
     }
     
+    $scope.user = User;
+    
     BeerStyles.getStyles().$loaded().then(function(styles) {
         $scope.styles = styles;
         $scope.tempBeer = EditBeer.getBeerToEdit();

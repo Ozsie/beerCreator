@@ -1,0 +1,10 @@
+<div class="row">
+    <div class="input-field col s6">
+        <input ng-model="value1" class="validate" id="row1" type='{{type1}}'>
+        <label for="row1" class="active">{{label1}}</label>
+    </div>
+    <div class="input-field col s6" ng-if="!onlyOne">
+        <input ng-model="value2" class="validate" id="row2" type='{{type2}}'>
+        <label for="row2" class="active">{{label2}}</label>
+    </div>
+</div>

@@ -8,6 +8,7 @@ angular.module('beerCreator', [
   'beerCreator.editBeer',
   'beerCreator.profiles',
   'beerCreator.services',
+  'beerCreator.directives',
   'beerCreator.filters',
   'beerCreator.login',
   'beerCreator.public'
