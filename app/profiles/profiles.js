@@ -64,19 +64,27 @@ angular.module('beerCreator.profiles', ['ngRoute'])
         $scope.cancel();
     };
     
-    $scope.updateBoilVolume = function() {
-        if ($scope.beer.equipment && $scope.beer.equipment.boiler.calculatBoilVolume) {
+    $scope.$watch(function() {
+        return $scope.beer;
+    }, function() {
+        if ($scope.beer && $scope.beer.equipment && $scope.beer.equipment.boiler && $scope.beer.equipment.boiler.calculatBoilVolume) {
             var boiler = $scope.beer.equipment.boiler;
             boiler.boilVolume = $scope.beer.equipment.batchSize + boiler.boilOff + boiler.coolingLoss + boiler.kettleTopUp;
             boiler.postBoilVolume = boiler.boilVolume - boiler.boilOff - boiler.kettleTopUp;
         }
-    };
+    }, true);
     
     $scope.$on("$destroy", function(){
-        $scope.equipmentList.$destroy();
-        $scope.fermentationProfiles.$destroy();
-        $scope.mashProfiles.$destroy();
+        tryDestroy($scope.equipmentList);
+        tryDestroy($scope.fermentationProfiles);
+        tryDestroy($scope.mashProfiles);
     });
+
+    var tryDestroy = function(object) {
+        if (object) {
+            object.$destroy();
+        }
+    }
     
     $scope.addMashStep = function(mash) {
         if (!mash) {

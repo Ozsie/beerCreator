@@ -1,10 +1,22 @@
 <div class="row">
     <div class="input-field col s6">
-        <input ng-model="value1" class="validate" id="row1" type='{{type1}}'>
-        <label for="row1" class="active">{{label1}}</label>
+        <div ng-hide="type1 === 'checkbox'">
+            <input ng-model="value1" class="validate" id="row1" type='{{type1}}'>
+            <label for="row1" class="active">{{label1}}</label>
+        </div>
+        <p ng-show="type1 === 'checkbox'">
+            <check-button toggle="value1" label="label1">
+        </p>
     </div>
-    <div class="input-field col s6" ng-if="!onlyOne">
-        <input ng-model="value2" class="validate" id="row2" type='{{type2}}'>
-        <label for="row2" class="active">{{label2}}</label>
+    <div ng-hide="onlyOne">
+        <div class="input-field col s6">
+        <div ng-hide="type2 === 'checkbox'">
+            <input ng-model="value2" class="validate" id="row2" type='{{type2}}'>
+            <label for="row2" class="active">{{label2}}</label>
+        </div>
+        <p ng-show="type2 === 'checkbox'">
+            <check-button toggle="value2" label="label2">
+        </p>
+        </div>
     </div>
 </div>

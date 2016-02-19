@@ -72,6 +72,14 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
         $scope.add(editedIngredient);
     };
     
+    $scope.saveMisc = function(editedIngredient) {
+        $scope.add(editedIngredient);
+    };
+    
+    $scope.saveYeast = function(editedIngredient) {
+        $scope.add(editedIngredient);
+    };
+    
     $scope.cancelNewIngredient = function() {
         $scope.cancel();
     };

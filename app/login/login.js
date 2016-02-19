@@ -9,7 +9,7 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('LoginCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$location', 'User', function($scope, $firebaseAuth, $firebaseArray, $location, User) {
+.controller('LoginCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$firebaseObject', '$location', 'User', function($scope, $firebaseAuth, $firebaseArray, $firebaseObject, $location, User) {
     var ref = new Firebase("https://luminous-heat-8761.firebaseio.com");
     $scope.authObj = $firebaseAuth(ref);
         
@@ -30,12 +30,26 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
             var loginLogRef = new Firebase("https://luminous-heat-8761.firebaseio.com/loginLog/");
             var loginLog = $firebaseArray(loginLogRef);
             
+            loginLog.$loaded().then(function (data){ 
+                loginLog.$add({uid: authData.uid, displayName: authData[provider].displayName, time: Firebase.ServerValue.TIMESTAMP});
+                if (loginLog.length > 50) {
+                    loginLog.$remove(0);
+                }
+            });
+            
+            var userRef = new Firebase("https://luminous-heat-8761.firebaseio.com/users/" + authData.uid);
+            var user = $firebaseObject(userRef);
+            
+            user.$loaded().then(function (data) {
+                if (!data.$value) {
+                    data.$value = {displayName: authData[provider].displayName};
+                    data.$save();
+                }
+            });
+            
+            
             User.login(authData);
             $location.path('beerList');
-            loginLog.$add({uid: authData.uid, displayName: authData[provider].displayName, time: Firebase.ServerValue.TIMESTAMP});
-            if (loginLog.length > 50) {
-                loginLog.$remove(0);
-            }
         }).catch(function(error) {
             console.log("Login Failed!", error);
         });

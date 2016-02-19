@@ -1,100 +1,61 @@
-<div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Grund</h3>
+<div class="row">
+    <form class="col s12">
+        <div class="row">
+            <div class="input-field col s12">
+                <h3 class="panel-title">Grund</h3>
+            </div>
         </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment1" class="editLabelWidth">Namn</label>
-                    <input ng-model="beer.equipment.name" class="form-control editInputWidth" id="equipment1">
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment14" class="editLabelWidth">Satsstorlek</label>
-                    <input ng-model="beer.equipment.batchSize" class="form-control editInputWidth" id="equipment14" type="number">
-                </div>
-                
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment2" class="editLabelWidth">Effektivitet</label>
-                    <input ng-model="beer.equipment.efficiency" class="form-control editInputWidth" id="equipment2" type="number">
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment2" class="editLabelWidth">Humleanvändning</label>
-                    <input ng-model="beer.equipment.hopUtilization" class="form-control editInputWidth" id="equipment2" type="number">
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Mäsk/siltunna</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment3" class="editLabelWidth">Volym</label>
-                    <input ng-model="beer.equipment.mashLauterTun.volume" class="form-control editInputWidth" id="equipment3" ng-change="updateBoilVolume()"> l
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment4" class="editLabelWidth">Massa</label>
-                    <input ng-model="beer.equipment.mashLauterTun.mass" class="form-control editInputWidth" id="equipment4"> g
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment5" class="editLabelWidth">Värmekapacitet</label>
-                    <input ng-model="beer.equipment.mashLauterTun.specificHeat" class="form-control editInputWidth" id="equipment5" type="number">
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment6" class="editLabelWidth">Oanvändbart utrymme</label>
-                    <input ng-model="beer.equipment.mashLauterTun.deadSpace" class="form-control editInputWidth" id="equipment6" type="number" ng-change="updateBoilVolume()"> l
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment7" class="editLabelWidth">Hänsyn till oanvändbart utrymme</label>
-                    <input ng-model="beer.equipment.mashLauterTun.adjustVolumeForDeadSpace" class="form-control editInputWidth" id="equipment7" type="checkbox" ng-change="updateBoilVolume()">
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Kokare</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment8" class="editLabelWidth">Fyll ut kokning</label>
-                    <input ng-model="beer.equipment.boiler.kettleTopUp" class="form-control editInputWidth" id="equipment8" type="number" ng-change="updateBoilVolume()">
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment9" class="editLabelWidth">Räkna ut kokvolym</label>
-                    <input ng-model="beer.equipment.boiler.calculatBoilVolume" class="form-control editInputWidth" id="equipment9" type="checkbox" ng-change="updateBoilVolume()">
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25" >
-                    <label for="equipment10" class="editLabelWidth">Kokvolym</label>
-                    <input ng-model="beer.equipment.boiler.boilVolume" class="form-control editInputWidth" id="equipment10" type="number" ng-disabled="beer.equipment.boiler.calculatBoilVolume">
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment11" class="editLabelWidth">Koktid</label>
-                    <input ng-model="beer.equipment.boiler.boilTime" class="form-control editInputWidth" id="equipment11" type="number">
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment12" class="editLabelWidth">Avkokningsförlust</label>
-                    <input ng-model="beer.equipment.boiler.boilOff" class="form-control editInputWidth" id="equipment12" type="number">
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment13" class="editLabelWidth">Kylningsförlust</label>
-                    <input ng-model="beer.equipment.boiler.coolingLoss" class="form-control editInputWidth" id="equipment13" type="number">
-                </div>
-            </form>
-        </div>
-    </div>
+        <ingredient-row value1="beer.equipment.name" label1="'Namn'" type1="'text'"
+                        value2="beer.equipment.batchSize" label2="'Satsstorlek'" type2="'number'">
+        </ingredient-row>
+        
+        <ingredient-row value1="beer.equipment.efficiency" label1="'Effektivitet'" type1="'number'"
+                        value2="beer.equipment.hopUtilization" label2="'Humleanvändning'" type2="'text'">
+        </ingredient-row>
+    </form>
 </div>
+
+<div class="row">
+    <form class="col s12">
+        <div class="row">
+            <div class="input-field col s12">
+                <h3 class="panel-title">Mäsk/siltunna</h3>
+            </div>
+        </div>
+        <ingredient-row value1="beer.equipment.mashLauterTun.volume" label1="'Volym (l)'" type1="'number'"
+                        value2="beer.equipment.mashLauterTun.mass" label2="'Massa (g)'" type2="'number'">
+        </ingredient-row>
+        
+        <ingredient-row value1="beer.equipment.mashLauterTun.specificHeat" label1="'Värmekapacitet'" type1="'number'"
+                        value2="beer.equipment.mashLauterTun.deadSpace" label2="'Oanvändbart utrymme (l)'" type2="'number'">
+        </ingredient-row>
+        
+        <ingredient-row value1="beer.equipment.mashLauterTun.adjustVolumeForDeadSpace" label1="'Hänsyn till oanvändbart utrymme'" type1="'checkbox'" one="true" ></ingredient-row>
+    </form>
+</div>
+
+<div class="row">
+    <form class="col s12" action="#">
+        <div class="row">
+            <div class="input-field col s12">
+                <h3 class="panel-title">Kokare</h3>
+            </div>
+        </div>
+        <ingredient-row value1="beer.equipment.boiler.kettleTopUp" label1="'Fyll ut kokning (l)'" type1="'number'"
+                        value2="beer.equipment.boiler.calculatBoilVolume" label2="'Räkna ut kokvolym'" type2="'checkbox'">
+        </ingredient-row>
+        
+        <ingredient-row value1="beer.equipment.boiler.boilVolume" label1="'Kokvolym (l)'" type1="'number'"
+                        value2="beer.equipment.boiler.boilTime" label2="'Koktid (min)'" type2="'number'">
+        </ingredient-row>
+        
+        <ingredient-row value1="beer.equipment.boiler.boilOff" label1="'Avkokningsförlust (l)'" type1="'number'"
+                        value2="beer.equipment.boiler.coolingLoss" label2="'Kylningsförlust (l)'" type2="'number'">
+        </ingredient-row>
+
+        <ingredient-button-row save="save()"
+                               cancel="cancel()">
+        </ingredient-button-row>
+    </form>
+</div>
+<div after-render="afterRender"></div>
