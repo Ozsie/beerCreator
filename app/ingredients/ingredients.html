@@ -66,7 +66,13 @@
                 </td>
                 <td ng-if="grain.user.displayName">{{grain.user.displayName}}</td>
                 <td ng-if="!grain.user.displayName"></td>
-                <td><button class="btn btn-default glyphicon glyphicon-minus" ng-if="user.authData.uid && user.authData.uid === grain.user.uid" ng-click="remove(grain)"></button></td>
+                <td>
+                    <a class="waves-effect waves-light btn" ng-click="remove(grain)" ng-if="user.authData.uid && user.authData.uid === grain.user.uid">
+                        <i class="material-icons left" ng-if="toggle">
+                            delete
+                        </i>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -90,7 +96,13 @@
                 <td>{{ (hop.alpha * 100) | number: 1 }} %</td>
                 <td ng-if="hop.user.displayName">{{hop.user.displayName}}</td>
                 <td ng-if="!hop.user.displayName"></td>
-                <td><button class="btn btn-default glyphicon glyphicon-minus" ng-if="user.authData.uid && user.authData.uid === hop.user.uid" ng-click="remove(hop)"></button></td>
+                <td>
+                    <a class="waves-effect waves-light btn" ng-click="remove(hop)" ng-if="user.authData.uid && user.authData.uid === hop.user.uid">
+                        <i class="material-icons left" ng-if="toggle">
+                            delete
+                        </i>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -118,7 +130,13 @@
                 <td>{{ yeast.bestFor }}</td>
                 <td ng-if="yeast.user.displayName">{{yeast.user.displayName}}</td>
                 <td ng-if="!yeast.user.displayName"></td>
-                <td><button class="btn btn-default glyphicon glyphicon-minus" ng-if="user.authData.uid && user.authData.uid === yeast.user.uid" ng-click="remove(yeast)"></button></td>
+                <td>
+                    <a class="waves-effect waves-light btn" ng-click="remove(yeast)" ng-if="user.authData.uid && user.authData.uid === yeast.user.uid">
+                        <i class="material-icons left" ng-if="toggle">
+                            delete
+                        </i>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -142,7 +160,13 @@
                 <td>{{ misc.useIn | miscUseIn }}</td>
                 <td ng-if="misc.user.displayName">{{misc.user.displayName}}</td>
                 <td ng-if="!misc.user.displayName"></td>
-                <td><button class="btn btn-default glyphicon glyphicon-minus" ng-if="user.authData.uid && user.authData.uid === misc.user.uid" ng-click="remove(misc)"></button></td>
+                <td>
+                    <a class="waves-effect waves-light btn" ng-click="remove(misc)" ng-if="user.authData.uid && user.authData.uid === misc.user.uid">
+                        <i class="material-icons left" ng-if="toggle">
+                            delete
+                        </i>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>

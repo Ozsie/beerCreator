@@ -9,180 +9,211 @@
     </ul>
   </div>
 </nav>
+
 <div class="containerDiv">
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <form class="form-inline width100">
-                <div class="form-group width100">
-                    <h3 class="panel-title">
-                        <label for="name" class="editLabelWidth">Namn</label> <input ng-model="beer.name" class="form-control" id="name"> <span>{{ beer.$id }}</span>
-                        <button class="btn btn-default glyphicon glyphicon-globe" ng-click="openPublic(beer)" ng-if='beer.public'>
-                    </h3>
+    <!--div class="panel panel-default width100"-->
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s10">
+                        <input ng-model="beer.name" class="validate" id="beerName" type='text'>
+                        <label for="beerName" class="active">Namn</label>
+                    </div>
+                    <div class="input-field col s2">
+                        <button class="btn-floating btn waves-effect waves-light red" ng-click="openPublic(beer)" ng-if='beer.public'><i class="material-icons">open_in_new</i></button>
+                    </div>
                 </div>
             </form>
         </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width100">
-                    <label for="style" class="editLabelWidth">Stil</label>
-                    <select ng-model="beer.parentStyle" id="style" class="form-control" convert-to-number
-                            ng-options="style.id as style.name for style in styles">
-                    </select>
-                    <select ng-model="beer.style" ng-show="subStyles" class="form-control" convert-to-number
-                            ng-options="style.id as style.name for style in subStyles">
-                    </select>
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <select ng-model="beer.parentStyle" id="style" class="browser-default" convert-to-numbers
+                                ng-options="style.id as style.name for style in styles">
+                        </select>
+                        <label for="style" class="editLabelWidth">Stil</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <select ng-model="beer.style" ng-show="subStyles" convert-to-number class="browser-default"
+                                ng-options="style.id as style.name for style in subStyles">
+                        </select>
+                    </div>
                 </div>
             </form>
-            <div>
-                <ul>
-                    <li>ABV: {{ beer.abv | number: 2}} % ({{beer.fullStyle.abvMin}} - {{beer.fullStyle.abvMax}})</li>
-                    <li>IBU: {{ beer.ibu | number: 2 }} ({{beer.fullStyle.ibuMin}} - {{beer.fullStyle.ibuMax}})</li>
-                    <li>OG: {{ beer.og | number: 3 }} ({{beer.fullStyle.ogMin}} - {{beer.fullStyle.ogMax}})</li>
-                    <li>FG: {{ beer.fg | number: 3 }} ({{beer.fullStyle.fgMin}} - {{beer.fullStyle.fgMax}})</li>
-                    <li>Color: {{ beer.color | number: 2 }} EBC ({{beer.fullStyle.ebcMin}} - {{beer.fullStyle.ebcMax}})</li>
-                </ul>
-            </div>
-            <div class="width100" style="background-color: {{ beerColor }}; height: 10px;"></div>
-            <table class="table editIngredientList">
-                <thead>
-                    <tr>
-                        <th>Typ</th>
-                        <th>Namn</th>
-                        <th colspan="2">Mängd</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody ng-repeat="ingredient in beer.ingredients.malts">
-                    <tr ng-click="toggleIngredient('malts', $index)">
-                        <td>{{ ingredient.type | ingredientType }}</td>
-                        <td>{{ ingredient.name }}</td>
-                        <td>
-                            <div class="input-group width100">
-                                <input ng-model="ingredient.amount" ng-change="update()" type="number" class="form-control" aria-describedby="basic-addon2">
-                                <span class="input-group-addon" id="basic-addon2">g</span>
-                            </div>
-                        </td>
-                        <td>
-                            <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
-                        </td>
-                        <td>
-                            <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'malts')"></button>
-                        </td>
-                    </tr>
-                    <tr ng-show="editIndex == $index && editType == 'malts'">
-                        <td colspan="5">
-                            <div ng-include="'editBeer/editMalt.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody ng-repeat="ingredient in beer.ingredients.hops">
-                    <tr ng-click="toggleIngredient('hops', $index)">
-                        <td>{{ ingredient.type | ingredientType }}</td>
-                        <td>{{ ingredient.name }}</td>
-                        <td>
-                            <div class="input-group width100">
-                                <input ng-model="ingredient.amount" type="number" class="form-control" aria-describedby="basic-addon2" ng-change="update()">
-                                <span class="input-group-addon" id="basic-addon2">g</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group width100">
-                                <input ng-model="ingredient.time" type="number" class="form-control" aria-describedby="basic-addon2" ng-change="update()">
-                                <span class="input-group-addon" id="basic-addon2">min</span>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'hops')"></button>
-                        </td>
-                    </tr>
-                    <tr ng-show="editIndex == $index && editType == 'hops'">
-                        <td colspan="5">
-                            <div ng-include="'editBeer/editHops.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody ng-repeat="ingredient in beer.ingredients.misc">
-                    <tr>
-                        <td>{{ ingredient.type | ingredientType }}</td>
-                        <td>{{ ingredient.name }}</td>
-                        <td colspan="2">
-                            <div class="input-group width100">
-                                <input ng-model="ingredient.amount" type="number" class="form-control" aria-describedby="basic-addon2" ng-change="update()">
-                                <span class="input-group-addon" id="basic-addon2">{{ ingredient.unit }}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'misc')"></button>
-                        </td>
-                    </tr>
-                    <tr ng-show="editIndex == $index && editType == 'misc'">
-                        <td colspan="5">
-                            <div ng-include="'editBeer/editMisc.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody ng-repeat="ingredient in beer.ingredients.yeasts">
-                    <tr ng-click="toggleIngredient('yeasts', $index)">
-                        <td>{{ ingredient.type | ingredientType }}</td>
-                        <td>{{ ingredient.name }}</td>
-                        <td colspan="2">
-                            <div class="input-group width100">
-                                <input ng-model="ingredient.amount" type="number" class="form-control" aria-describedby="basic-addon2">
-                                <span class="input-group-addon" id="basic-addon2">pkg</span>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'yeasts')"></button>
-                        </td>
-                    </tr>
-                    <tr ng-show="editIndex == $index && editType == 'yeasts'">
-                        <td colspan="5">
-                            <div ng-include="'editBeer/editYeast.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>
-                            <select ng-model="newIngredientType" class="form-control">
-                                <option value="malt">Malt</option>
-                                <option value="hops">Humle</option>
-                                <option value="yeasts">Jäst</option>
-                                <option value="misc">Övrigt</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select ng-model="selectedIngredient" ng-show="newIngredientType == 'malt'" class="form-control">
-                                <option ng-repeat="malt in grainList" value="{{malt.name}}">{{ malt.name }} / {{ malt.color }} EBC / {{ malt.yield * 100 }} / {{malt.origin}}</option>
-                            </select>
-                            <select ng-model="selectedIngredient" ng-show="newIngredientType == 'hops'" class="form-control">
-                                <option ng-repeat="hop in hopList" value="{{hop.name}}">{{ hop.name }} / {{ hop.alpha }} / {{ hop.origin }}</option>
-                            </select>
-                            <select ng-model="selectedIngredient" ng-show="newIngredientType == 'yeasts'" class="form-control">
-                                <option ng-repeat="yeast in yeastList" value="{{yeast.name}}">{{ yeast.productId }} {{ yeast.name }} / {{ yeast.minAttenuation }} / {{ yeast.bestFor }}</option>
-                            </select>
-                            <select ng-model="selectedIngredient" ng-show="newIngredientType == 'misc'" class="form-control">
-                                <option ng-repeat="misc in miscList" value="{{misc.name}}">{{ misc.name }}</option>
-                            </select>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr ng-show="editedIngredient">
-                        <td colspan="5">
-                            <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'"></div>
-                            <div ng-include="'editBeer/editHops.html'" ng-if="newIngredientType == 'hops'"></div>
-                            <div ng-include="'editBeer/editYeast.html'" ng-if="newIngredientType == 'yeasts'"></div>
-                            <div ng-include="'editBeer/editMisc.html'" ng-if="newIngredientType == 'misc'"></div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        </div>
+    <!--/div-->
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ABV</th>
+                <th>IBU</th>
+                <th>OG</th>
+                <th>FG</th>
+                <th>Color</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ beer.abv | number: 2}} % ({{beer.fullStyle.abvMin}} - {{beer.fullStyle.abvMax}})</td>
+                <td>{{ beer.ibu | number: 2 }} ({{beer.fullStyle.ibuMin}} - {{beer.fullStyle.ibuMax}})</td>
+                <td>{{ beer.og | number: 3 }} ({{beer.fullStyle.ogMin}} - {{beer.fullStyle.ogMax}})</td>
+                <td>{{ beer.fg | number: 3 }} ({{beer.fullStyle.fgMin}} - {{beer.fullStyle.fgMax}})</td>
+                <td>{{ beer.color | number: 2 }} EBC ({{beer.fullStyle.ebcMin}} - {{beer.fullStyle.ebcMax}})</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="width100" style="background-color: {{ beerColor }}; height: 10px;"></div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Typ</th>
+                <th>Namn</th>
+                <th colspan="2">Mängd</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="ingredient in beer.ingredients.malts">
+            <tr ng-click="toggleIngredient('malts', $index)">
+                <td>{{ ingredient.type | ingredientType }}</td>
+                <td>{{ ingredient.name }}</td>
+                <td>
+                    <div class="input-group width100">
+                        <input ng-model="ingredient.amount" ng-change="update()" type="number" aria-describedby="basic-addon2">
+                        <span class="input-group-addon" id="basic-addon2">g</span>
+                    </div>
+                </td>
+                <td>
+                    <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                </td>
+                <td>
+                    <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'malts')"></button>
+                </td>
+            </tr>
+            <tr ng-show="editIndex == $index && editType == 'malts'">
+                <td colspan="5">
+                    <div ng-include="'editBeer/editMalt.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-repeat="ingredient in beer.ingredients.hops">
+            <tr ng-click="toggleIngredient('hops', $index)">
+                <td>{{ ingredient.type | ingredientType }}</td>
+                <td>{{ ingredient.name }}</td>
+                <td>
+                    <div class="input-group width100">
+                        <input ng-model="ingredient.amount" type="number" aria-describedby="basic-addon2" ng-change="update()">
+                        <span class="input-group-addon" id="basic-addon2">g</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group width100">
+                        <input ng-model="ingredient.time" type="number" aria-describedby="basic-addon2" ng-change="update()">
+                        <span class="input-group-addon" id="basic-addon2">min</span>
+                    </div>
+                </td>
+                <td>
+                    <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'hops')"></button>
+                </td>
+            </tr>
+            <tr ng-show="editIndex == $index && editType == 'hops'">
+                <td colspan="5">
+                    <div ng-include="'editBeer/editHops.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-repeat="ingredient in beer.ingredients.misc">
+            <tr>
+                <td>{{ ingredient.type | ingredientType }}</td>
+                <td>{{ ingredient.name }}</td>
+                <td colspan="2">
+                    <div class="input-group width100">
+                        <input ng-model="ingredient.amount" type="number" aria-describedby="basic-addon2" ng-change="update()">
+                        <span class="input-group-addon" id="basic-addon2">{{ ingredient.unit }}</span>
+                    </div>
+                </td>
+                <td>
+                    <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'misc')"></button>
+                </td>
+            </tr>
+            <tr ng-show="editIndex == $index && editType == 'misc'">
+                <td colspan="5">
+                    <div ng-include="'editBeer/editMisc.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-repeat="ingredient in beer.ingredients.yeasts">
+            <tr ng-click="toggleIngredient('yeasts', $index)">
+                <td>{{ ingredient.type | ingredientType }}</td>
+                <td>{{ ingredient.name }}</td>
+                <td colspan="2">
+                    <div class="input-group width100">
+                        <input ng-model="ingredient.amount" type="number" aria-describedby="basic-addon2">
+                        <span class="input-group-addon" id="basic-addon2">pkg</span>
+                    </div>
+                </td>
+                <td>
+                    <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'yeasts')"></button>
+                </td>
+            </tr>
+            <tr ng-show="editIndex == $index && editType == 'yeasts'">
+                <td colspan="5">
+                    <div ng-include="'editBeer/editYeast.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
+                </td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td>
+                    <select ng-model="newIngredientType" class="browser-default">
+                        <option value="malt">Malt</option>
+                        <option value="hops">Humle</option>
+                        <option value="yeasts">Jäst</option>
+                        <option value="misc">Övrigt</option>
+                    </select>
+                </td>
+                <td>
+                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'malt'" class="browser-default">
+                        <option ng-repeat="malt in grainList" value="{{malt.name}}">{{ malt.name }} / {{ malt.color }} EBC / {{ malt.yield * 100 }} / {{malt.origin}}</option>
+                    </select>
+                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'hops'" class="browser-default">
+                        <option ng-repeat="hop in hopList" value="{{hop.name}}">{{ hop.name }} / {{ hop.alpha }} / {{ hop.origin }}</option>
+                    </select>
+                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'yeasts'" class="browser-default">
+                        <option ng-repeat="yeast in yeastList" value="{{yeast.name}}">{{ yeast.productId }} {{ yeast.name }} / {{ yeast.minAttenuation }} / {{ yeast.bestFor }}</option>
+                    </select>
+                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'misc'" class="browser-default">
+                        <option ng-repeat="misc in miscList" value="{{misc.name}}">{{ misc.name }}</option>
+                    </select>
+                </td>
+                <td></td>
+            </tr>
+            <tr ng-show="editedIngredient">
+                <td colspan="5">
+                    <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'"></div>
+                    <div ng-include="'editBeer/editHops.html'" ng-if="newIngredientType == 'hops'"></div>
+                    <div ng-include="'editBeer/editYeast.html'" ng-if="newIngredientType == 'yeasts'"></div>
+                    <div ng-include="'editBeer/editMisc.html'" ng-if="newIngredientType == 'misc'"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="containerDiv">
+    <div class="panel panel-default width100">
+        <div class="panel-body">
+            
+            
             <div class="panel panel-default width100">
                 <div class="panel-heading" ng-click="showEditEquipment = !showEditEquipment">
                     <div class="form-group width100">
                         <form class="form-inline width100">
                             <label for="equipment" class="editLabelWidth">Utrustning</label>
-                            <select ng-model="beer.equipment" id="equipment" class="form-control"
+                            <select ng-model="beer.equipment" id="equipment" class="browser-default"
                                     ng-options="equipment as equipment.name for equipment in equipmentList"
                                     ng-change='updateBoilVolume(); update();'>
                             </select>
@@ -200,7 +231,7 @@
                     <div class="form-group width100">
                         <form class="form-inline width100">
                             <label for="mash" class="editLabelWidth">Mäskningsprofil</label>
-                            <select ng-model="beer.mash" id="mash" class="form-control"
+                            <select ng-model="beer.mash" id="mash" class="browser-default"
                                     ng-options="mashProfile as mashProfile.name for mashProfile in mashProfiles"
                                     ng-change='update();'>
                             </select>
@@ -218,7 +249,7 @@
                     <div class="form-group width100">
                         <form class="form-inline width100">
                             <label for="fermentation" class="editLabelWidth">Jäsningsprofil</label>
-                            <select ng-model="beer.fermentation" id="fermentation" class="form-control"
+                            <select ng-model="beer.fermentation" id="fermentation" class="browser-default"
                                     ng-options="fermentationProfile as fermentationProfile.name for fermentationProfile in fermentationProfiles"
                                     ng-change='update();'>
                             </select>
