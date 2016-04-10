@@ -1,5 +1,5 @@
-<ng-include src="'menu/menu.html'"></ng-include>
-<div class="containerDiv">
+<div>
+    <menu beer-list='beerList' style="padding-left: 0px" logout="logout" log-out-allowed="true" new-beer="newBeer"></menu>
     <md-list>
         <md-subheader class="md-no-sticky" ng-if="beerListAvailable">{{user.displayName}}s öl</md-subheader>
         <md-list-item ng-repeat="beer in beerList" ng-click="toggle(beer, $index)" class="noright" ng-if="beerListAvailable">

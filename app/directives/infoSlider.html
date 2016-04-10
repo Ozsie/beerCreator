@@ -1,0 +1,7 @@
+<md-slider-container ng-disabled="isDisabled">
+    <span>{{header}}</span><span>{{min | number: 3}}</span>
+    <md-slider ng-model="value" aria-label="ABV" flex md-discrete ng-readonly="readonly" ng-disabled="true" min='min' max='max'></md-slider>
+    <span ng-if='value'>{{value | number: 3}}</span>
+    <span ng-if='!value'>0.000</span>
+    <span>{{max | number: 3}}</span>
+</md-slider-container>

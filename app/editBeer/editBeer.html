@@ -1,4 +1,6 @@
-<ng-include src="'menu/menu.html'"></ng-include>
+<div>
+    <menu style="padding-left: 0px" log-out-allowed="false"></menu>
+</div>
 <div class="containerDiv">
     <md-input-container class="md-block" flex-gt-sm>
         <label>Namn</label>
@@ -22,136 +24,89 @@
         </md-select>
     </md-input-container>
     <md-divider></md-divider>
-    <md-slider-container ng-disabled="isDisabled">
-        <span>ABV</span><span>{{beer.fullStyle.abvMin | number: 2}}</span>
-        <md-slider ng-model="beer.abv" aria-label="ABV" flex md-discrete ng-readonly="readonly"></md-slider>
-        <span>{{beer.abv | number: 2}}</span>
-        <span>{{beer.fullStyle.abvMax}}</span>
-    </md-slider-container>
-    <md-slider-container ng-disabled="isDisabled">
-        <span>IBU</span><span>{{beer.fullStyle.ibuMin | number: 2}}</span>
-        <md-slider ng-model="beer.ibu" aria-label="ABV" flex md-discrete ng-readonly="readonly"></md-slider>
-        <span>{{beer.ibu | number: 2}}</span>
-        <span>{{beer.fullStyle.ibuMax}}</span>
-    </md-slider-container>
-    <md-slider-container ng-disabled="isDisabled">
-        <span>OG</span><span>{{beer.fullStyle.ogMin | number: 3}}</span>
-        <md-slider ng-model="beer.og" aria-label="ABV" flex md-discrete ng-readonly="readonly"></md-slider>
-        <span>{{beer.og | number: 2}}</span>
-        <span>{{beer.fullStyle.ogMax}}</span>
-    </md-slider-container>
-    <md-slider-container ng-disabled="isDisabled">
-        <span>FG</span><span>{{beer.fullStyle.fgMin | number: 3}}</span>
-        <md-slider ng-model="beer.fg" aria-label="ABV" flex md-discrete ng-readonly="readonly"></md-slider>
-        <span>{{beer.fg | number: 2}}</span>
-        <span>{{beer.fullStyle.fgMax}}</span>
-    </md-slider-container>
-    <md-slider-container ng-disabled="isDisabled">
-        <span>EBC</span><span>{{beer.fullStyle.ebcMin | number: 2}}</span>
-        <md-slider ng-model="beer.ebc" aria-label="ABV" flex md-discrete ng-readonly="readonly"></md-slider>
-        <span>{{beer.ebc | number: 2}}</span>
-        <span>{{beer.fullStyle.ebcMax}}</span>
-    </md-slider-container>
-    
+    <info-slider header="'ABV'" value="beer.abv" min='beer.fullStyle.abvMin' max='beer.fullStyle.abvMax'></info-slider>
+    <info-slider header="'IBU'" value="beer.ibu" min='beer.fullStyle.ibuMin' max='beer.fullStyle.ibuMax'></info-slider>
+    <info-slider header="'OG'" value="beer.og" min='beer.fullStyle.ogMin' max='beer.fullStyle.ogMax'></info-slider>
+    <info-slider header="'FG'" value="beer.fg" min='beer.fullStyle.fgMin' max='beer.fullStyle.fgMax'></info-slider>
+    <info-slider header="'EBC'" value="beer.ebc" min='beer.fullStyle.ebcMin' max='beer.fullStyle.ebcMax'></info-slider>
     <div class="width100" style="background-color: {{ beerColor}}; height: 10px;"></div>
+    <md-divider></md-divider>
+    <md-list class="md-dense" flex>
+        <md-subheader class="md-no-sticky" ng-if="beer.ingredients.malts.length > 0">Malt</md-subheader>
+        <div ng-click="toggleIngredient('malts', $index)" ng-repeat="ingredient in beer.ingredients.malts" >
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ ingredient.name}}</h3>
+                    <p>{{ ingredient.type | ingredientType }}</p>
+                </div>
+                <div class="md-list-item-text" layout="column">
+                    <h3> {{ ingredient.amount }} g</h3>
+                    <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
+                </div>
+                <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'malts')" aria-label="Chat"></md-icon>
+            </md-list-item>
+            <md-list-item ng-show="editIndex == $index && editType == 'malts'">
+                <div ng-include="'editBeer/editMalt.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
+            </md-list-item>
+        </div>
+        <md-subheader class="md-no-sticky" ng-if="beer.ingredients.hops.length > 0">Humle</md-subheader>
+        <div ng-click="toggleIngredient('hops', $index)" ng-repeat="ingredient in beer.ingredients.hops" >
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ ingredient.name}}</h3>
+                    <p>{{ ingredient.type | ingredientType }}</p>
+                </div>
+                <div class="md-list-item-text" layout="column">
+                    <h3> {{ ingredient.amount }} g</h3>
+                    <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
+                </div>
+                <div class="md-list-item-text" layout="column">
+                    <h3> {{ ingredient.time }} min</h3>
+                    <p></p>
+                </div>
+                <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'hops')" aria-label="Chat"></md-icon>
+            </md-list-item>
+            <md-list-item ng-show="editIndex == $index && editType == 'hops'">
+                <div ng-include="'editBeer/editHops.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
+            </md-list-item>
+        </div>
+        <md-subheader class="md-no-sticky" ng-if="beer.ingredients.yeasts.misc > 0">Övrigt</md-subheader>
+        <div ng-click="toggleIngredient('misc', $index)" ng-repeat="ingredient in beer.ingredients.misc" >
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ ingredient.name}}</h3>
+                    <p>{{ ingredient.type | ingredientType }}</p>
+                </div>
+                <div class="md-list-item-text" layout="column">
+                    <h3> {{ ingredient.amount }} {{ ingredient.unit}}</h3>
+                    <p></p>
+                </div>
+                <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'misc')" aria-label="Chat"></md-icon>
+            </md-list-item>
+            <md-list-item ng-show="editIndex == $index && editType == 'misc'">
+                <div ng-include="'editBeer/editMisc.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
+            </md-list-item>
+        </div>
+        <md-subheader class="md-no-sticky" ng-if="beer.ingredients.yeasts.length > 0">Jäst</md-subheader>
+        <div ng-click="toggleIngredient('yeasts', $index)" ng-repeat="ingredient in beer.ingredients.yeasts" >
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ ingredient.name}}</h3>
+                    <p>{{ ingredient.type | ingredientType }}</p>
+                </div>
+                <div class="md-list-item-text" layout="column">
+                    <h3> {{ ingredient.amount }} pkg</h3>
+                    <p></p>
+                </div>
+                <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'yeasts')" aria-label="Chat"></md-icon>
+            </md-list-item>
+            <md-list-item ng-show="editIndex == $index && editType == 'yeasts'">
+                <div ng-include="'editBeer/editYeast.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
+            </md-list-item>
+        </div>
+    </md-list>
+
     <table class="table">
-        <thead>
-            <tr>
-                <th>Typ</th>
-                <th>Namn</th>
-                <th colspan="2">Mängd</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="ingredient in beer.ingredients.malts">
-            <tr ng-click="toggleIngredient('malts', $index)">
-                <td>{{ ingredient.type | ingredientType }}</td>
-                <td>{{ ingredient.name}}</td>
-                <td>
-                    <div class="input-group width100">
-                        <input ng-model="ingredient.amount" ng-change="update()" type="number" aria-describedby="basic-addon2">
-                        <span class="input-group-addon" id="basic-addon2">g</span>
-                    </div>
-                </td>
-                <td>
-                    <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2}} %</span>
-                </td>
-                <td>
-                    <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'malts')"></button>
-                </td>
-            </tr>
-            <tr ng-show="editIndex == $index && editType == 'malts'">
-                <td colspan="5">
-                    <div ng-include="'editBeer/editMalt.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
-                </td>
-            </tr>
-        </tbody>
-        <tbody ng-repeat="ingredient in beer.ingredients.hops">
-            <tr ng-click="toggleIngredient('hops', $index)">
-                <td>{{ ingredient.type | ingredientType }}</td>
-                <td>{{ ingredient.name}}</td>
-                <td>
-                    <div class="input-group width100">
-                        <input ng-model="ingredient.amount" type="number" aria-describedby="basic-addon2" ng-change="update()">
-                        <span class="input-group-addon" id="basic-addon2">g</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="input-group width100">
-                        <input ng-model="ingredient.time" type="number" aria-describedby="basic-addon2" ng-change="update()">
-                        <span class="input-group-addon" id="basic-addon2">min</span>
-                    </div>
-                </td>
-                <td>
-                    <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'hops')"></button>
-                </td>
-            </tr>
-            <tr ng-show="editIndex == $index && editType == 'hops'">
-                <td colspan="5">
-                    <div ng-include="'editBeer/editHops.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
-                </td>
-            </tr>
-        </tbody>
-        <tbody ng-repeat="ingredient in beer.ingredients.misc">
-            <tr>
-                <td>{{ ingredient.type | ingredientType }}</td>
-                <td>{{ ingredient.name}}</td>
-                <td colspan="2">
-                    <div class="input-group width100">
-                        <input ng-model="ingredient.amount" type="number" aria-describedby="basic-addon2" ng-change="update()">
-                        <span class="input-group-addon" id="basic-addon2">{{ ingredient.unit}}</span>
-                    </div>
-                </td>
-                <td>
-                    <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'misc')"></button>
-                </td>
-            </tr>
-            <tr ng-show="editIndex == $index && editType == 'misc'">
-                <td colspan="5">
-                    <div ng-include="'editBeer/editMisc.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
-                </td>
-            </tr>
-        </tbody>
-        <tbody ng-repeat="ingredient in beer.ingredients.yeasts">
-            <tr ng-click="toggleIngredient('yeasts', $index)">
-                <td>{{ ingredient.type | ingredientType }}</td>
-                <td>{{ ingredient.name}}</td>
-                <td colspan="2">
-                    <div class="input-group width100">
-                        <input ng-model="ingredient.amount" type="number" aria-describedby="basic-addon2">
-                        <span class="input-group-addon" id="basic-addon2">pkg</span>
-                    </div>
-                </td>
-                <td>
-                    <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'yeasts')"></button>
-                </td>
-            </tr>
-            <tr ng-show="editIndex == $index && editType == 'yeasts'">
-                <td colspan="5">
-                    <div ng-include="'editBeer/editYeast.html'" ng-init="editedIngredient = ingredient; exists = true;"></div>
-                </td>
-            </tr>
-        </tbody>
         <tbody>
             <tr>
                 <td>

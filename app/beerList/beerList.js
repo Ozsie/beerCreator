@@ -187,6 +187,10 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
         return user;
     };
     
+    $scope.getBeerList = function() {
+        return $scope.beerList;
+    };
+    
     var originatorEv;
     $scope.openMenu = function($mdOpenMenu, ev) {
       originatorEv = ev;
