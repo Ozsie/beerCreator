@@ -1,70 +1,59 @@
-<nav>
-  <div class="nav-wrapper">
-    <a href="#" class="brand-logo right">
-        <img src="{{user.picture}}" alt="Profilbild" class="resize" >
-      {{user.displayName}}
-    </a>
-    <ul id="nav-mobile" class="left hide-on-med-and-down">
-      <li><a href="#/beerList">Hem</a></li>
-    </ul>
-  </div>
-</nav>
-
+<ng-include src="'menu/menu.html'"></ng-include>
 <div class="containerDiv">
-    <!--div class="panel panel-default width100"-->
-        <div class="row">
-            <form class="col s12">
-                <div class="row">
-                    <div class="input-field col s10">
-                        <input ng-model="beer.name" class="validate" id="beerName" type='text'>
-                        <label for="beerName" class="active">Namn</label>
-                    </div>
-                    <div class="input-field col s2">
-                        <button class="btn-floating btn waves-effect waves-light red" ng-click="openPublic(beer)" ng-if='beer.public'><i class="material-icons">open_in_new</i></button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="row">
-            <form class="col s12">
-                <div class="row">
-                    <div class="input-field col s12 m6">
-                        <select ng-model="beer.parentStyle" id="style" class="browser-default" convert-to-numbers
-                                ng-options="style.id as style.name for style in styles">
-                        </select>
-                        <label for="style" class="editLabelWidth">Stil</label>
-                    </div>
-                    <div class="input-field col s12 m6">
-                        <select ng-model="beer.style" ng-show="subStyles" convert-to-number class="browser-default"
-                                ng-options="style.id as style.name for style in subStyles">
-                        </select>
-                    </div>
-                </div>
-            </form>
-        </div>
-    <!--/div-->
+    <md-input-container class="md-block" flex-gt-sm>
+        <label>Namn</label>
+        <input ng-model="beer.name" type="text">
+    </md-input-container>
+    <md-icon md-svg-src="resources/ic_open_in_new_black_24px.svg" class="md-secondary md-hue-3" ng-click="openPublic(beer)" aria-label="Öppna publik länk" ng-if='beer.public'></md-icon>
+    <md-input-container class="md-block" flex-gt-sm>
+        <label>Huvudstil</label>
+        <md-select ng-model="beer.parentStyle">
+            <md-option ng-repeat="style in styles" value="{{style.id}}">
+                {{style.name}}
+            </md-option>
+        </md-select>
+    </md-input-container>
+    <md-input-container class="md-block" flex-gt-sm ng-if="beer.parentStyle">
+        <label>Understil</label>
+        <md-select ng-model="beer.style">
+            <md-option ng-repeat="style in subStyles" value="{{style.id}}">
+                {{style.name}}
+            </md-option>
+        </md-select>
+    </md-input-container>
+    <md-divider></md-divider>
+    <md-slider-container ng-disabled="isDisabled">
+        <span>ABV</span><span>{{beer.fullStyle.abvMin | number: 2}}</span>
+        <md-slider ng-model="beer.abv" aria-label="ABV" flex md-discrete ng-readonly="readonly"></md-slider>
+        <span>{{beer.abv | number: 2}}</span>
+        <span>{{beer.fullStyle.abvMax}}</span>
+    </md-slider-container>
+    <md-slider-container ng-disabled="isDisabled">
+        <span>IBU</span><span>{{beer.fullStyle.ibuMin | number: 2}}</span>
+        <md-slider ng-model="beer.ibu" aria-label="ABV" flex md-discrete ng-readonly="readonly"></md-slider>
+        <span>{{beer.ibu | number: 2}}</span>
+        <span>{{beer.fullStyle.ibuMax}}</span>
+    </md-slider-container>
+    <md-slider-container ng-disabled="isDisabled">
+        <span>OG</span><span>{{beer.fullStyle.ogMin | number: 3}}</span>
+        <md-slider ng-model="beer.og" aria-label="ABV" flex md-discrete ng-readonly="readonly"></md-slider>
+        <span>{{beer.og | number: 2}}</span>
+        <span>{{beer.fullStyle.ogMax}}</span>
+    </md-slider-container>
+    <md-slider-container ng-disabled="isDisabled">
+        <span>FG</span><span>{{beer.fullStyle.fgMin | number: 3}}</span>
+        <md-slider ng-model="beer.fg" aria-label="ABV" flex md-discrete ng-readonly="readonly"></md-slider>
+        <span>{{beer.fg | number: 2}}</span>
+        <span>{{beer.fullStyle.fgMax}}</span>
+    </md-slider-container>
+    <md-slider-container ng-disabled="isDisabled">
+        <span>EBC</span><span>{{beer.fullStyle.ebcMin | number: 2}}</span>
+        <md-slider ng-model="beer.ebc" aria-label="ABV" flex md-discrete ng-readonly="readonly"></md-slider>
+        <span>{{beer.ebc | number: 2}}</span>
+        <span>{{beer.fullStyle.ebcMax}}</span>
+    </md-slider-container>
     
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ABV</th>
-                <th>IBU</th>
-                <th>OG</th>
-                <th>FG</th>
-                <th>Color</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ beer.abv | number: 2}} % ({{beer.fullStyle.abvMin}} - {{beer.fullStyle.abvMax}})</td>
-                <td>{{ beer.ibu | number: 2 }} ({{beer.fullStyle.ibuMin}} - {{beer.fullStyle.ibuMax}})</td>
-                <td>{{ beer.og | number: 3 }} ({{beer.fullStyle.ogMin}} - {{beer.fullStyle.ogMax}})</td>
-                <td>{{ beer.fg | number: 3 }} ({{beer.fullStyle.fgMin}} - {{beer.fullStyle.fgMax}})</td>
-                <td>{{ beer.color | number: 2 }} EBC ({{beer.fullStyle.ebcMin}} - {{beer.fullStyle.ebcMax}})</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="width100" style="background-color: {{ beerColor }}; height: 10px;"></div>
+    <div class="width100" style="background-color: {{ beerColor}}; height: 10px;"></div>
     <table class="table">
         <thead>
             <tr>
@@ -77,7 +66,7 @@
         <tbody ng-repeat="ingredient in beer.ingredients.malts">
             <tr ng-click="toggleIngredient('malts', $index)">
                 <td>{{ ingredient.type | ingredientType }}</td>
-                <td>{{ ingredient.name }}</td>
+                <td>{{ ingredient.name}}</td>
                 <td>
                     <div class="input-group width100">
                         <input ng-model="ingredient.amount" ng-change="update()" type="number" aria-describedby="basic-addon2">
@@ -85,7 +74,7 @@
                     </div>
                 </td>
                 <td>
-                    <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
+                    <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> {{ getPercentage(beer, ingredient) | number: 2}} %</span>
                 </td>
                 <td>
                     <button class="glyphicon glyphicon-remove btn btn-default" ng-click="removeIngredient($index, 'malts')"></button>
@@ -100,7 +89,7 @@
         <tbody ng-repeat="ingredient in beer.ingredients.hops">
             <tr ng-click="toggleIngredient('hops', $index)">
                 <td>{{ ingredient.type | ingredientType }}</td>
-                <td>{{ ingredient.name }}</td>
+                <td>{{ ingredient.name}}</td>
                 <td>
                     <div class="input-group width100">
                         <input ng-model="ingredient.amount" type="number" aria-describedby="basic-addon2" ng-change="update()">
@@ -126,11 +115,11 @@
         <tbody ng-repeat="ingredient in beer.ingredients.misc">
             <tr>
                 <td>{{ ingredient.type | ingredientType }}</td>
-                <td>{{ ingredient.name }}</td>
+                <td>{{ ingredient.name}}</td>
                 <td colspan="2">
                     <div class="input-group width100">
                         <input ng-model="ingredient.amount" type="number" aria-describedby="basic-addon2" ng-change="update()">
-                        <span class="input-group-addon" id="basic-addon2">{{ ingredient.unit }}</span>
+                        <span class="input-group-addon" id="basic-addon2">{{ ingredient.unit}}</span>
                     </div>
                 </td>
                 <td>
@@ -146,7 +135,7 @@
         <tbody ng-repeat="ingredient in beer.ingredients.yeasts">
             <tr ng-click="toggleIngredient('yeasts', $index)">
                 <td>{{ ingredient.type | ingredientType }}</td>
-                <td>{{ ingredient.name }}</td>
+                <td>{{ ingredient.name}}</td>
                 <td colspan="2">
                     <div class="input-group width100">
                         <input ng-model="ingredient.amount" type="number" aria-describedby="basic-addon2">
@@ -175,16 +164,16 @@
                 </td>
                 <td>
                     <select ng-model="selectedIngredient" ng-show="newIngredientType == 'malt'" class="browser-default">
-                        <option ng-repeat="malt in grainList" value="{{malt.name}}">{{ malt.name }} / {{ malt.color }} EBC / {{ malt.yield * 100 }} / {{malt.origin}}</option>
+                        <option ng-repeat="malt in grainList" value="{{malt.name}}">{{ malt.name}} / {{ malt.color}} EBC / {{ malt.yield * 100}} / {{malt.origin}}</option>
                     </select>
                     <select ng-model="selectedIngredient" ng-show="newIngredientType == 'hops'" class="browser-default">
-                        <option ng-repeat="hop in hopList" value="{{hop.name}}">{{ hop.name }} / {{ hop.alpha }} / {{ hop.origin }}</option>
+                        <option ng-repeat="hop in hopList" value="{{hop.name}}">{{ hop.name}} / {{ hop.alpha}} / {{ hop.origin}}</option>
                     </select>
                     <select ng-model="selectedIngredient" ng-show="newIngredientType == 'yeasts'" class="browser-default">
-                        <option ng-repeat="yeast in yeastList" value="{{yeast.name}}">{{ yeast.productId }} {{ yeast.name }} / {{ yeast.minAttenuation }} / {{ yeast.bestFor }}</option>
+                        <option ng-repeat="yeast in yeastList" value="{{yeast.name}}">{{ yeast.productId}} {{ yeast.name}} / {{ yeast.minAttenuation}} / {{ yeast.bestFor}}</option>
                     </select>
                     <select ng-model="selectedIngredient" ng-show="newIngredientType == 'misc'" class="browser-default">
-                        <option ng-repeat="misc in miscList" value="{{misc.name}}">{{ misc.name }}</option>
+                        <option ng-repeat="misc in miscList" value="{{misc.name}}">{{ misc.name}}</option>
                     </select>
                 </td>
                 <td></td>
@@ -206,8 +195,8 @@
 <div class="containerDiv">
     <div class="panel panel-default width100">
         <div class="panel-body">
-            
-            
+
+
             <div class="panel panel-default width100">
                 <div class="panel-heading" ng-click="showEditEquipment = !showEditEquipment">
                     <div class="form-group width100">
@@ -215,7 +204,8 @@
                             <label for="equipment" class="editLabelWidth">Utrustning</label>
                             <select ng-model="beer.equipment" id="equipment" class="browser-default"
                                     ng-options="equipment as equipment.name for equipment in equipmentList"
-                                    ng-change='updateBoilVolume(); update();'>
+                                    ng-change='updateBoilVolume();
+                                                        update();'>
                             </select>
                         </form>
                     </div>
@@ -224,8 +214,8 @@
                     <div ng-include="'editBeer/editEquipment.html'" ng-show="beer.equipment"></div>
                 </div>
             </div>
-            
-            
+
+
             <div class="panel panel-default width100">
                 <div class="panel-heading" ng-click="showEditMash = !showEditMash">
                     <div class="form-group width100">
@@ -242,8 +232,8 @@
                     <div ng-include="'editBeer/editMashProfile.html'" ng-show="beer.mash"></div>
                 </div>
             </div>
-            
-            
+
+
             <div class="panel panel-default width100">
                 <div class="panel-heading" ng-click="showEditFermentation = !showEditFermentation">
                     <div class="form-group width100">

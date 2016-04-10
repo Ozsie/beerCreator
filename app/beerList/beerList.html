@@ -1,117 +1,28 @@
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo right">
-          <img src="{{user.picture}}" alt="Profilbild" class="resize" >
-        {{user.displayName}}
-      </a>
-      <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li class="active"><a href="#/beerList">Öllista</a></li>
-        <li><a href="#/ingredients">Ingredienser</a></li>
-        <li><a href="#/profiles">Profiler</a></li>
-        <li><a ng-click="logout()">Logga ut</a></li>
-      </ul>
-    </div>
-  </nav>
+<ng-include src="'menu/menu.html'"></ng-include>
 <div class="containerDiv">
-    <div class="newBeerButton">
-        <button ng-click="newBeer()" class="waves-effect waves-light btn" ng-disabled="!beerList || beerList.length >= 20">Ny öl</button>
-        <span ng-if="beerList.length >= 20">Max antal recept sparade</span>
+    <md-list>
+        <md-subheader class="md-no-sticky" ng-if="beerListAvailable">{{user.displayName}}s öl</md-subheader>
+        <md-list-item ng-repeat="beer in beerList" ng-click="toggle(beer, $index)" class="noright" ng-if="beerListAvailable">
+            <p>{{ beer.name}}</p>
+            <md-icon md-svg-src="resources/ic_open_in_new_black_24px.svg" class="md-secondary md-hue-3" ng-click="openPublic(user.authData.uid, beer.$id)" aria-label="Öppna publik länk" ng-if='beer.public'></md-icon>
+            <md-icon md-svg-src="resources/ic_mode_edit_black_24px.svg" class="md-secondary" ng-click="edit(beer)" arua-label="Redigera"></md-icon>
+            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(beer)" aria-label="Chat"></md-icon>
+        </md-list-item>
+        <md-subheader class="md-no-sticky" ng-if="beerListAvailable">Publik öl</md-subheader>
+        <md-list-item ng-repeat="beer in publicList" class="noright" ng-if="publicListAvailable && (beer.owner !== user.authData.uid)">
+            <p>{{beer.name}}</p>
+            <md-icon md-svg-src="resources/ic_open_in_new_black_24px.svg" class="md-secondary md-hue-3" ng-click="openPublic(beer.owner, beer.$id)" aria-label="Öppna publik länk"></md-icon>
+        </md-list-item>
+    </md-list>
+    <div class="preloader-wrapper big active loadingIcon" ng-if="!publicListAvailable && beerListAvailable">
+        <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div><div class="gap-patch">
+                <div class="circle"></div>
+            </div><div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
     </div>
-    <table class="table beerTable" ng-if="beerListAvailable">
-        <thead>
-            <tr>
-                <th>Namn</th>
-                <th>Stil</th>
-                <th class="width6">OG</th>
-                <th class="width6">FG</th>
-                <th class="width6">ABV</th>
-                <th class="width6">IBU</th>
-                <th class="width10" colspan="2">Färg</th>
-                <th class="width6"></th>
-                <th class="width6"></th>
-                <th class="width6"></th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="beer in beerList"
-               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
-            <tr ng-click="toggle(beer, $index)">
-                <td>{{ beer.name }}</td>
-                <td>{{ beer.fullStyle.name }}</td>
-                <td>{{ getOG(beer) | number : 3 }}</td>
-                <td>{{ getFG(beer) | number : 3 }}</td>
-                <td>{{ getABV(beer) | number : 1 }} %</td>
-                <td>{{ getIBU(beer) | number : 0 }}</td>
-                <td>{{ beer.color | number: 1 }} EBC</td>
-                <td style="background-color: {{ getColor(beer) }}"></td>
-                <td><button class="btn-floating btn waves-effect waves-light red" ng-click="edit(beer)"><i class="material-icons">mode_edit</i></button></td>
-                <td><button class="btn-floating btn waves-effect waves-light red" ng-click="openPublic(user.authData.uid, beer.$id)" ng-if='beer.public'><i class="material-icons">open_in_new</i></button></td>
-                <td><button class="btn-floating btn waves-effect waves-light red" ng-click="remove(beer)"><i class="material-icons">delete</i></button></td>
-            </tr>
-            <tr ng-if="openIndex == $index">
-                <td colspan="11">
-                    <div class="ingredientDiv">
-                        <span>Ingredienser</span>
-                        <table class="beerIngredientList">
-                            <thead>
-                                <tr>
-                                    <th>Namn</th>
-                                    <th>Mängd</th>
-                                    <th>Typ</th>
-                                </tr>
-                            </thead>
-                            <tbody ng-repeat="ingredientType in beer.ingredients">
-                                <tr ng-repeat="ingredient in ingredientType">
-                                    <td>{{ ingredient.name }}</td>
-                                    <td>
-                                        {{ ingredient.amount }} {{ ingredient.unit }}
-                                        <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'"> / {{ getPercentage(beer, ingredient) | number: 2 }} %</span>
-                                        <span ng-if="ingredient.type == 'hops'"> / {{ ingredient.time | number: 2 }} min</span>
-                                    </td>
-                                    <td>{{ ingredient.type | ingredientType }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-      <div class="preloader-wrapper big active loadingIcon" ng-if="!beerListAvailable">
-    <div class="spinner-layer spinner-blue-only">
-      <div class="circle-clipper left">
-        <div class="circle"></div>
-      </div><div class="gap-patch">
-        <div class="circle"></div>
-      </div><div class="circle-clipper right">
-        <div class="circle"></div>
-      </div>
-    </div>
-  </div>
-    <table class='table beerTable' ng-if="publicListAvailable">
-        <thead>
-            <tr>
-                <th>Namn</th>
-                <th>Stil</th>
-                <th class="width6">Publik</th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="beer in publicList">
-            <tr ng-if='beer.owner !== user.authData.uid'>
-                <td>{{beer.name}}</td>
-                <td>{{beer.fullStyle.name}}
-                <td><button class="btn-floating btn waves-effect waves-light red" ng-click="openPublic(user.authData.uid, beer.$id)"><i class="material-icons">open_in_new</i></button></td>
-            </tr>
-        </tbody>
-    </table>
-      <div class="preloader-wrapper big active loadingIcon" ng-if="!publicListAvailable && beerListAvailable">
-    <div class="spinner-layer spinner-blue-only">
-      <div class="circle-clipper left">
-        <div class="circle"></div>
-      </div><div class="gap-patch">
-        <div class="circle"></div>
-      </div><div class="circle-clipper right">
-        <div class="circle"></div>
-      </div>
-    </div>
-  </div>
 </div>

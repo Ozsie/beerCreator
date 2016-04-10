@@ -14,6 +14,7 @@
     "angular-resource": "~1.4.0",
     "angular-ui-bootstrap": "~0.5.0",
     "angular-bootstrap": "~0.5.0",
+    "angular-material": "1.1.0-rc2",
     "bootstrap": "~3.3.5",
     "jquery": "~2.1.4",
     "firebase": "~2.3.1",

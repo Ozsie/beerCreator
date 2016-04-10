@@ -7,29 +7,6 @@ and open the template in the editor.
     Created on : Aug 4, 2015, 10:51:28 AM
     Author     : Ozsie
 */
-
-.center {
-    margin: 0 auto;
-    width: 50%;
-}
-
 .loginButton {
-    width: 100% !important;
-}
-
-.loginRow {
-    margin-top: 10px;
-    width: 100%;
-}
-
-.valign-card-wrapper {
-    text-align: center;
-}
-
-.valign-card {
-    display: inline-block;
-}
-
-.loginImg {
     width: 100% !important;
 }
