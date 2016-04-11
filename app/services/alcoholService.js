@@ -41,6 +41,7 @@ alcoholService.factory('Alcohol', function() {
         }
         
         totalOg = totalOg / 1000;
+        totalOg = totalOg.toFixed(3);
         
         beer.og = totalOg;
         return totalOg;
@@ -67,6 +68,7 @@ alcoholService.factory('Alcohol', function() {
         attenuation = attenuation / beer.ingredients.yeasts.length;
         
         fg = 1 + ((1000 * (beer.og - 1) * (1 - attenuation)) / 1000);
+        fg = fg.toFixed(3);
         beer.fg = fg;
         
         return fg;
@@ -77,6 +79,7 @@ alcoholService.factory('Alcohol', function() {
         if (beer.og && beer.fg) {
             abv = (beer.og - beer.fg) * 131;
         }
+        abv = abv.toFixed(2);
         beer.abv = abv;
         return abv;
     };

@@ -1,69 +1,119 @@
-<div class="row">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s12">
-                <h3 class="panel-title">Grund</h3>
-            </div>
-        </div>
-        <ingredient-row value1="editedIngredient.name" label1="'Namn'" type1="'text'"
-                        value2="editedIngredient.useFor" label2="'Används till'" type2="'text'">
-        </ingredient-row>
-        
-        <ingredient-row value1="editedIngredient.producer" label1="'Producent'" type1="'text'"
-                        value2="editedIngredient.productId" label2="'Produkt-ID'" type2="'text'">
-        </ingredient-row>
-        
-        <ingredient-row value1="editedIngredient.minAttenuation" label1="'Min. dämpning (dec. %)'" type1="'number'"
-                        value2="editedIngredient.maxAttenuation" label2="'Max. dämpning (dec. %)'" type2="'number'">
-        </ingredient-row>
-        
-        <ingredient-row value1="editedIngredient.addToSecondary" label1="'I sekundär jäsning'" type1="'checkbox'" one="true"></ingredient-row>
-    </form>
+<div ng-cloak>
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Grund">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Namn</label>
+                        <input ng-model="editedIngredient.name" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Min. dämpning (dec. %)</label>
+                        <input ng-model="editedIngredient.minAttenuation" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Max. dämpning (dec. %)</label>
+                        <input ng-model="editedIngredient.maxAttenuation" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Typ</label>
+                        <md-select ng-model="editedIngredient.type" ng-change="update()">
+                            <md-option value="ale">Ale</md-option>
+                            <md-option value="wheat">Vete</md-option>
+                            <md-option value="lager">Lager</md-option>
+                            <md-option value="wine">Vin</md-option>
+                        </md-select>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Producent">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Producent</label>
+                        <input ng-model="editedIngredient.producer" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Produkt-ID</label>
+                        <input ng-model="editedIngredient.productId" type="text" ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Användning">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Används till</label>
+                        <input ng-model="editedIngredient.useFor" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Min. temperatur (C)</label>
+                        <input ng-model="editedIngredient.minTemperature" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Max. temperatur (C)</label>
+                        <input ng-model="editedIngredient.maxTemperature" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="editedIngredient.addToSecondary" aria-label="I sekundär jäsning" ng-change="update()">
+                            I sekundär jäsning
+                        </md-switch>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Egenskaper">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Flockning</label>
+                        <input ng-model="editedIngredient.flocculation" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Återanvändningar</label>
+                        <input ng-model="editedIngredient.maxReuses" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Gigaceller/paket</label>
+                        <input ng-model="editedIngredient.billionCellsPerPack" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Form</label>
+                        <input ng-model="editedIngredient.form" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="editedIngredient.useStarter" aria-label="Använd starter" ng-change="update()">
+                            Använd starter
+                        </md-switch>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Starterstorlek</label>
+                        <input ng-model="editedIngredient.startSize" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Bäst till</label>
+                        <input ng-model="editedIngredient.bestFor" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Mängd (pkg)</label>
+                        <input ng-model="editedIngredient.amount" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Anteckningar">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Anteckningar</label>
+                        <textarea ng-model="editedIngredient.notes" md-maxlength="400" rows="5" md-select-on-focus ng-change="update()"></textarea>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+    <md-content ng-show="showButtons">
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button class="md-fab" aria-label="Spara" ng-click="saveYeast(editedIngredient)">
+                <md-icon md-svg-src="resources/ic_save_black_24px.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab md-primary" aria-label="Ångra" ng-click="cancelNewIngredient()">
+                <md-icon md-svg-src="resources/ic_cancel_black_24px.svg"></md-icon>
+            </md-button>
+        </section>
+    </md-content>
 </div>
-<show-advanced flag='showAdvanced'></show-advanced>
-<div class="row" ng-show="showAdvanced">
-    <form class="col s12">
-        
-        <ingredient-row value1="editedIngredient.flocculation" label1="'Flockulering'" type1="'text'"
-                        value2="editedIngredient.maxReuses" label2="'Återanvädningar'" type2="'number'">
-        </ingredient-row>
-        
-        <ingredient-row value1="editedIngredient.billionCellsPerPack" label1="'Gigaceller/paket'" type1="'text'"
-                        value2="editedIngredient.form" label2="'Form'" type2="'text'">
-        </ingredient-row>
-        
-        <ingredient-row value1="editedIngredient.useStarter" label1="'Använd starter'" type1="'text'"
-                        value2="editedIngredient.startSize" label2="'Starterstorlek'" type2="'text'">
-        </ingredient-row>
-        
-        <ingredient-row value1="editedIngredient.minTemperature" label1="'Min. temperatur (C)'" type1="'number'"
-                        value2="editedIngredient.maxTemperature" label2="'Max. temperatur (C)'" type2="'number'">
-        </ingredient-row>
-        
-    </form>
-</div>
-<div class="row">
-    <form class="col s12">
-        <notes-row notes='editedIngredient.notes'></notes-row>
-        
-        <ingredient-row value1="editedIngredient.bestFor" label1="'Bäst till'" type1="'text'"
-                        value2="editedIngredient.amount" label2="'Mängd (pkg)'" type2="'number'">
-        </ingredient-row>
-        
-        <div class="row">
-            <div class="input-field col s12">
-                <select ng-model="editedIngredient.type" id="malt17">
-                    <option value="ale" selected>Ale</option>
-                    <option value="wheat">Vete</option>
-                    <option value="lager">Lager</option>
-                    <option value="wine">Vin</option>
-                </select>
-                <label for="hops16">Typ</label>
-            </div>
-        </div>
-        <ingredient-button-row save="saveYeast(editedIngredient)"
-                               cancel="cancelNewIngredient()">
-        </ingredient-button-row>
-    </form>
-</div>
-<div after-render="afterRender"></div>

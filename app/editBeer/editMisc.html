@@ -1,39 +1,55 @@
-<div class="row">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s12">
-                <h3 class="panel-title">Grund</h3>
-            </div>
-        </div>
-        <ingredient-row value1="editedIngredient.name" label1="'Namn'" type1="'text'"
-                        value2="editedIngredient.useFor" label2="'Används till'" type2="'text'">
-        </ingredient-row>
-            
-        <ingredient-row value1="editedIngredient.time" label1="'Tid ({{ editedIngredient.timeUnit }})'" type1="'number'" one="true">
-        </ingredient-row>
-        
-        <notes-row notes='editedIngredient.notes'></notes-row>
-        
-        <div class="row">
-            <div class="input-field col s6">
-                <input ng-model="editedIngredient.amount" class="validate" id="malt1">
-                <label for="malt1" class="active">Mängd ({{ editedIngredient.unit }})</label>
-            </div>
-            <div class="input-field col s12 m6">
-                <select ng-model="editedIngredient.type" class="form-control" id="malt17">
-                    <option value="other" selected>Övrigt</option>
-                    <option value="spice">Krydda</option>
-                    <option value="flavor">Smak</option>
-                    <option value="waterAgent">Vattenbehandling</option>
-                    <option value="Clarity">Klarning</option>
-                    <option value="herb">Ört</option>
-                </select>
-                <label>Typ</label>
-            </div>
-        </div>
-        <ingredient-button-row save="saveMisc(editedIngredient)"
-                               cancel="cancelNewIngredient()">
-        </ingredient-button-row>
-    </form>
+<div ng-cloak>
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Grund">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Namn</label>
+                        <input ng-model="editedIngredient.name" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Används till</label>
+                        <input ng-model="editedIngredient.useFor" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Tid ({{ editedIngredient.timeUnit }})</label>
+                        <input ng-model="editedIngredient.time" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Mängd ({{ editedIngredient.unit }})</label>
+                        <input ng-model="editedIngredient.amount" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Typ</label>
+                        <md-select ng-model="editedIngredient.type" ng-change="update()">
+                            <md-option value="otehr">Övrigt</md-option>
+                            <md-option value="spice">Krydda</md-option>
+                            <md-option value="flavor">Smak</md-option>
+                            <md-option value="waterAgent">Vattenbehandling</md-option>
+                            <md-option value="fining">Klarning</md-option>
+                            <md-option value="herb">Ört</md-option>
+                        </md-select>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Anteckningar">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Anteckningar</label>
+                        <textarea ng-model="editedIngredient.notes" md-maxlength="400" rows="5" md-select-on-focus ng-change="update()"></textarea>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+    <md-content ng-show="showButtons">
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button class="md-fab" aria-label="Spara" ng-click="saveMisc(editedIngredient)">
+                <md-icon md-svg-src="resources/ic_save_black_24px.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab md-primary" aria-label="Ångra" ng-click="cancelNewIngredient()">
+                <md-icon md-svg-src="resources/ic_cancel_black_24px.svg"></md-icon>
+            </md-button>
+        </section>
+    </md-content>
 </div>
-<div after-render="afterRender"></div>

@@ -1,6 +1,6 @@
-<md-slider-container ng-disabled="true">
+<md-slider-container>
     <span>{{header}}</span>
-    <span>{{min | number: 3}}</span>
-    <md-slider ng-model="value" aria-label="{{header}}" flex md-discrete ng-readonly="true" ng-disabled="true" min='{{min}}' max='{{max}}' step="0.001"></md-slider>
-    <span>{{max | number: 3}}</span>
+    <span>{{min | number: round}}</span>
+    <md-progress-linear md-mode="determinate" value="{{getPercentage()}}"></md-progress-linear>
+    <span>{{max | number: round}}</span><span>{{value | number: round}}</span>
 </md-slider-container>

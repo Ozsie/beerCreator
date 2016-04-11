@@ -5,64 +5,68 @@
                 <md-content class="md-padding">
                     <md-input-container class="md-block">
                         <label>Namn</label>
-                        <input ng-model="editedIngredient.name" type="text">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Ursprung</label>
-                        <input ng-model="editedIngredient.origin" type="text">
+                        <input ng-model="editedIngredient.name" type="text" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Alfasyra (dec. %)</label>
-                        <input ng-model="editedIngredient.alpha" type="number" min="0">
+                        <input ng-model="editedIngredient.alpha" type="number" min="0" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Form</label>
-                        <md-select ng-model="editedIngredient.form">
+                        <md-select ng-model="editedIngredient.form" ng-change="update()">
                             <md-option value="pellets">Pellets</md-option>
                             <md-option value="leaf">Kottar</md-option>
                         </md-select>
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Mängd (g)</label>
-                        <input ng-model="editedIngredient.amount" type="number" min="0">
+                        <input ng-model="editedIngredient.amount" type="number" min="0" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Tid (min)</label>
-                        <input ng-model="editedIngredient.time" type="number" min="0">
+                        <input ng-model="editedIngredient.time" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Övrigt">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Ursprung</label>
+                        <input ng-model="editedIngredient.origin" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Betasyra (dec. %)</label>
+                        <input ng-model="editedIngredient.beta" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Stabilitetsindex</label>
+                        <input ng-model="editedIngredient.hopStabilityIndex" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Torrhumlingstid (dagar)</label>
+                        <input ng-model="editedIngredient.dryHopTime" type="number" min="0" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Typ</label>
-                        <md-select ng-model="editedIngredient.type">
+                        <md-select ng-model="editedIngredient.type" ng-change="update()">
                             <md-option value="bitter">Bitter</md-option>
                             <md-option value="aroma">Arom</md-option>
                             <md-option value="both">Båda</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Anteckningar</label>
-                        <textarea ng-model="editedIngredient.notes" md-maxlength="400" rows="5" md-select-on-focus></textarea>
-                    </md-input-container>
                 </md-content>
             </md-tab>
-            <md-tab label="Avancerat">
+            <md-tab label="Anteckningar">
                 <md-content class="md-padding">
                     <md-input-container class="md-block">
-                        <label>Betasyra (dec. %)</label>
-                        <input ng-model="editedIngredient.beta" type="number" min="0">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Stabilitetsindex</label>
-                        <input ng-model="editedIngredient.hopStabilityIndex" type="number" min="0">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Torrhumlingstid (dagar)</label>
-                        <input ng-model="editedIngredient.dryHopTime" type="number" min="0">
+                        <label>Anteckningar</label>
+                        <textarea ng-model="editedIngredient.notes" md-maxlength="400" rows="5" md-select-on-focus ng-change="update()"></textarea>
                     </md-input-container>
                 </md-content>
             </md-tab>
         </md-tabs>
     </md-content>
-    <md-content>
+    <md-content ng-show="showButtons">
         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
             <md-button class="md-fab" aria-label="Spara" ng-click="saveHop(editedIngredient)">
                 <md-icon md-svg-src="resources/ic_save_black_24px.svg"></md-icon>

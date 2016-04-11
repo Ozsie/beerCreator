@@ -200,6 +200,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
             $scope.beer.ingredients.malts = [];
         }
         $scope.beer.ingredients.malts.push(angular.copy($scope.editedIngredient));
+        $scope.update();
         $scope.cancelNewIngredient();
     };
     
@@ -211,6 +212,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
             $scope.beer.ingredients.hops = [];
         }
         $scope.beer.ingredients.hops.push(angular.copy($scope.editedIngredient));
+        $scope.update();
         $scope.cancelNewIngredient();
     };
     
@@ -222,6 +224,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
             $scope.beer.ingredients.yeasts = [];
         }
         $scope.beer.ingredients.yeasts.push(angular.copy($scope.editedIngredient));
+        $scope.update();
         $scope.cancelNewIngredient();
     };
     
@@ -233,6 +236,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
             $scope.beer.ingredients.misc = [];
         }
         $scope.beer.ingredients.misc.push(angular.copy($scope.editedIngredient));
+        $scope.update();
         $scope.cancelNewIngredient();
     };
     
@@ -259,6 +263,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     $scope.updateBoilVolume();
     
     $scope.update = function() {
+        $scope.updateBoilVolume();
         Bitterness.tinseth($scope.beer);
         $scope.beer.og = Alcohol.calculateOriginalGravity($scope.beer);
         $scope.beer.fg = Alcohol.calculateFinalGravity($scope.beer);

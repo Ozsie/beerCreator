@@ -80,7 +80,7 @@ colorConversionService.factory('ColorConversion', function() {
             colorSum = colorSum / beer.finalVolume;
         }
         
-        return colorSum;
+        return colorSum.toFixed(0);
     };
     
     colorConversion.invert = function(hexTripletColor) {

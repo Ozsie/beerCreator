@@ -5,88 +5,96 @@
                 <md-content class="md-padding">
                     <md-input-container class="md-block">
                         <label>Namn</label>
-                        <input ng-model="editedIngredient.name" type="text">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Ursprung</label>
-                        <input ng-model="editedIngredient.origin" type="text">
+                        <input ng-model="editedIngredient.name" type="text" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Färg</label>
-                        <input ng-model="editedIngredient.color" type="number" min="0">
+                        <input ng-model="editedIngredient.color" type="number" min="0" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Utdelning</label>
-                        <input ng-model="editedIngredient.yield" type="number" min="0">
+                        <input ng-model="editedIngredient.yield" type="number" min="0" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Mängd (g)</label>
-                        <input ng-model="editedIngredient.amount" type="number" min="0">
+                        <input ng-model="editedIngredient.amount" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Egenskaper">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Ursprung</label>
+                        <input ng-model="editedIngredient.origin" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Sent extrakt</label>
+                        <input ng-model="editedIngredient.lateExtract" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Grov/Fin-skillnad</label>
+                        <input ng-model="editedIngredient.coarseFineDifference" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Fukt (dec. %)</label>
+                        <input ng-model="editedIngredient.moisture" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Diastisk kraft</label>
+                        <input ng-model="editedIngredient.diasticPower" type="number" min="0" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Protein</label>
+                        <input ng-model="editedIngredient.protein" type="number" min="0" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Typ</label>
-                        <md-select ng-model="editedIngredient.type">
+                        <md-select ng-model="editedIngredient.type" ng-change="update()">
                             <md-option value="dryExtract">Torrt extrakt</md-option>
                             <md-option value="liquidExtract">Flytande extrakt</md-option>
                             <md-option value="hull">Skal</md-option>
                             <md-option value="malt">Malt</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Anteckningar</label>
-                        <textarea ng-model="editedIngredient.notes" md-maxlength="400" rows="5" md-select-on-focus></textarea>
-                    </md-input-container>
                 </md-content>
             </md-tab>
-            <md-tab label="Avancerat">
+            <md-tab label="Användning">
                 <md-content class="md-padding">
                     <md-input-container class="md-block">
-                        <label>Sent extrakt</label>
-                        <input ng-model="editedIngredient.lateExtract" type="text">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Grov/Fin-skillnad</label>
-                        <input ng-model="editedIngredient.coarseFineDifference" type="text">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Fukt (dec. %)</label>
-                        <input ng-model="editedIngredient.moisture" type="number" min="0">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Diastisk kraft</label>
-                        <input ng-model="editedIngredient.diasticPower" type="number" min="0">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Protein</label>
-                        <input ng-model="editedIngredient.protein" type="number" min="0">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <md-switch ng-model="editedIngredient.editedIngredient" aria-label="Switch 1">
+                        <md-switch ng-model="editedIngredient.editedIngredient" aria-label="Lägg till efter kokning" ng-change="update()">
                             Lägg till efter kokning
                         </md-switch>
                     </md-input-container>
                     <md-input-container class="md-block">
-                        <md-switch ng-model="editedIngredient.recommendMash" aria-label="Switch 1">
+                        <md-switch ng-model="editedIngredient.recommendMash" aria-label="Mäskas" ng-change="update()">
                             Mäskas
                         </md-switch>
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Andel i mäsk</label>
-                        <input ng-model="editedIngredient.maxInBatch" type="number" min="0">
+                        <input ng-model="editedIngredient.maxInBatch" type="number" min="0" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Koktid (min)</label>
-                        <input ng-model="editedIngredient.boilTime" type="number" min="0">
+                        <input ng-model="editedIngredient.boilTime" type="number" min="0" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Konverterat spannmål</label>
-                        <input ng-model="editedIngredient.convertGrain" type="text">
+                        <input ng-model="editedIngredient.convertGrain" type="text" ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Anteckningar">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Anteckningar</label>
+                        <textarea ng-model="editedIngredient.notes" md-maxlength="400" rows="5" md-select-on-focus ng-change="update()"></textarea>
                     </md-input-container>
                 </md-content>
             </md-tab>
         </md-tabs>
     </md-content>
-    <md-content>
+    <md-content ng-show="showButtons">
         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
             <md-button class="md-fab" aria-label="Spara" ng-click="saveMalt(editedIngredient)">
                 <md-icon md-svg-src="resources/ic_save_black_24px.svg"></md-icon>
