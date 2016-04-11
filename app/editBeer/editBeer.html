@@ -1,12 +1,19 @@
 <div>
     <menu style="padding-left: 0px" log-out-allowed="false"></menu>
 </div>
-<div class="containerDiv">
-    <md-input-container class="md-block" flex-gt-sm>
-        <label>Namn</label>
-        <input ng-model="beer.name" type="text">
-    </md-input-container>
-    <md-icon md-svg-src="resources/ic_open_in_new_black_24px.svg" class="md-secondary md-hue-3" ng-click="openPublic(beer)" aria-label="Öppna publik länk" ng-if='beer.public'></md-icon>
+<div class="containerDiv" ng-cloak>
+    <md-list>
+        <md-list-item>
+            <md-button class="md-fab marginBottom45px" aria-label="Öppna publik länk" ng-click="openPublic(beer)" ng-if='beer.public'>
+                <md-icon md-svg-src="resources/ic_open_in_new_black_24px.svg"></md-icon>
+            </md-button>
+            <md-input-container class="md-bloc" ng-class="{width80: beer.public, width100: !beer.public}">
+                <label>Namn</label>
+                <input ng-model="beer.name" type="text">
+            </md-input-container>
+        </md-list-item>
+    </md-list>
+    <md-divider></md-divider>
     <md-input-container class="md-block" flex-gt-sm>
         <label>Huvudstil</label>
         <md-select ng-model="beer.parentStyle">
@@ -139,6 +146,7 @@
         <div ng-include="'editBeer/editYeast.html'" ng-if="newIngredientType == 'yeasts'" ng-init="showButtons = true"></div>
         <div ng-include="'editBeer/editMisc.html'" ng-if="newIngredientType == 'misc'" ng-init="showButtons = true"></div>
     </div>
+    <md-divider></md-divider>
     <md-list>
         <md-subheader class="md-no-sticky">Profiler: {{beer.equipment.name}}/{{beer.mash.name}}/{{beer.fermentation.name}}</md-subheader>
         <md-list-item>
@@ -156,6 +164,11 @@
             </md-input-container>
         </md-list-item>
         <md-list-item>
+            <div class="panel-body" ng-show="showEditEquipment">
+                <div ng-include="'editBeer/editEquipment.html'" ng-show="beer.equipment"></div>
+            </div>
+        </md-list-item>
+        <md-list-item>
             <md-button class="md-fab" aria-label="Expandera/Kollapsa" ng-click="showEditMash = !showEditMash">
                 <md-icon md-svg-src="resources/ic_expand_more_black_24px.svg" ng-if="!showEditMash"></md-icon>
                 <md-icon md-svg-src="resources/ic_expand_less_black_24px.svg" ng-if="showEditMash"></md-icon>
@@ -168,6 +181,11 @@
                     </md-option>
                 </md-select>
             </md-input-container>
+        </md-list-item>
+        <md-list-item>
+            <div class="panel-body" ng-show="showEditMash">
+                <div ng-include="'editBeer/editMashProfile.html'" ng-show="beer.mash"></div>
+            </div>
         </md-list-item>
         <md-list-item>
             <md-button class="md-fab" aria-label="Expandera/Kollapsa" ng-click="showEditFermentation = !showEditFermentation">
@@ -183,17 +201,13 @@
                 </md-select>
             </md-input-container>
         </md-list-item>
+        <md-list-item>
+            <div class="panel-body" ng-show="showEditFermentation">
+                <div ng-include="'editBeer/editFermentationProfile.html'" ng-show="beer.fermentation"></div>
+            </div>
+        </md-list-item>
     </md-list>
-    <div class="panel-body" ng-show="showEditEquipment">
-        <div ng-include="'editBeer/editEquipment.html'" ng-show="beer.equipment"></div>
-    </div>
-    <div class="panel-body" ng-show="showEditMash">
-        <div ng-include="'editBeer/editMashProfile.html'" ng-show="beer.mash"></div>
-    </div>
-    <div class="panel-body" ng-show="showEditFermentation">
-        <div ng-include="'editBeer/editFermentationProfile.html'" ng-show="beer.fermentation"></div>
-    </div>
-    
+    <md-divider></md-divider>
     <md-list>
         <md-list-item>
             <md-button class="md-fab" aria-label="Spara" ng-click="save()">
