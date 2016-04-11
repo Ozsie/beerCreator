@@ -14,6 +14,8 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         $location.path('login');
     }
     
+    $scope.ingredientSelect = [{name: 'Malt', value:'malt'},{name: 'Humle', value:'hops'},{name: 'Jäst', value:'yeasts'},{name: 'Övrigt', value:'misc'}];
+    
     $scope.user = User;
     
     BeerStyles.getStyles().$loaded().then(function(styles) {
@@ -91,7 +93,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
             }
             
             for (var index in list) {
-                if (list[index].name === $scope.selectedIngredient) {
+                if (list[index].$id === $scope.selectedIngredient) {
                     $scope.editedIngredient = angular.copy(list[index]);
                     if (unit) {
                         $scope.editedIngredient.unit = unit;

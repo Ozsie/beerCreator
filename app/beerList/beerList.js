@@ -20,6 +20,9 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
     
     $scope.loadBeers = function() {
         $scope.beerStyles = BeerStyles.getStyles().$loaded().then(function(styles) {
+            if (!User || !User.authData) {
+                return;
+            }
             $scope.beerStyles = styles;
             var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + User.authData.uid);
             $scope.beerList = $firebaseArray(ref);

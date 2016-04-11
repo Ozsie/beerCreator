@@ -1,59 +1,75 @@
-<div class="row">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s12">
-                <h3 class="panel-title">Grund</h3>
-            </div>
-        </div>
-        <ingredient-row value1="editedIngredient.name" label1="'Namn'" type1="'text'"
-                        value2="editedIngredient.origin" label2="'Ursprung'" type2="'text'">
-        </ingredient-row>
-        
-        <div class="row">
-            <div class="input-field col s6">
-                <input ng-model="editedIngredient.alpha" class="validate" id="hops1">
-                <label for="hops1" class="active">Alfasyra (dec. %)</label>
-            </div>
-            <div class="input-field col s12 m6" after-render="afterRender">
-                <select ng-model="editedIngredient.form">
-                    <option value="pellet">Pellet</option>
-                    <option value="leaf">Kottar</option>
-                </select>
-                <label>Form</label>
-            </div>
-        </div>
-    </form>
+<div ng-cloak>
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Grund">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Namn</label>
+                        <input ng-model="editedIngredient.name" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Ursprung</label>
+                        <input ng-model="editedIngredient.origin" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Alfasyra (dec. %)</label>
+                        <input ng-model="editedIngredient.alpha" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Form</label>
+                        <md-select ng-model="editedIngredient.form">
+                            <md-option value="pellets">Pellets</md-option>
+                            <md-option value="leaf">Kottar</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Mängd (g)</label>
+                        <input ng-model="editedIngredient.amount" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Tid (min)</label>
+                        <input ng-model="editedIngredient.time" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Typ</label>
+                        <md-select ng-model="editedIngredient.type">
+                            <md-option value="bitter">Bitter</md-option>
+                            <md-option value="aroma">Arom</md-option>
+                            <md-option value="both">Båda</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Anteckningar</label>
+                        <textarea ng-model="editedIngredient.notes" md-maxlength="400" rows="5" md-select-on-focus></textarea>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Avancerat">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Betasyra (dec. %)</label>
+                        <input ng-model="editedIngredient.beta" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Stabilitetsindex</label>
+                        <input ng-model="editedIngredient.hopStabilityIndex" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Torrhumlingstid (dagar)</label>
+                        <input ng-model="editedIngredient.dryHopTime" type="number" min="0">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+    <md-content>
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button class="md-fab" aria-label="Spara" ng-click="saveHop(editedIngredient)">
+                <md-icon md-svg-src="resources/ic_save_black_24px.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab md-primary" aria-label="Ångra" ng-click="cancelNewIngredient()">
+                <md-icon md-svg-src="resources/ic_cancel_black_24px.svg"></md-icon>
+            </md-button>
+        </section>
+    </md-content>
 </div>
-<show-advanced flag='showAdvanced'></show-advanced>
-<div class="row" ng-show="showAdvanced">
-    <form class="col s12">
-        <ingredient-row value1="editedIngredient.beta" label1="'Betasyra (dec. %)'" type1="'number'"
-                        value2="editedIngredient.hopStabilityIndex" label2="'Stabilitetsindex'" type2="'number'">
-        </ingredient-row>
-        
-        <ingredient-row value1="editedIngredient.dryHopTime" label1="'Torrhumlingstid (dagar)'" type1="'number'" one="true"></ingredient-row>
-    </form>
-</div>
-<div class="row">
-    <form class="col s12">
-        <notes-row notes='editedIngredient.notes'></notes-row>
-        
-        <ingredient-row value1="editedIngredient.amount" label1="'Mängd (g)'" type1="'number'"
-                        value2="editedIngredient.time" label2="'Tid (min)'" type2="'number'">
-        </ingredient-row>
-        <div class="row">
-            <div class="input-field col s12">
-                <select ng-model="editedIngredient.type" id="malt17">
-                    <option value="bitter" selected>Bitter</option>
-                    <option value="aroma">Arom</option>
-                    <option value="both">Båda</option>
-                </select>
-                <label for="hops16" class="active">Typ</label>
-            </div>
-        </div>
-        <ingredient-button-row save="saveHop(editedIngredient)"
-                               cancel="cancelNewIngredient()">
-        </ingredient-button-row>
-    </form>
-</div>
-<div after-render="afterRender"></div>

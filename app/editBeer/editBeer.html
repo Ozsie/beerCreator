@@ -105,44 +105,40 @@
             </md-list-item>
         </div>
     </md-list>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <td>
-                    <select ng-model="newIngredientType" class="browser-default">
-                        <option value="malt">Malt</option>
-                        <option value="hops">Humle</option>
-                        <option value="yeasts">Jäst</option>
-                        <option value="misc">Övrigt</option>
-                    </select>
-                </td>
-                <td>
-                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'malt'" class="browser-default">
-                        <option ng-repeat="malt in grainList" value="{{malt.name}}">{{ malt.name}} / {{ malt.color}} EBC / {{ malt.yield * 100}} / {{malt.origin}}</option>
-                    </select>
-                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'hops'" class="browser-default">
-                        <option ng-repeat="hop in hopList" value="{{hop.name}}">{{ hop.name}} / {{ hop.alpha}} / {{ hop.origin}}</option>
-                    </select>
-                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'yeasts'" class="browser-default">
-                        <option ng-repeat="yeast in yeastList" value="{{yeast.name}}">{{ yeast.productId}} {{ yeast.name}} / {{ yeast.minAttenuation}} / {{ yeast.bestFor}}</option>
-                    </select>
-                    <select ng-model="selectedIngredient" ng-show="newIngredientType == 'misc'" class="browser-default">
-                        <option ng-repeat="misc in miscList" value="{{misc.name}}">{{ misc.name}}</option>
-                    </select>
-                </td>
-                <td></td>
-            </tr>
-            <tr ng-show="editedIngredient">
-                <td colspan="5">
-                    <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'"></div>
-                    <div ng-include="'editBeer/editHops.html'" ng-if="newIngredientType == 'hops'"></div>
-                    <div ng-include="'editBeer/editYeast.html'" ng-if="newIngredientType == 'yeasts'"></div>
-                    <div ng-include="'editBeer/editMisc.html'" ng-if="newIngredientType == 'misc'"></div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <md-list>
+        <md-subheader class="md-no-sticky">Lägg till ingrediens</md-subheader>
+    </md-list>
+    <md-input-container class="md-block">
+        <label>Ingredienstyp</label>
+        <md-select ng-model="newIngredientType">
+            <md-option ng-repeat="ingredient in ingredientSelect" value="{{ingredient.value}}">
+                {{ingredient.name}}
+            </md-option>
+        </md-select>
+    </md-input-container>
+    <md-input-container class="md-block" flex-gt-xs ng-show="newIngredientType">
+        <label>Ingrediens</label>
+        <md-select ng-model="selectedIngredient">
+            <md-option ng-repeat="malt in grainList" value="{{malt.$id}}" ng-if="newIngredientType == 'malt'">
+                {{malt.name}} / {{ malt.color}} EBC / {{ malt.yield * 100 | number: 2}} / {{malt.origin}}
+            </md-option>
+            <md-option ng-repeat="hop in hopList" value="{{hop.$id}}" ng-if="newIngredientType == 'hops'">
+                {{ hop.name}} / {{ hop.alpha | number: 2}} / {{ hop.origin}}
+            </md-option>
+            <md-option ng-repeat="yeast in yeastList" value="{{yeast.$id}}" ng-if="newIngredientType == 'yeasts'">
+                {{ yeast.productId}} {{ yeast.name}} / {{ yeast.minAttenuation | number: 2}} / {{ yeast.bestFor}}
+            </md-option>
+            <md-option ng-repeat="misc in miscList" value="{{misc.$id}}" ng-if="newIngredientType == 'misc'">
+                {{ misc.name}}
+            </md-option>
+        </md-select>
+    </md-input-container>
+    <div ng-show="editedIngredient">
+        <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'"></div>
+        <div ng-include="'editBeer/editHops.html'" ng-if="newIngredientType == 'hops'"></div>
+        <div ng-include="'editBeer/editYeast.html'" ng-if="newIngredientType == 'yeasts'"></div>
+        <div ng-include="'editBeer/editMisc.html'" ng-if="newIngredientType == 'misc'"></div>
+    </div>
 </div>
 
 

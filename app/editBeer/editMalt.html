@@ -1,64 +1,99 @@
-<div class="row">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s12">
-                <h3 class="panel-title">Grund</h3>
-            </div>
-        </div>
-        <ingredient-row value1="editedIngredient.name" label1="'Namn'" type1="'text'"
-                        value2="editedIngredient.origin" label2="'Ursprung'" type2="'text'">
-        </ingredient-row>
-            
-        <ingredient-row value1="editedIngredient.color" label1="'Färg'" type1="'number'"
-                        value2="editedIngredient.yield" label2="'Utdelning'" type2="'number'">
-        </ingredient-row>
-    </form>
+<div ng-cloak>
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Grund">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Namn</label>
+                        <input ng-model="editedIngredient.name" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Ursprung</label>
+                        <input ng-model="editedIngredient.origin" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Färg</label>
+                        <input ng-model="editedIngredient.color" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Utdelning</label>
+                        <input ng-model="editedIngredient.yield" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Mängd (g)</label>
+                        <input ng-model="editedIngredient.amount" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Typ</label>
+                        <md-select ng-model="editedIngredient.type">
+                            <md-option value="dryExtract">Torrt extrakt</md-option>
+                            <md-option value="liquidExtract">Flytande extrakt</md-option>
+                            <md-option value="hull">Skal</md-option>
+                            <md-option value="malt">Malt</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Anteckningar</label>
+                        <textarea ng-model="editedIngredient.notes" md-maxlength="400" rows="5" md-select-on-focus></textarea>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Avancerat">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Sent extrakt</label>
+                        <input ng-model="editedIngredient.lateExtract" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Grov/Fin-skillnad</label>
+                        <input ng-model="editedIngredient.coarseFineDifference" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Fukt (dec. %)</label>
+                        <input ng-model="editedIngredient.moisture" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Diastisk kraft</label>
+                        <input ng-model="editedIngredient.diasticPower" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Protein</label>
+                        <input ng-model="editedIngredient.protein" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="editedIngredient.editedIngredient" aria-label="Switch 1">
+                            Lägg till efter kokning
+                        </md-switch>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="editedIngredient.recommendMash" aria-label="Switch 1">
+                            Mäskas
+                        </md-switch>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Andel i mäsk</label>
+                        <input ng-model="editedIngredient.maxInBatch" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Koktid (min)</label>
+                        <input ng-model="editedIngredient.boilTime" type="number" min="0">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Konverterat spannmål</label>
+                        <input ng-model="editedIngredient.convertGrain" type="text">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+    <md-content>
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button class="md-fab" aria-label="Spara" ng-click="saveMalt(editedIngredient)">
+                <md-icon md-svg-src="resources/ic_save_black_24px.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab md-primary" aria-label="Ångra" ng-click="cancelNewIngredient()">
+                <md-icon md-svg-src="resources/ic_cancel_black_24px.svg"></md-icon>
+            </md-button>
+        </section>
+    </md-content>
 </div>
-<show-advanced flag='showAdvanced'></show-advanced>
-<div class="row" ng-show="showAdvanced">
-    <form class="col s12">
-        <ingredient-row value1="editedIngredient.lateExtract" label1="'Sent extraxt'" type1="'text'"
-                        value2="editedIngredient.coarseFineDifference" label2="'Grov/Fin-skillnad'" type2="'text'">
-        </ingredient-row>
-
-        <ingredient-row value1="editedIngredient.moisture" label1="'Fukt (dec. %)'" type1="'text'"
-                        value2="editedIngredient.diasticPower" label2="'Diastatisk kraft'" type2="'text'">
-        </ingredient-row>
-
-        <ingredient-row value1="editedIngredient.protein" label1="'Protein'" type1="'text'"
-                        value2="editedIngredient.addAfterBoil" label2="'Efter kokning'" type2="'checkbox'">
-        </ingredient-row>
-
-        <ingredient-row value1="editedIngredient.recommendMash" label1="'Mäskas'" type1="'checkbox'"
-                        value2="editedIngredient.maxInBatch" label2="'Andel i mäsk'" type2="'number'">
-        </ingredient-row>
-
-        <ingredient-row value1="editedIngredient.boilTime" label1="'Koktid (min)'" type1="'number'"
-                        value2="editedIngredient.convertGrain" label2="'Konverterat spannmål'" type2="'text'">
-        </ingredient-row>
-    </form>
-</div>
-<div class="row">
-    <form class="col s12">
-        <notes-row notes='editedIngredient.notes'></notes-row>
-        <div class="row">
-            <div class="input-field col s6">
-                <input ng-model="editedIngredient.amount" class="validate" id="malt1">
-                <label for="malt1" class="active">Mängd (g)</label>
-            </div>
-            <div class="input-field col s12 m6">
-                <select ng-model="editedIngredient.type" class="form-control" id="malt17">
-                    <option value="dryExtract">Torrt extrakt</option>
-                    <option value="liquidExtract">Flytande extrakt</option>
-                    <option value="hull">Skal</option>
-                    <option value="malt" selected>Malt</option>
-                </select>
-                <label>Typ</label>
-            </div>
-        </div>
-        <ingredient-button-row save="saveMalt(editedIngredient)"
-                               cancel="cancelNewIngredient()">
-        </ingredient-button-row>
-    </form>
-</div>
-<div after-render="afterRender"></div>
