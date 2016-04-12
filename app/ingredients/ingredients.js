@@ -58,6 +58,9 @@ angular.module('beerCreator.ingredients', ['ngRoute', 'firebase'])
     };
     
     $scope.$on("$destroy", function(){
+        if (!$scope.miscList) {
+            return;
+        }
         $scope.miscList.$destroy();
         $scope.yeastList.$destroy();
         $scope.hopList.$destroy();

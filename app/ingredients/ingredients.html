@@ -1,173 +1,103 @@
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo right">
-          <img src="{{user.picture}}" alt="Profilbild" class="resize" >
-        {{user.displayName}}
-      </a>
-      <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="#/beerList">Öllista</a></li>
-        <li class="active"><a href="#/ingredients">Ingredienser</a></li>
-        <li><a href="#/profiles">Profiler</a></li>
-        <li><a ng-click="logout()">Logga ut</a></li>
-      </ul>
-    </div>
-  </nav>
-<div class="containerDiv">
-    <nav>
-        <div class="nav-wrapper">
-          <a class="brand-logo right" ng-hide="toAdd">
-              <button class="btn-floating btn waves-effect waves-light red" ng-click="addIngredient(selectedList)">
-                <i class="material-icons marginTopNeg13">add</i>
-            </button>
-          </a>
-          <ul id="nav-mobile" class="left hide-on-med-and-down">
-            <li ng-class='{active: selectedList === "malt"}'><a ng-click="selectList('malt'); cancel();">Malt</a></li>
-            <li ng-class='{active: selectedList === "hops"}'><a ng-click="selectList('hops'); cancel();">Humle</a></li>
-            <li ng-class='{active: selectedList === "yeast"}'><a ng-click="selectList('yeast'); cancel();">Jäst</a></li>
-            <li ng-class='{active: selectedList === "misc"}'><a ng-click="selectList('misc'); cancel();">Övrigt</a></li>
-          </ul>
-        </div>
-      </nav>
-    <div ng-show="toAdd" class="marginBottom10px">
-        <div ng-include="'editBeer/editMalt.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'malt'"></div>
-        <div ng-include="'editBeer/editHops.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'hops'"></div>
-        <div ng-include="'editBeer/editYeast.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'yeast'"></div>
-        <div ng-include="'editBeer/editMisc.html'" ng-init="newIngredient = true;" ng-show="toAdd === 'misc'"></div>
-        <div>
-            <span ng-if="error === 'no-name'">Ingrediensen måste ha ett namn</span>
-            <span ng-if="error === 'no-name'">Ingrediensen måste ha en typ</span>
-        </div>
-    </div>
-    <table class="beerTable" ng-if="selectedList == 'malt'">
-        <thead>
-            <tr>
-                <th>Namn</th>
-                <th>Ursprung</th>
-                <th>Typ</th>
-                <th>Utdelning</th>
-                <th>Mäskas</th>
-                <th colspan="2">Färg</th>
-                <th>Ägare</th>
-                <th>Ta bort</th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="grain in grainList" ng-click="toggle(grain, $index)"
-               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
-            <tr>
-                <td>{{ grain.name }}</td>
-                <td>{{ grain.origin }}</td>
-                <td>{{ grain.type | grainType }}</td>
-                <td>{{ (grain.yield * 100) | number: 1 }} %</td>
-                <td>{{ grain.recommendMash ? 'Ja' : 'Nej' }}</td>
-                <td>
-                    {{ grain.color | number: 1 }} EBC
-                </td>
-                <td style="background-color: {{ getColor(grain) }}">
-                </td>
-                <td ng-if="grain.user.displayName">{{grain.user.displayName}}</td>
-                <td ng-if="!grain.user.displayName"></td>
-                <td>
-                    <a class="waves-effect waves-light btn" ng-click="remove(grain)" ng-if="user.authData.uid && user.authData.uid === grain.user.uid">
-                        <i class="material-icons left" ng-if="toggle">
-                            delete
-                        </i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="beerTable" ng-if="selectedList == 'hops'">
-        <thead>
-            <tr>
-                <th>Namn</th>
-                <th>Ursprung</th>
-                <th>Typ</th>
-                <th>Alphasyra</th>
-                <th>Ägare</th>
-                <th>Ta bort</th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="hop in hopList" ng-click="toggle(hop, $index)"
-               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
-            <tr>
-                <td>{{ hop.name }}</td>
-                <td>{{ hop.origin }}</td>
-                <td>{{ hop.type | hopType }}</td>
-                <td>{{ (hop.alpha * 100) | number: 1 }} %</td>
-                <td ng-if="hop.user.displayName">{{hop.user.displayName}}</td>
-                <td ng-if="!hop.user.displayName"></td>
-                <td>
-                    <a class="waves-effect waves-light btn" ng-click="remove(hop)" ng-if="user.authData.uid && user.authData.uid === hop.user.uid">
-                        <i class="material-icons left" ng-if="toggle">
-                            delete
-                        </i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="beerTable" ng-if="selectedList == 'yeast'">
-        <thead>
-            <tr>
-                <th>Namn</th>
-                <th>Typ</th>
-                <th>Flockning</th>
-                <th>Förtunning (attenuation)</th>
-                <th>Temperatur</th>
-                <th>Används till</th>
-                <th>Ägare</th>
-                <th>Ta bort</th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="yeast in yeastList" ng-click="toggle(yeast, $index)"
-               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
-            <tr>
-                <td>{{ yeast.name }}</td>
-                <td>{{ yeast.type | yeastType }}</td>
-                <td>{{ yeast.flocculation | flocculation }}</td>
-                <td>{{ yeast.minAttenuation | number: 1 }} - {{ yeast.maxAttenuation | number: 1 }}</td>
-                <td>{{ yeast.minTemperature | number: 1 }} - {{ yeast.maxTemperature | number: 1 }}</td>
-                <td>{{ yeast.bestFor }}</td>
-                <td ng-if="yeast.user.displayName">{{yeast.user.displayName}}</td>
-                <td ng-if="!yeast.user.displayName"></td>
-                <td>
-                    <a class="waves-effect waves-light btn" ng-click="remove(yeast)" ng-if="user.authData.uid && user.authData.uid === yeast.user.uid">
-                        <i class="material-icons left" ng-if="toggle">
-                            delete
-                        </i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="beerTable" ng-if="selectedList == 'misc'">
-        <thead>
-            <tr>
-                <th>Namn</th>
-                <th>Typ</th>
-                <th>Används till</th>
-                <th>Steg</th>
-                <th>Ägare</th>
-                <th>Ta bort</th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="misc in miscList" ng-click="toggle(misc, $index)"
-               ng-class-even="'beerTableEven'" ng-class-odd="'beerTableOdd'">
-            <tr>
-                <td>{{ misc.name }}</td>
-                <td>{{ misc.type | miscType }}</td>
-                <td>{{ misc.useFor | miscUseFor }}</td>
-                <td>{{ misc.useIn | miscUseIn }}</td>
-                <td ng-if="misc.user.displayName">{{misc.user.displayName}}</td>
-                <td ng-if="!misc.user.displayName"></td>
-                <td>
-                    <a class="waves-effect waves-light btn" ng-click="remove(misc)" ng-if="user.authData.uid && user.authData.uid === misc.user.uid">
-                        <i class="material-icons left" ng-if="toggle">
-                            delete
-                        </i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div>
+    <menu style="padding-left: 0px" log-out-allowed="true"></menu>
+</div>
+<div class="containerDiv" ng-cloak>
+    <md-list>
+        <md-list-item ng-click="addIngredient(selectedList)">
+            <md-button class="md-fab" aria-label="Spara" ng-click="addIngredient(selectedList)">
+                <md-icon md-svg-src="resources/ic_add_box_black_24px.svg"></md-icon>
+            </md-button>
+            <p ng-if="selectedList == 'malt">Malt</p>
+            <p ng-if="selectedList == 'hops">Humle</p>
+            <p ng-if="selectedList == 'yeast">Jäst</p>
+            <p ng-if="selectedList == 'misc">Övrigt</p>
+        </md-list-item>
+        <md-list-item ng-show="toAdd">
+            <div class="marginBottom10px width100">
+                <div ng-include="'editBeer/editMalt.html'" ng-init="newIngredient = true; showButtons = true;" ng-show="toAdd === 'malt'"></div>
+                <div ng-include="'editBeer/editHops.html'" ng-init="newIngredient = true; showButtons = true;" ng-show="toAdd === 'hops'"></div>
+                <div ng-include="'editBeer/editYeast.html'" ng-init="newIngredient = true; showButtons = true;" ng-show="toAdd === 'yeast'"></div>
+                <div ng-include="'editBeer/editMisc.html'" ng-init="newIngredient = true; showButtons = true;" ng-show="toAdd === 'misc'"></div>
+                <div>
+                    <span ng-if="error === 'no-name'">Ingrediensen måste ha ett namn</span>
+                    <span ng-if="error === 'no-name'">Ingrediensen måste ha en typ</span>
+                </div>
+            </div>
+        </md-list-item>
+    </md-list>
+    <md-divider ng-hide="toAdd"></md-divider>
+    <md-content ng-hide="toAdd">
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Malt" ng-click='selectedList = "malt"'>
+                <md-list class="md-dense" flex>
+                    <md-list-item class="md-3-line" ng-repeat='grain in grainList'>
+                        <div class="md-list-item-text" layout="column">
+                            <h3>{{ grain.name}} / {{ grain.origin}}</h3>
+                            <h4>Typ: {{ grain.type | grainType }}</h4>
+                            <p>Utdelning: {{ (grain.yield * 100) | number: 1}} %</p>
+                        </div>
+                        <div class="md-list-item-text" layout="column">
+                            <h3 style="background-color: {{ getColor(grain)}}">Färg: {{ grain.color | number: 1 }} EBC</h3>
+                            <h4 ng-if='grain.user.displayName'>Ägare</h4>
+                            <p ng-if='grain.user.displayName'>{{grain.user.displayName}}</p>
+                        </div>
+                        <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(grain)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === grain.user.uid"></md-icon>
+                    </md-list-item>
+                </md-list>
+            </md-tab>
+            <md-tab label="Humle" ng-click='selectedList = "hops"'>
+                <md-list class="md-dense" flex>
+                    <md-list-item class="md-3-line" ng-repeat='hop in hopList'>
+                        <div class="md-list-item-text" layout="column">
+                            <h3>{{ hop.name}} / {{ hop.origin}}</h3>
+                            <h4>Typ: {{ hop.type | hopType }}</h4>
+                        </div>
+                        <div class="md-list-item-text" layout="column">
+                            <h3>Alfasyra: {{ (hop.alpha * 100) | number: 1}} %</h3>
+                            <h4 ng-if='hop.user.displayName'>Ägare</h4>
+                            <p ng-if='hop.user.displayName'>{{hop.user.displayName}}</p>
+                        </div>
+                        <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(hop)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === hop.user.uid"></md-icon>
+                    </md-list-item>
+                </md-list>
+            </md-tab>
+            <md-tab label="Jäst" ng-click='selectedList = "yeast"'>
+                <md-list class="md-dense" flex>
+                    <md-list-item class="md-3-line" ng-repeat='yeast in yeastList'>
+                        <div class="md-list-item-text" layout="column">
+                            <h3>{{ yeast.name}}</h3>
+                            <h4>Typ: {{ yeast.type | yeastType }}</h4>
+                            <p>Flockning: {{ yeast.flocculation | flocculation }}</p>
+                        </div>
+                        <div class="md-list-item-text" layout="column">
+                            <h3>Dämpning: {{ yeast.minAttenuation | number: 1 }} - {{ yeast.maxAttenuation | number: 1 }}</h3>
+                            <h4>Temperatur: {{ yeast.minTemperature | number: 1 }} - {{ yeast.maxTemperature | number: 1 }}</h4>
+                        </div>
+                        <div class="md-list-item-text" layout="column">
+                            <h4 ng-if='yeast.user.displayName'>Ägare</h4>
+                            <p ng-if='yeast.user.displayName'>{{yeast.user.displayName}}</p>
+                        </div>
+                        <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(yeast)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === yeast.user.uid"></md-icon>
+                    </md-list-item>
+                </md-list>
+            </md-tab>
+            <md-tab label="Övrigt" ng-click='selectedList = "misc"'>
+                <md-list class="md-dense" flex>
+                    <md-list-item class="md-3-line" ng-repeat='misc in miscList'>
+                        <div class="md-list-item-text" layout="column">
+                            <h3>{{ misc.name}}</h3>
+                            <h4>Typ: {{ misc.type | miscType }}</h4>
+                            <p>Används till: {{ misc.useFor | miscUseFor }}</p>
+                        </div>
+                        <div class="md-list-item-text" layout="column">
+                            <h3>Används i: {{ misc.useIn | miscUseIn }}</h3>
+                            <h4 ng-if='misc.user.displayName'>Ägare</h4>
+                            <p ng-if='misc.user.displayName'>{{misc.user.displayName}}</p>
+                        </div>
+                        <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(misc)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === misc.user.uid"></md-icon>
+                    </md-list-item>
+                </md-list>
+            </md-tab>
+        </md-tabs>
+    </md-content>
 </div>
