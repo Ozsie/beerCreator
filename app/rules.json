@@ -1,0 +1,93 @@
+{
+  "rules": {
+    "beerlist": {
+      "$uid": {
+        ".write": "(auth !== null && auth.uid === $uid) || data.child('public').val() === true",
+        ".read": true
+      },
+      "public": {
+        ".write": "auth !== null",
+        ".read": true
+      }
+    },
+    "beerstyles": {
+      ".write": false,
+      ".read": "auth !== null"
+    },
+    "malts": {
+      ".write": "auth !== null",
+      ".read": "auth !== null"
+    },
+    "hops": {
+      ".write": "auth !== null",
+      ".read": "auth !== null",
+      ".validate": "newData.hasChildren(['name', 'alpha', 'beta', 'dryHopTime', 'form', 'hopStabilityIndex', 'notes', 'origin', 'time', 'type'])",
+      "name": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+      },
+      "alpha": {
+          ".validate": "newData.isNumber()"
+      },
+      "beta": {
+          ".validate": "newData.isNumber()"
+      },
+      "dryHopTime": {
+          ".validate": "newData.isNumber()"
+      },
+      "form": {
+          ".validate": "newData.isString() && (newData.val() == 'pellet' || newData.val() == 'leaf')"
+      },
+      "hopStabilityIndex": {
+          ".validate": "newData.isNumber()"
+      },
+      "note": {
+          ".validate": "newData.isString() && newData.val().length < 400"
+      },
+      "origin": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+      },
+      "time": {
+          ".validate": "newData.isNumber()"
+      },
+      "type": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+      }
+    },
+    "yeasts": {
+      ".write": "auth !== null",
+      ".read": "auth !== null"
+    },
+    "misc": {
+      ".write": "auth !== null",
+      ".read": "auth !== null"
+    },
+    "equipment": {
+      ".write": "auth !== null",
+      ".read": "auth !== null"
+    },
+    "fermentationProfiles": {
+      ".write": "auth !== null",
+      ".read": "auth !== null"
+    },
+    "mashProfiles": {
+      ".write": "auth !== null",
+      ".read": "auth !== null"
+    },
+    "loginLog": {
+      ".write": "auth !== null",
+      ".read": "auth !== null"
+    },
+    "users": {
+      "$uid": {
+        ".write": "(auth !== null && auth.uid === $uid) || data.child('public').val() === true",
+        ".read": true
+      }
+    },
+    "stock": {
+      "$uid": {
+        ".write": "(auth !== null && auth.uid === $uid) || data.child('public').val() === true",
+        ".read": true
+      }
+    }
+  }
+}

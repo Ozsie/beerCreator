@@ -25,18 +25,20 @@ module.exports = function (grunt) {
                             './editBeer/*.html',
                             './ingredients/*.html',
                             './login/*.html',
-                            './login/*.png',
+                            './login/*.jpg',
                             './profiles/*.html',
                             './public/*.html',
-                            './stock/*.html',
-                            './squares.gif'],
+                            './directives/*.html',
+                            './menu/*.html',
+                            './squares.gif',
+                            './favicon.ico',
+                            './resources/*.svg'],
                         dest: './dist/',
                         filter: 'isFile'
                     }, {
                         expand: true,
                         flatten: true,
-                        src: ['./bower_components/font-awesome/fonts/*',
-                            './bower_components/bootstrap/fonts/*'],
+                        src: ['./bower_components/font-awesome/fonts/*'],
                         dest: './dist/fonts/',
                         filter: 'isFile'
                     }]
