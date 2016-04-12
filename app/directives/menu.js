@@ -1,4 +1,4 @@
-angular.module('beerCreator.directives').directive('menu', function () {
+angular.module('beerCreator.directives', []).directive('menu', function () {
     return {
         restrict: 'E',
         scope: {

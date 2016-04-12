@@ -141,4 +141,20 @@ angular.module('beerCreator.profiles', ['ngRoute'])
             fermentation.type = "One stage";
         }
     };
+    
+    $scope.remove = function(item) {
+        if (item.user.uid === User.authData.uid) {
+            switch ($scope.selectedList) {
+                case 'equipment':
+                    $scope.equipmentList.$remove(item);
+                    break;
+                case 'fermentationProfiles':
+                    $scope.fermentationProfiles.$remove(item);
+                    break;
+                case 'mashProfiles':
+                    $scope.mashProfiles.$remove(item);
+                    break;
+            }
+        }
+    };
 }]);
