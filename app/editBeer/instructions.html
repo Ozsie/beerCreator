@@ -1,0 +1,53 @@
+<md-tab label="Instruktioner" ng-if="beer.equipment && (beer.mash || beer.fermentation)">
+    <md-list class="md-dense" flex>
+        <md-subheader class="md-no-sticky" ng-if="beer.mash && beer.ingredients.malts.length > 0">Mäskning</md-subheader>
+        <md-list-item class="md-2-line">
+            <div class="md-list-item-text" layout="column">
+                <h3>Tillsätt malt</h3>
+                <p ng-repeat="malt in beer.ingredients.malts" ng-if="malt.recommendMash">
+                    {{malt.amount}} g - {{malt.name}}
+                </p>
+            </div>
+        </md-list-item>
+        <md-list-item  class="md-2-line" ng-repeat="step in beer.mash.steps">
+            <div class="md-list-item-text" layout="column">
+                <h3>{{step.name}}</h3>
+                <p ng-if="step.waterToAdd > 0">
+                    Värm {{step.waterToAdd}} l vatten till {{calculateStrikeTemp(step, beer) | number: 1}} C.
+                    <br>
+                    Tillsätt vattnet och låt dra i {{step.time}} minuter, målet är {{step.temperature}} C.
+                </p>
+                <p ng-if="step.waterToAdd == 0">
+                    Värm mäsken till {{step.temperature}} C under {{step.time}} minuter.
+                </p>
+            </div>
+        </md-list-item>
+        <md-subheader class="md-no-sticky" ng-if="beer.mash && (beer.ingredients.hops.length > 0 || beer.ingredients.misc.length > 0)">Kokning</md-subheader>
+        <md-list-item  class="md-2-line" ng-repeat="ingredients in getBoilIngredients() | toArray | orderBy : '-time'">
+            <div class="md-list-item-text" layout="column">
+                <h3>{{60 - ingredients.time}} min - Tillsätt följande</h3>
+                <p ng-repeat="ingredient in ingredients.list">
+                    {{ingredient.amount}}
+                    <span ng-if="ingredient.unit">{{ingredient.unit}}</span>
+                    <span ng-if="!ingredient.unit">g</span>
+                    {{ingredient.name}}
+                </p>
+                <p>
+                    Koka i {{ingredients.time}}
+                    <span ng-if="ingredient.timeUnit">{{ingredient.timeUnit}}</span>
+                    <span ng-if="!ingredient.timeUnit">minuter</span>
+                </p>
+            </div>
+        </md-list-item>
+        <md-list-item  class="md-2-line">
+            <div class="md-list-item-text" layout="column">
+                <h3>{{beer.equipment.boiler.boilTime}} min - Kokningen färdig</h3>
+                <p ng-if="beer.fermentation">
+                    Kyl ner till
+                    <span ng-if="beer.fermentation.primary.temperature.max != beer.fermentation.primary.temperature.min">mellan {{beer.fermentation.primary.temperature.max}} C och {{beer.fermentation.primary.temperature.min}} C</span>
+                    <span ng-if="beer.fermentation.primary.temperature.max == beer.fermentation.primary.temperature.min">{{beer.fermentation.primary.temperature.max}} C</span>
+                </p>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-tab>

@@ -30,7 +30,6 @@
                                 <h3> {{ ingredient.amount}} g</h3>
                                 <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
                             </div>
-                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'malts')" aria-label="Chat"></md-icon>
                         </md-list-item>
                     </div>
                     <md-subheader class="md-no-sticky" ng-if="beer.ingredients.hops.length > 0">Humle</md-subheader>
@@ -48,7 +47,6 @@
                                 <h3> {{ ingredient.time}} min</h3>
                                 <p></p>
                             </div>
-                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'hops')" aria-label="Chat"></md-icon>
                         </md-list-item>
                     </div>
                     <md-subheader class="md-no-sticky" ng-if="beer.ingredients.misc.length > 0">Övrigt</md-subheader>
@@ -62,7 +60,6 @@
                                 <h3> {{ ingredient.amount}} {{ ingredient.unit}}</h3>
                                 <p></p>
                             </div>
-                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'misc')" aria-label="Chat"></md-icon>
                         </md-list-item>
                     </div>
                     <md-subheader class="md-no-sticky" ng-if="beer.ingredients.yeasts.length > 0">Jäst</md-subheader>
@@ -76,7 +73,6 @@
                                 <h3> {{ ingredient.amount}} pkg</h3>
                                 <p></p>
                             </div>
-                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'yeasts')" aria-label="Chat"></md-icon>
                         </md-list-item>
                     </div>
                 </md-list>
@@ -127,6 +123,7 @@
                     </md-list-item>
                 </md-list>
             </md-tab>
+            <ng-include src="'editBeer/instructions.html'"></ng-include>
         </md-tabs>
     </md-content>
 </div>
