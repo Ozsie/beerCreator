@@ -1,100 +1,75 @@
-<div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Grund</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment1" class="editLabelWidth">Namn</label>
-                    {{ beer.equipment.name }}
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment14" class="editLabelWidth">Satsstorlek</label>
-                    {{ beer.equipment.batchSize }} l
-                </div>
-                
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment2" class="editLabelWidth">Effektivitet</label>
-                    {{ beer.equipment.efficiency }}
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment2" class="editLabelWidth">Humleanvändning</label>
-                    {{ beer.equipment.hopUtilization }}
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Mäsk/siltunna</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment3" class="editLabelWidth">Volym</label>
-                    {{ beer.equipment.mashLauterTun.volume }} l
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment4" class="editLabelWidth">Massa</label>
-                    {{ beer.equipment.mashLauterTun.mass }} g
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment5" class="editLabelWidth">Värmekapacitet</label>
-                    {{ beer.equipment.mashLauterTun.specificHeat }}
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment6" class="editLabelWidth">Oanvändbart utrymme</label>
-                    {{ beer.equipment.mashLauterTun.deadSpace }} l
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment7" class="editLabelWidth">Hänsyn till oanvändbart utrymme</label>
-                    {{ beer.equipment.mashLauterTun.adjustVolumeForDeadSpace }}
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Kokare</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment8" class="editLabelWidth">Fyll ut kokning</label>
-                    {{ beer.equipment.boiler.kettleTopUp }} l
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment9" class="editLabelWidth">Räkna ut kokvolym</label>
-                    {{ beer.equipment.boiler.calculatBoilVolume }}
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25" >
-                    <label for="equipment10" class="editLabelWidth">Kokvolym</label>
-                    {{ beer.equipment.boiler.boilVolume }} l
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment11" class="editLabelWidth">Koktid</label>
-                    {{ beer.equipment.boiler.boilTime }} min
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="equipment12" class="editLabelWidth">Avkokningsförlust</label>
-                    {{ beer.equipment.boiler.boilOff }} l
-                </div>
-                <div class="form-group width25">
-                    <label for="equipment13" class="editLabelWidth">Kylningsförlust</label>
-                    {{ beer.equipment.boiler.coolingLoss }} l
-                </div>
-            </form>
-        </div>
-    </div>
+<div ng-cloak>
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Grund">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Namn</label>
+                        <input ng-model="beer.equipment.name" type="text" disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Satsstorlek</label>
+                        <input ng-model="beer.equipment.batchSize" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Effektivitet</label>
+                        <input ng-model="beer.equipment.efficiency" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Humleanvändning</label>
+                        <input ng-model="beer.equipment.hopUtilization" type="number" min='0' disabled="true">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Mäsk/siltunna">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Volym (l)</label>
+                        <input ng-model="beer.equipment.mashLauterTun.volume" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Massa (g)</label>
+                        <input ng-model="beer.equipment.mashLauterTun.mass" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Värmekapacitet</label>
+                        <input ng-model="beer.equipment.mashLauterTun.specificHeat" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Oanvändbart utrymme (l)</label>
+                        <input ng-model="beer.equipment.mashLauterTun.deadSpace" type="number" min='0' disabled="true">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Kokare">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Fyll ut kokning (l)</label>
+                        <input ng-model="beer.equipment.boiler.kettleTopUp" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="beer.equipment.boiler.calculatBoilVolume" aria-label="Lägg till efter kokning" disabled="true">
+                            Räkna ut kokvolym
+                        </md-switch>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Kokvolym (l)</label>
+                        <input ng-model="beer.equipment.boiler.boilVolume" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Koktid (min)</label>
+                        <input ng-model="beer.equipment.boiler.boilTime" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Avkokningsförlust (l)</label>
+                        <input ng-model="beer.equipment.boiler.boilOff" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Kylningsförlust (l)</label>
+                        <input ng-model="beer.equipment.boiler.coolingLoss" type="number" min='0' disabled="true">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
 </div>

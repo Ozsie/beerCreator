@@ -1,151 +1,128 @@
-<div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Grund</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="mash1" class="editLabelWidth">Namn</label>
-                    {{ beer.mash.name }}
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="mash6" class="editLabelWidth">Maltviktbas</label>
-                    {{ beer.mash.properties.grainWeightBasis }}
-                </div>
-                <div class="form-group width25">
-                    <label for="mash7" class="editLabelWidth">Koktemperatur</label>
-                    {{ beer.mash.properties.boliingTemp }} C
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="mash8" class="editLabelWidth">pH</label>
-                    {{ beer.mash.properties.ph }}
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Temperaturer</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="mash3" class="editLabelWidth">Malt</label>
-                    {{ beer.mash.temperatures.grain }} C
-                </div>
-                <div class="form-group width25">
-                    <label for="mash4" class="editLabelWidth">Tunna</label>
-                    {{ beer.mash.temperatures.tun }} C
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="mash5" class="editLabelWidth">Strilning</label>
-                    {{ beer.mash.temperatures.sparge }} C
-                </div>
-                <div class="form-group width25">
-                    <label for="mash2" class="editLabelWidth">Justera temperaturer</label>
-                    {{ beer.mash.equipmentTemperatureAdjustment }}
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Satsstril</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="mash9" class="editLabelWidth">Använd satsstril</label>
-                    {{ beer.mash.batchSpargeOptions.batchSparge }}
-                </div>
-                <div class="form-group width25" ng-if="beer.mash.batchSpargeOptions.batchSparge">
-                    <label for="mash10" class="editLabelWidth">Lika satser</label>
-                    {{ beer.mash.batchSpargeOptions.equalBatches }}
-                </div>
-            </form>
-            <form class="form-inline width100" ng-if="beer.mash.batchSpargeOptions.batchSparge">
-                <div class="form-group width25">
-                    <label for="mash11" class="editLabelWidth">Fyll mäsktunnan</label>
-                    {{ beer.mash.batchSpargeOptions.fillMashTun }}
-                </div>
-                <div class="form-group width25">
-                    <label for="mash12" class="editLabelWidth">Töm tunnan innan strilning</label>
-                    {{ beer.mash.batchSpargeOptions.dainTunBeforeSparge }}
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Brew-in-bag</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="mash13" class="editLabelWidth">Tvinga full kokning</label>
-                    {{ beer.mash.brewInBagAndFullBoilMashes.forceFullBoil }}
-                </div>
-                <div class="form-group width25">
-                    <label for="mash14" class="editLabelWidth">Kokvolymbas</label>
-                    {{ beer.mash.brewInBagAndFullBoilMashes.boilVolumeBasis }}
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100" ng-repeat="step in beer.mash.steps">
-        <div class="panel-heading">
-            <h3 class="panel-title">Steg {{ $index + 1 }}</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="step1" class="editLabelWidth">Namn</label>
-                    {{ step.name }}
-                </div>
-                <div class="form-group width25">
-                    <label for="step2" class="editLabelWidth">Typ</label>
-                    {{ step.type }}
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="step1" class="editLabelWidth">Temperatur</label>
-                    {{ step.temperature }} C
-                </div>
-                <div class="form-group width25">
-                    <label for="step2" class="editLabelWidth">Tid</label>
-                    {{ step.time }} min
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="step1" class="editLabelWidth">Stegringstid</label>
-                    {{ step.riseTime }} min
-                </div>
-                <div class="form-group width25">
-                    <label for="step2" class="editLabelWidth">Vattenmängd</label>
-                    {{ step.waterToAdd }} l
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="step1" class="editLabelWidth">Vatten/malt-ration</label>
-                    {{ step.waterGrainRation }}
-                </div>
-            </form>
-        </div>
-    </div>
-    <form class="form-inline width100">
-        <div class="form-group width25">
-            <label for="malt16" class="editLabelWidth">Anteckningar</label>
-            {{ beer.mash.notes }}
-        </div>
-    </form>
+<div ng-cloak>
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Grund">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Namn</label>
+                        <input ng-model="beer.mash.name" type="text" disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Maltviktbas</label>
+                        <input ng-model="beer.mash.properties.grainWeightBasis" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Koktemperatur (C)</label>
+                        <input ng-model="beer.mash.properties.boilingTemp" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>pH</label>
+                        <input ng-model="beer.mash.properties.ph" type="number" min='0' disabled="true">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Temperaturer">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Malt (C)</label>
+                        <input ng-model="beer.mash.temperatures.grain" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Tunna (C)</label>
+                        <input ng-model="beer.mash.temperatures.tun" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Strilning (C)</label>
+                        <input ng-model="beer.mash.temperatures.sparge" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Malt (C)</label>
+                        <input ng-model="beer.mash.temperatures.grain" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="beer.mash.equipmentTemperatureAdjustment" aria-label="Justera temperaturer" disabled="true">
+                            Justera temperaturer
+                        </md-switch>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Satsstril">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="beer.mash.batchSpargeOptions.batchSparge" aria-label="Använd satsstril" disabled="true">
+                            Använd satsstril
+                        </md-switch>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="beer.mash.batchSpargeOptions.equalBatches" aria-label="Lika satser" disabled="true">
+                            Lika satser
+                        </md-switch>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="beer.mash.batchSpargeOptions.fillMashTun" aria-label="Fyll mäsktunnan" disabled="true">
+                            Fyll mäsktunnan
+                        </md-switch>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="beer.mash.batchSpargeOptions.drainTunBeforeSparge" aria-label="Fyll mäsktunnan" disabled="true">
+                            Töm tunnan innan strilning
+                        </md-switch>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Brew-in-bag">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="beer.mash.brewInBagAndFullBoilMashes.forceFullBoil" aria-label="Tvinga full kokning" disabled="true">
+                            Tvinga full kokning
+                        </md-switch>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Kokvolymbas (l)</label>
+                        <input ng-model="beer.mash.brewInBagAndFullBoilMashes.boilVolumeBasis" type="number" min='0' disabled="true">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Steg {{$index + 1}}" ng-repeat='step in beer.mash.steps'>
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Namn</label>
+                        <input ng-model="step.name" type="text" disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Typ</label>
+                        <input ng-model="step.type" type="text" disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Temperatur (C)</label>
+                        <input ng-model="step.temperature" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Tid (min)</label>
+                        <input ng-model="step.time" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Stegringstid (min)</label>
+                        <input ng-model="step.riseTime" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Vattenmängd (l)</label>
+                        <input ng-model="step.waterToAdd" type="number" min='0' disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Vatten/malt-ratio</label>
+                        <input ng-model="step.waterGrainRation" type="number" min='0' disabled="true">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Anteckningar">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Anteckningar</label>
+                        <textarea ng-model="beer.fermentation.notes" md-maxlength="400" rows="5" md-select-on-focus disabled="true"></textarea>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
 </div>
