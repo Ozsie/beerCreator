@@ -19,6 +19,9 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     $scope.user = User;
     
     BeerStyles.getStyles().$loaded().then(function(styles) {
+        if (!User || !User.authData) {
+            return;
+        }
         $scope.styles = styles;
         $scope.tempBeer = EditBeer.getBeerToEdit();
         $scope.beerColor = "#ffffff";
@@ -336,6 +339,9 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     
     $scope.$on("$destroy", function(){
         Page.setTitle("Beer Creator");
+        if (!$scope.miscList) {
+            return;
+        }
         $scope.miscList.$destroy();
         $scope.yeastList.$destroy();
         $scope.hopList.$destroy();

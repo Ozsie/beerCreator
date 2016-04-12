@@ -1,106 +1,80 @@
-<div>
-    <div class="panel panel-default width100">
-        <div class="panel-heading">
-            <h3 class="panel-title">Grund</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="fermentation1" class="editLabelWidth">Namn</label>
-                    <input ng-model="beer.fermentation.name" class="form-control editInputWidth" id="fermentation1">
-                </div>
-                <div class="form-group width25">
-                    <label for="fermentation6" class="editLabelWidth">Typ</label>
-                    <input ng-model="beer.fermentation.type" class="form-control editInputWidth" id="fermentation6">
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100" ng-if="beer.fermentation.primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Primär</h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="fermentation3" class="editLabelWidth">Tid</label>
-                    <input ng-model="beer.fermentation.primary.time" class="form-control editInputWidth" id="fermentation3" type="number"> dagar
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="fermentation5" class="editLabelWidth">Min. temperatur</label>
-                    <input ng-model="beer.fermentation.primary.temperature.min" class="form-control editInputWidth" id="fermentation5" type="number"> C
-                </div>
-                <div class="form-group width25">
-                    <label for="fermentation2" class="editLabelWidth">Max. temperatur</label>
-                    <input ng-model="beer.fermentation.primary.temperature.max" class="form-control editInputWidth" id="fermentation2" type="number"> C
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100" ng-if="beer.fermentation.secondary">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <button class="btn btn-default glyphicon glyphicon-remove" id="malt17" ng-click='removeSecondary(beer.fermentation)'></button>
-                Sekundär
-            </h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="fermentation3" class="editLabelWidth">Tid</label>
-                    <input ng-model="beer.fermentation.secondary.time" class="form-control editInputWidth" id="fermentation3" type="number"> dagar
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="fermentation5" class="editLabelWidth">Min. temperatur</label>
-                    <input ng-model="beer.fermentation.secondary.temperature.min" class="form-control editInputWidth" id="fermentation5" type="number"> C
-                </div>
-                <div class="form-group width25">
-                    <label for="fermentation2" class="editLabelWidth">Max. temperatur</label>
-                    <input ng-model="beer.fermentation.secondary.temperature.max" class="form-control editInputWidth" id="fermentation2" type="number"> C
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default width100" ng-if="beer.fermentation.aging">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <button class="btn btn-default glyphicon glyphicon-remove" id="malt17" ng-click='removeAging(beer.fermentation)'></button>
-                Lagring
-            </h3>
-        </div>
-        <div class="panel-body">
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="fermentation3" class="editLabelWidth">Tid</label>
-                    <input ng-model="beer.fermentation.aging.time" class="form-control editInputWidth" id="fermentation3" type="number"> dagar
-                </div>
-            </form>
-            <form class="form-inline width100">
-                <div class="form-group width25">
-                    <label for="fermentation5" class="editLabelWidth">Min. temperatur</label>
-                    <input ng-model="beer.fermentation.aging.temperature.min" class="form-control editInputWidth" id="fermentation5" type="number"> C
-                </div>
-                <div class="form-group width25">
-                    <label for="fermentation2" class="editLabelWidth">Max. temperatur</label>
-                    <input ng-model="beer.fermentation.aging.temperature.max" class="form-control editInputWidth" id="fermentation2" type="number"> C
-                </div>
-            </form>
-        </div>
-    </div>
-    <form class="form-inline width100">
-        <div class="form-group width25">
-            <button class="btn btn-default" id="malt17" ng-click='addAging(beer.fermentation);' ng-if='!beer.fermentation.aging'>Lägg till lagring</button>
-            <button class="btn btn-default" id="malt17" ng-click='addSecondary(beer.fermentation)' ng-if='!beer.fermentation.secondary'>Lägg till sekundär</button>
-        </div>
-    </form>
-    <form class="form-inline width100">
-        <div class="form-group width25">
-            <label for="malt16" class="editLabelWidth">Anteckningar</label>
-            <input ng-model="beer.fermentation.notes" class="form-control editInputWidth" id="malt16">
-        </div>
-    </form>
+<div ng-cloak>
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Grund">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Namn</label>
+                        <input ng-model="beer.fermentation.name" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Typ</label>
+                        <input ng-model="beer.fermentation.type" type="text" ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Primär">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Tid (dagar)</label>
+                        <input ng-model="beer.fermentation.primary.time" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Mintemperatur (C)</label>
+                        <input ng-model="beer.fermentation.primary.temperature.min" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Maxtemperatur (C)</label>
+                        <input ng-model="beer.fermentation.primary.temperature.max" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Sekundär" ng-if="beer.fermentation.secondary">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Tid (dagar)</label>
+                        <input ng-model="beer.fermentation.secondary.time" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Mintemperatur (C)</label>
+                        <input ng-model="beer.fermentation.secondary.temperature.min" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Maxtemperatur (C)</label>
+                        <input ng-model="beer.fermentation.secondary.temperature.max" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Lagring" ng-if="beer.fermentation.aging">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Tid (dagar)</label>
+                        <input ng-model="beer.fermentation.secondary.time" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Mintemperatur (C)</label>
+                        <input ng-model="beer.fermentation.secondary.temperature.min" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Maxtemperatur (C)</label>
+                        <input ng-model="beer.fermentation.secondary.temperature.max" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Anteckningar">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Anteckningar</label>
+                        <textarea ng-model="beer.fermentation.notes" md-maxlength="400" rows="5" md-select-on-focus ng-change="update()"></textarea>
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+    <md-content>
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button class="md-raised md-primary" ng-click='addAging(beer.fermentation);' ng-if='!beer.fermentation.aging'>Lägg till lagring</md-button>
+            <md-button class="md-raised md-primary" ng-click='addSecondary(beer.fermentation);' ng-if='!beer.fermentation.secondary'>Lägg till sekundär</md-button>
+        </section>
+    </md-content>
 </div>

@@ -1,61 +1,75 @@
-<div class="row">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s12">
-                <h3 class="panel-title">Grund</h3>
-            </div>
-        </div>
-        <ingredient-row value1="beer.equipment.name" label1="'Namn'" type1="'text'"
-                        value2="beer.equipment.batchSize" label2="'Satsstorlek'" type2="'number'">
-        </ingredient-row>
-        
-        <ingredient-row value1="beer.equipment.efficiency" label1="'Effektivitet'" type1="'number'"
-                        value2="beer.equipment.hopUtilization" label2="'Humleanvändning'" type2="'text'">
-        </ingredient-row>
-    </form>
+<div ng-cloak>
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Grund">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Namn</label>
+                        <input ng-model="beer.equipment.name" type="text" ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Satsstorlek</label>
+                        <input ng-model="beer.equipment.batchSize" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Effektivitet</label>
+                        <input ng-model="beer.equipment.efficiency" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Humleanvändning</label>
+                        <input ng-model="beer.equipment.hopUtilization" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Mäsk/siltunna">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Volym (l)</label>
+                        <input ng-model="beer.equipment.mashLauterTun.volume" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Massa (g)</label>
+                        <input ng-model="beer.equipment.mashLauterTun.mass" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Värmekapacitet</label>
+                        <input ng-model="beer.equipment.mashLauterTun.specificHeat" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Oanvändbart utrymme (l)</label>
+                        <input ng-model="beer.equipment.mashLauterTun.deadSpace" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+            <md-tab label="Kokare">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <label>Fyll ut kokning (l)</label>
+                        <input ng-model="beer.equipment.boiler.kettleTopUp" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <md-switch ng-model="beer.equipment.boiler.calculatBoilVolume" aria-label="Lägg till efter kokning" ng-change="update()">
+                            Räkna ut kokvolym
+                        </md-switch>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Kokvolym (l)</label>
+                        <input ng-model="beer.equipment.boiler.boilVolume" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Koktid (min)</label>
+                        <input ng-model="beer.equipment.boiler.boilTime" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Avkokningsförlust (l)</label>
+                        <input ng-model="beer.equipment.boiler.boilOff" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Kylningsförlust (l)</label>
+                        <input ng-model="beer.equipment.boiler.coolingLoss" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
 </div>
-
-<div class="row">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s12">
-                <h3 class="panel-title">Mäsk/siltunna</h3>
-            </div>
-        </div>
-        <ingredient-row value1="beer.equipment.mashLauterTun.volume" label1="'Volym (l)'" type1="'number'"
-                        value2="beer.equipment.mashLauterTun.mass" label2="'Massa (g)'" type2="'number'">
-        </ingredient-row>
-        
-        <ingredient-row value1="beer.equipment.mashLauterTun.specificHeat" label1="'Värmekapacitet'" type1="'number'"
-                        value2="beer.equipment.mashLauterTun.deadSpace" label2="'Oanvändbart utrymme (l)'" type2="'number'">
-        </ingredient-row>
-        
-        <ingredient-row value1="beer.equipment.mashLauterTun.adjustVolumeForDeadSpace" label1="'Hänsyn till oanvändbart utrymme'" type1="'checkbox'" one="true" ></ingredient-row>
-    </form>
-</div>
-
-<div class="row">
-    <form class="col s12" action="#">
-        <div class="row">
-            <div class="input-field col s12">
-                <h3 class="panel-title">Kokare</h3>
-            </div>
-        </div>
-        <ingredient-row value1="beer.equipment.boiler.kettleTopUp" label1="'Fyll ut kokning (l)'" type1="'number'"
-                        value2="beer.equipment.boiler.calculatBoilVolume" label2="'Räkna ut kokvolym'" type2="'checkbox'">
-        </ingredient-row>
-        
-        <ingredient-row value1="beer.equipment.boiler.boilVolume" label1="'Kokvolym (l)'" type1="'number'"
-                        value2="beer.equipment.boiler.boilTime" label2="'Koktid (min)'" type2="'number'">
-        </ingredient-row>
-        
-        <ingredient-row value1="beer.equipment.boiler.boilOff" label1="'Avkokningsförlust (l)'" type1="'number'"
-                        value2="beer.equipment.boiler.coolingLoss" label2="'Kylningsförlust (l)'" type2="'number'">
-        </ingredient-row>
-
-        <ingredient-button-row save="save()"
-                               cancel="cancel()">
-        </ingredient-button-row>
-    </form>
-</div>
-<div after-render="afterRender"></div>

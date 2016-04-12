@@ -14,199 +14,207 @@
         </md-list-item>
     </md-list>
     <md-divider></md-divider>
-    <md-input-container class="md-block" flex-gt-sm>
-        <label>Huvudstil</label>
-        <md-select ng-model="beer.parentStyle">
-            <md-option ng-repeat="style in styles" value="{{style.id}}">
-                {{style.name}}
-            </md-option>
-        </md-select>
-    </md-input-container>
-    <md-input-container class="md-block" flex-gt-sm ng-if="beer.parentStyle">
-        <label>Understil</label>
-        <md-select ng-model="beer.style">
-            <md-option ng-repeat="style in subStyles" value="{{style.id}}">
-                {{style.name}}
-            </md-option>
-        </md-select>
-    </md-input-container>
-    <md-divider></md-divider>
-    <info-slider header="'ABV'" value="beer.abv" min='beer.fullStyle.abvMin' max='beer.fullStyle.abvMax' round="2"></info-slider>
-    <info-slider header="'IBU'" value="beer.ibu" min='beer.fullStyle.ibuMin' max='beer.fullStyle.ibuMax' round="0"></info-slider>
-    <info-slider header="'OG'" value="beer.og" min='beer.fullStyle.ogMin' max='beer.fullStyle.ogMax'></info-slider>
-    <info-slider header="'FG'" value="beer.fg" min='beer.fullStyle.fgMin' max='beer.fullStyle.fgMax'></info-slider>
-    <info-slider header="'EBC'" value="beer.color" min='beer.fullStyle.ebcMin' max='beer.fullStyle.ebcMax' round="0"></info-slider>
-    <div class="width100" style="background-color: {{ beerColor}}; height: 10px;"></div>
-    <md-divider></md-divider>
-    <md-list class="md-dense" flex>
-        <md-subheader class="md-no-sticky" ng-if="beer.ingredients.malts.length > 0">Malt</md-subheader>
-        <div ng-repeat="ingredient in beer.ingredients.malts" >
-            <md-list-item ng-click="toggleIngredient('malts', $index)" class="md-2-line">
-                <div class="md-list-item-text" layout="column">
-                    <h3>{{ ingredient.name}}</h3>
-                    <p>{{ ingredient.type | ingredientType }}</p>
+
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Stil och ingredienser">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Huvudstil</label>
+                    <md-select ng-model="beer.parentStyle">
+                        <md-option ng-repeat="style in styles" value="{{style.id}}">
+                            {{style.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm ng-if="beer.parentStyle">
+                    <label>Understil</label>
+                    <md-select ng-model="beer.style">
+                        <md-option ng-repeat="style in subStyles" value="{{style.id}}">
+                            {{style.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-divider></md-divider>
+                <info-slider header="'ABV'" value="beer.abv" min='beer.fullStyle.abvMin' max='beer.fullStyle.abvMax' round="'2'"></info-slider>
+                <info-slider header="'IBU'" value="beer.ibu" min='beer.fullStyle.ibuMin' max='beer.fullStyle.ibuMax' round="'0'"></info-slider>
+                <info-slider header="'OG'" value="beer.og" min='beer.fullStyle.ogMin' max='beer.fullStyle.ogMax' round="'3'"></info-slider>
+                <info-slider header="'FG'" value="beer.fg" min='beer.fullStyle.fgMin' max='beer.fullStyle.fgMax' round="'3'"></info-slider>
+                <info-slider header="'EBC'" value="beer.color" min='beer.fullStyle.ebcMin' max='beer.fullStyle.ebcMax' round="'0'"></info-slider>
+                <div class="width100" style="background-color: {{ beerColor}}; height: 10px;"></div>
+                <md-divider></md-divider>
+                <md-list class="md-dense" flex>
+                    <md-subheader class="md-no-sticky" ng-if="beer.ingredients.malts.length > 0">Malt</md-subheader>
+                    <div ng-repeat="ingredient in beer.ingredients.malts" >
+                        <md-list-item ng-click="toggleIngredient('malts', $index)" class="md-2-line">
+                            <div class="md-list-item-text" layout="column">
+                                <h3>{{ ingredient.name}}</h3>
+                                <p>{{ ingredient.type | ingredientType }}</p>
+                            </div>
+                            <div class="md-list-item-text" layout="column">
+                                <h3> {{ ingredient.amount}} g</h3>
+                                <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
+                            </div>
+                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'malts')" aria-label="Chat"></md-icon>
+                        </md-list-item>
+                        <md-list-item ng-show="editIndex == $index && editType == 'malts'">
+                            <div ng-include="'editBeer/editMalt.html'" ng-init="editedIngredient = ingredient; exists = true;" class="width100"></div>
+                        </md-list-item>
+                    </div>
+                    <md-subheader class="md-no-sticky" ng-if="beer.ingredients.hops.length > 0">Humle</md-subheader>
+                    <div ng-repeat="ingredient in beer.ingredients.hops" >
+                        <md-list-item ng-click="toggleIngredient('hops', $index)" class="md-2-line">
+                            <div class="md-list-item-text" layout="column">
+                                <h3>{{ ingredient.name}}</h3>
+                                <p>{{ ingredient.type | ingredientType }}</p>
+                            </div>
+                            <div class="md-list-item-text" layout="column">
+                                <h3> {{ ingredient.amount}} g</h3>
+                                <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
+                            </div>
+                            <div class="md-list-item-text" layout="column">
+                                <h3> {{ ingredient.time}} min</h3>
+                                <p></p>
+                            </div>
+                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'hops')" aria-label="Chat"></md-icon>
+                        </md-list-item>
+                        <md-list-item ng-show="editIndex == $index && editType == 'hops'">
+                            <div ng-include="'editBeer/editHops.html'" ng-init="editedIngredient = ingredient; exists = true;" class="width100"></div>
+                        </md-list-item>
+                    </div>
+                    <md-subheader class="md-no-sticky" ng-if="beer.ingredients.yeasts.misc > 0">Övrigt</md-subheader>
+                    <div ng-repeat="ingredient in beer.ingredients.misc" >
+                        <md-list-item ng-click="toggleIngredient('misc', $index)" class="md-2-line">
+                            <div class="md-list-item-text" layout="column">
+                                <h3>{{ ingredient.name}}</h3>
+                                <p>{{ ingredient.type | ingredientType }}</p>
+                            </div>
+                            <div class="md-list-item-text" layout="column">
+                                <h3> {{ ingredient.amount}} {{ ingredient.unit}}</h3>
+                                <p></p>
+                            </div>
+                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'misc')" aria-label="Chat"></md-icon>
+                        </md-list-item>
+                        <md-list-item ng-show="editIndex == $index && editType == 'misc'">
+                            <div ng-include="'editBeer/editMisc.html'" ng-init="editedIngredient = ingredient; exists = true;" class="width100"></div>
+                        </md-list-item>
+                    </div>
+                    <md-subheader class="md-no-sticky" ng-if="beer.ingredients.yeasts.length > 0">Jäst</md-subheader>
+                    <div ng-repeat="ingredient in beer.ingredients.yeasts" >
+                        <md-list-item ng-click="toggleIngredient('yeasts', $index)" class="md-2-line">
+                            <div class="md-list-item-text" layout="column">
+                                <h3>{{ ingredient.name}}</h3>
+                                <p>{{ ingredient.type | ingredientType }}</p>
+                            </div>
+                            <div class="md-list-item-text" layout="column">
+                                <h3> {{ ingredient.amount}} pkg</h3>
+                                <p></p>
+                            </div>
+                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'yeasts')" aria-label="Chat"></md-icon>
+                        </md-list-item>
+                        <md-list-item ng-show="editIndex == $index && editType == 'yeasts'">
+                            <div ng-include="'editBeer/editYeast.html'" ng-init="editedIngredient = ingredient; exists = true;" class="width100"></div>
+                        </md-list-item>
+                    </div>
+                </md-list>
+                <md-list>
+                    <md-subheader class="md-no-sticky">Lägg till ingrediens</md-subheader>
+                </md-list>
+                <md-input-container class="md-block">
+                    <label>Ingredienstyp</label>
+                    <md-select ng-model="newIngredientType">
+                        <md-option ng-repeat="ingredient in ingredientSelect" value="{{ingredient.value}}">
+                            {{ingredient.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-xs ng-show="newIngredientType">
+                    <label>Ingrediens</label>
+                    <md-select ng-model="selectedIngredient">
+                        <md-option ng-repeat="malt in grainList" value="{{malt.$id}}" ng-if="newIngredientType == 'malt'">
+                            {{malt.name}} / {{ malt.color}} EBC / {{ malt.yield * 100 | number: 2}} / {{malt.origin}}
+                        </md-option>
+                        <md-option ng-repeat="hop in hopList" value="{{hop.$id}}" ng-if="newIngredientType == 'hops'">
+                            {{ hop.name}} / {{ hop.alpha | number: 2}} / {{ hop.origin}}
+                        </md-option>
+                        <md-option ng-repeat="yeast in yeastList" value="{{yeast.$id}}" ng-if="newIngredientType == 'yeasts'">
+                            {{ yeast.productId}} {{ yeast.name}} / {{ yeast.minAttenuation | number: 2}} / {{ yeast.bestFor}}
+                        </md-option>
+                        <md-option ng-repeat="misc in miscList" value="{{misc.$id}}" ng-if="newIngredientType == 'misc'">
+                            {{ misc.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <div ng-show="editedIngredient">
+                    <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'" ng-init="showButtons = true"></div>
+                    <div ng-include="'editBeer/editHops.html'" ng-if="newIngredientType == 'hops'" ng-init="showButtons = true"></div>
+                    <div ng-include="'editBeer/editYeast.html'" ng-if="newIngredientType == 'yeasts'" ng-init="showButtons = true"></div>
+                    <div ng-include="'editBeer/editMisc.html'" ng-if="newIngredientType == 'misc'" ng-init="showButtons = true"></div>
                 </div>
-                <div class="md-list-item-text" layout="column">
-                    <h3> {{ ingredient.amount }} g</h3>
-                    <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
-                </div>
-                <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'malts')" aria-label="Chat"></md-icon>
-            </md-list-item>
-            <md-list-item ng-show="editIndex == $index && editType == 'malts'">
-                <div ng-include="'editBeer/editMalt.html'" ng-init="editedIngredient = ingredient; exists = true;" class="width100"></div>
-            </md-list-item>
-        </div>
-        <md-subheader class="md-no-sticky" ng-if="beer.ingredients.hops.length > 0">Humle</md-subheader>
-        <div ng-repeat="ingredient in beer.ingredients.hops" >
-            <md-list-item ng-click="toggleIngredient('hops', $index)" class="md-2-line">
-                <div class="md-list-item-text" layout="column">
-                    <h3>{{ ingredient.name}}</h3>
-                    <p>{{ ingredient.type | ingredientType }}</p>
-                </div>
-                <div class="md-list-item-text" layout="column">
-                    <h3> {{ ingredient.amount }} g</h3>
-                    <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
-                </div>
-                <div class="md-list-item-text" layout="column">
-                    <h3> {{ ingredient.time }} min</h3>
-                    <p></p>
-                </div>
-                <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'hops')" aria-label="Chat"></md-icon>
-            </md-list-item>
-            <md-list-item ng-show="editIndex == $index && editType == 'hops'">
-                <div ng-include="'editBeer/editHops.html'" ng-init="editedIngredient = ingredient; exists = true;" class="width100"></div>
-            </md-list-item>
-        </div>
-        <md-subheader class="md-no-sticky" ng-if="beer.ingredients.yeasts.misc > 0">Övrigt</md-subheader>
-        <div ng-repeat="ingredient in beer.ingredients.misc" >
-            <md-list-item ng-click="toggleIngredient('misc', $index)" class="md-2-line">
-                <div class="md-list-item-text" layout="column">
-                    <h3>{{ ingredient.name}}</h3>
-                    <p>{{ ingredient.type | ingredientType }}</p>
-                </div>
-                <div class="md-list-item-text" layout="column">
-                    <h3> {{ ingredient.amount }} {{ ingredient.unit}}</h3>
-                    <p></p>
-                </div>
-                <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'misc')" aria-label="Chat"></md-icon>
-            </md-list-item>
-            <md-list-item ng-show="editIndex == $index && editType == 'misc'">
-                <div ng-include="'editBeer/editMisc.html'" ng-init="editedIngredient = ingredient; exists = true;" class="width100"></div>
-            </md-list-item>
-        </div>
-        <md-subheader class="md-no-sticky" ng-if="beer.ingredients.yeasts.length > 0">Jäst</md-subheader>
-        <div ng-repeat="ingredient in beer.ingredients.yeasts" >
-            <md-list-item ng-click="toggleIngredient('yeasts', $index)" class="md-2-line">
-                <div class="md-list-item-text" layout="column">
-                    <h3>{{ ingredient.name}}</h3>
-                    <p>{{ ingredient.type | ingredientType }}</p>
-                </div>
-                <div class="md-list-item-text" layout="column">
-                    <h3> {{ ingredient.amount }} pkg</h3>
-                    <p></p>
-                </div>
-                <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'yeasts')" aria-label="Chat"></md-icon>
-            </md-list-item>
-            <md-list-item ng-show="editIndex == $index && editType == 'yeasts'">
-                <div ng-include="'editBeer/editYeast.html'" ng-init="editedIngredient = ingredient; exists = true;" class="width100"></div>
-            </md-list-item>
-        </div>
-    </md-list>
-    <md-list>
-        <md-subheader class="md-no-sticky">Lägg till ingrediens</md-subheader>
-    </md-list>
-    <md-input-container class="md-block">
-        <label>Ingredienstyp</label>
-        <md-select ng-model="newIngredientType">
-            <md-option ng-repeat="ingredient in ingredientSelect" value="{{ingredient.value}}">
-                {{ingredient.name}}
-            </md-option>
-        </md-select>
-    </md-input-container>
-    <md-input-container class="md-block" flex-gt-xs ng-show="newIngredientType">
-        <label>Ingrediens</label>
-        <md-select ng-model="selectedIngredient">
-            <md-option ng-repeat="malt in grainList" value="{{malt.$id}}" ng-if="newIngredientType == 'malt'">
-                {{malt.name}} / {{ malt.color}} EBC / {{ malt.yield * 100 | number: 2}} / {{malt.origin}}
-            </md-option>
-            <md-option ng-repeat="hop in hopList" value="{{hop.$id}}" ng-if="newIngredientType == 'hops'">
-                {{ hop.name}} / {{ hop.alpha | number: 2}} / {{ hop.origin}}
-            </md-option>
-            <md-option ng-repeat="yeast in yeastList" value="{{yeast.$id}}" ng-if="newIngredientType == 'yeasts'">
-                {{ yeast.productId}} {{ yeast.name}} / {{ yeast.minAttenuation | number: 2}} / {{ yeast.bestFor}}
-            </md-option>
-            <md-option ng-repeat="misc in miscList" value="{{misc.$id}}" ng-if="newIngredientType == 'misc'">
-                {{ misc.name}}
-            </md-option>
-        </md-select>
-    </md-input-container>
-    <div ng-show="editedIngredient">
-        <div ng-include="'editBeer/editMalt.html'" ng-if="newIngredientType == 'malt'" ng-init="showButtons = true"></div>
-        <div ng-include="'editBeer/editHops.html'" ng-if="newIngredientType == 'hops'" ng-init="showButtons = true"></div>
-        <div ng-include="'editBeer/editYeast.html'" ng-if="newIngredientType == 'yeasts'" ng-init="showButtons = true"></div>
-        <div ng-include="'editBeer/editMisc.html'" ng-if="newIngredientType == 'misc'" ng-init="showButtons = true"></div>
-    </div>
-    <md-divider></md-divider>
-    <md-list>
-        <md-subheader class="md-no-sticky">Profiler: {{beer.equipment.name}}/{{beer.mash.name}}/{{beer.fermentation.name}}</md-subheader>
-        <md-list-item>
-            <md-button class="md-fab" aria-label="Expandera/Kollapsa" ng-click="showEditEquipment = !showEditEquipment">
-                <md-icon md-svg-src="resources/ic_expand_more_black_24px.svg" ng-if="!showEditEquipment"></md-icon>
-                <md-icon md-svg-src="resources/ic_expand_less_black_24px.svg" ng-if="showEditEquipment"></md-icon>
-            </md-button>
-            <md-input-container class="md-block width80">
-                <label>Utrustning</label>
-                <md-select ng-model="beer.equipment" ng-change='update();'>
-                    <md-option ng-repeat="equipment in equipmentList" ng-value="equipment">
-                        {{equipment.name}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </md-list-item>
-        <md-list-item>
-            <div class="panel-body" ng-show="showEditEquipment">
-                <div ng-include="'editBeer/editEquipment.html'" ng-show="beer.equipment"></div>
-            </div>
-        </md-list-item>
-        <md-list-item>
-            <md-button class="md-fab" aria-label="Expandera/Kollapsa" ng-click="showEditMash = !showEditMash">
-                <md-icon md-svg-src="resources/ic_expand_more_black_24px.svg" ng-if="!showEditMash"></md-icon>
-                <md-icon md-svg-src="resources/ic_expand_less_black_24px.svg" ng-if="showEditMash"></md-icon>
-            </md-button>
-            <md-input-container class="md-block width80">
-                <label>Mäskningsprofil</label>
-                <md-select ng-model="beer.mash" ng-change='update();'>
-                    <md-option ng-repeat="mashProfile in mashProfiles" ng-value="mashProfile">
-                        {{mashProfile.name}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </md-list-item>
-        <md-list-item>
-            <div class="panel-body" ng-show="showEditMash">
-                <div ng-include="'editBeer/editMashProfile.html'" ng-show="beer.mash"></div>
-            </div>
-        </md-list-item>
-        <md-list-item>
-            <md-button class="md-fab" aria-label="Expandera/Kollapsa" ng-click="showEditFermentation = !showEditFermentation">
-                <md-icon md-svg-src="resources/ic_expand_more_black_24px.svg" ng-if="!showEditFermentation"></md-icon>
-                <md-icon md-svg-src="resources/ic_expand_less_black_24px.svg" ng-if="showEditFermentation"></md-icon>
-            </md-button>
-            <md-input-container class="md-block width80">
-                <label>Mäskningsprofil</label>
-                <md-select ng-model="beer.fermentation" ng-change='update();'>
-                    <md-option ng-repeat="fermentationProfile in fermentationProfiles" ng-value="fermentationProfile">
-                        {{fermentationProfile.name}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </md-list-item>
-        <md-list-item>
-            <div class="panel-body" ng-show="showEditFermentation">
-                <div ng-include="'editBeer/editFermentationProfile.html'" ng-show="beer.fermentation"></div>
-            </div>
-        </md-list-item>
-    </md-list>
+            </md-tab>
+            <md-tab label="Profiler">
+                <md-list>
+                    <md-subheader class="md-no-sticky">Profiler: {{beer.equipment.name}}/{{beer.mash.name}}/{{beer.fermentation.name}}</md-subheader>
+                    <md-list-item>
+                        <md-button class="md-fab" aria-label="Expandera/Kollapsa" ng-click="showEditEquipment = !showEditEquipment">
+                            <md-icon md-svg-src="resources/ic_expand_more_black_24px.svg" ng-if="!showEditEquipment"></md-icon>
+                            <md-icon md-svg-src="resources/ic_expand_less_black_24px.svg" ng-if="showEditEquipment"></md-icon>
+                        </md-button>
+                        <md-input-container class="md-block width80">
+                            <label>Utrustning</label>
+                            <md-select ng-model="beer.equipment" ng-change='update();'>
+                                <md-option ng-repeat="equipment in equipmentList" ng-value="equipment">
+                                    {{equipment.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </md-list-item>
+                    <md-list-item>
+                        <div class="width100" ng-show="showEditEquipment">
+                            <div ng-include="'editBeer/editEquipment.html'" ng-show="beer.equipment"></div>
+                        </div>
+                    </md-list-item>
+                    <md-list-item>
+                        <md-button class="md-fab" aria-label="Expandera/Kollapsa" ng-click="showEditMash = !showEditMash">
+                            <md-icon md-svg-src="resources/ic_expand_more_black_24px.svg" ng-if="!showEditMash"></md-icon>
+                            <md-icon md-svg-src="resources/ic_expand_less_black_24px.svg" ng-if="showEditMash"></md-icon>
+                        </md-button>
+                        <md-input-container class="md-block width80">
+                            <label>Mäskningsprofil</label>
+                            <md-select ng-model="beer.mash" ng-change='update();'>
+                                <md-option ng-repeat="mashProfile in mashProfiles" ng-value="mashProfile">
+                                    {{mashProfile.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </md-list-item>
+                    <md-list-item>
+                        <div class="width100" ng-show="showEditMash">
+                            <div ng-include="'editBeer/editMashProfile.html'" ng-show="beer.mash"></div>
+                        </div>
+                    </md-list-item>
+                    <md-list-item>
+                        <md-button class="md-fab" aria-label="Expandera/Kollapsa" ng-click="showEditFermentation = !showEditFermentation">
+                            <md-icon md-svg-src="resources/ic_expand_more_black_24px.svg" ng-if="!showEditFermentation"></md-icon>
+                            <md-icon md-svg-src="resources/ic_expand_less_black_24px.svg" ng-if="showEditFermentation"></md-icon>
+                        </md-button>
+                        <md-input-container class="md-block width80">
+                            <label>Jäsningsprofil</label>
+                            <md-select ng-model="beer.fermentation" ng-change='update();'>
+                                <md-option ng-repeat="fermentationProfile in fermentationProfiles" ng-value="fermentationProfile">
+                                    {{fermentationProfile.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </md-list-item>
+                    <md-list-item>
+                        <div class="width100" ng-show="showEditFermentation">
+                            <div ng-include="'editBeer/editFermentationProfile.html'" ng-show="beer.fermentation"></div>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-tab>
+        </md-tabs>
+    </md-content>
     <md-divider></md-divider>
     <md-list>
         <md-list-item>
