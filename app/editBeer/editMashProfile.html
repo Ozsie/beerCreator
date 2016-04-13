@@ -36,10 +36,6 @@
                         <input ng-model="beer.mash.temperatures.sparge" type="number" min='0' ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
-                        <label>Malt (C)</label>
-                        <input ng-model="beer.mash.temperatures.grain" type="number" min='0' ng-change="update()">
-                    </md-input-container>
-                    <md-input-container class="md-block">
                         <md-switch ng-model="beer.mash.equipmentTemperatureAdjustment" aria-label="Justera temperaturer" ng-change="update()">
                             Justera temperaturer
                         </md-switch>
@@ -96,7 +92,11 @@
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Typ</label>
-                        <input ng-model="step.type" type="text" ng-change="update()">
+                        <md-select ng-model="step.type" ng-change="update()">
+                            <md-option value="infusion">Infusion</md-option>
+                            <md-option value="decoction">Avkok</md-option>
+                            <md-option value="temperature">Temperatur</md-option>
+                        </md-select>
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Temperatur (C)</label>
@@ -115,8 +115,12 @@
                         <input ng-model="step.waterToAdd" type="number" min='0' ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
-                        <label>Vatten/malt-ratio</label>
+                        <label>Vatten/malt-ratio (l/g)</label>
                         <input ng-model="step.waterGrainRation" type="number" min='0' ng-change="update()">
+                    </md-input-container>
+                    <md-input-container class="md-block" ng-show="step.type == 'infusion'">
+                        <label>Infusionstemperatur</label>
+                        <input ng-model="step.infusionTemperature" type="number" min='0' ng-change="update()">
                     </md-input-container>
                 </md-content>
             </md-tab>
@@ -124,7 +128,7 @@
                 <md-content class="md-padding">
                     <md-input-container class="md-block">
                         <label>Anteckningar</label>
-                        <textarea ng-model="beer.fermentation.notes" md-maxlength="400" rows="5" md-select-on-focus ng-change="update()"></textarea>
+                        <textarea ng-model="beer.mash.notes" md-maxlength="400" rows="5" md-select-on-focus ng-change="update()"></textarea>
                     </md-input-container>
                 </md-content>
             </md-tab>

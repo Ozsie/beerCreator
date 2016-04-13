@@ -55,12 +55,12 @@
                             <h4>Steg: {{ mash.steps.length }}</h4>
                             <p>{{ mash.notes}}</p>
                         </div>
-                    </md-list-item>
                         <div class="md-list-item-text" layout="column">
                             <h4 ng-if='mash.user.displayName'>Ägare</h4>
                             <p ng-if='mash.user.displayName'>{{mash.user.displayName}}</p>
                         </div>
                         <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(mash)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === mash.user.uid"></md-icon>
+                    </md-list-item>
                 </md-list>
             </md-tab>
             <md-tab label="Jäsprofiler" ng-click='selectedList = "fermentationProfiles"'>
@@ -70,12 +70,12 @@
                             <h3>{{ fermentation.name}}</h3>
                             <p>{{ fermentation.notes}}</p>
                         </div>
-                    </md-list-item>
                         <div class="md-list-item-text" layout="column">
                             <h4 ng-if='fermentation.user.displayName'>Ägare</h4>
                             <p ng-if='fermentation.user.displayName'>{{fermentation.user.displayName}}</p>
                         </div>
                         <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(fermentation)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === fermentation.user.uid"></md-icon>
+                    </md-list-item>
                 </md-list>
             </md-tab>
         </md-tabs>

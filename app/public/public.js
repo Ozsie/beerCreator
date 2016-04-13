@@ -100,11 +100,11 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
         return (mash - grain)/waterSpecific;
     };
     
-    var ingredients = {};
+    $scope.ingredients = {};
     $scope.getBoilIngredients = function() {
         for (var i in $scope.beer.ingredients.hops) {
             var hop = $scope.beer.ingredients.hops[i];
-            var timeList = ingredients[hop.time];
+            var timeList = $scope.ingredients[hop.time];
             if (!timeList) {
                 timeList = {time: hop.time, list: []};
             }
@@ -112,14 +112,14 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
                 continue;
             }
             timeList.list.push(hop);
-            ingredients[hop.time] = timeList;
+            $scope.ingredients[hop.time] = timeList;
         }
         for (var j in $scope.beer.ingredients.misc) {
             var misc = $scope.beer.ingredients.misc[j];
             if (misc.useIn !== 'boil') {
                 continue;
             }
-            var timeList = ingredients[misc.time];
+            var timeList = $scope.ingredients[misc.time];
             if (!timeList) {
                 timeList = {time: misc.time, list: []};
             }
@@ -127,14 +127,17 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
                 continue;
             }
             timeList.list.push(misc);
-            ingredients[misc.time] = timeList;
+            $scope.ingredients[misc.time] = timeList;
         }
         for (var j in $scope.beer.ingredients.malts) {
             var malt = $scope.beer.ingredients.malts[j];
             if (!malt.boilTime || malt.boilTime <= 0 || malt.recommendMash) {
                 continue;
             }
-            var timeList = ingredients[malt.boilTime];
+            if (malt.type === 'malt' || malt.type === 'hull') {
+                continue;
+            }
+            var timeList = $scope.ingredients[malt.boilTime];
             if (!timeList) {
                 timeList = {time: malt.boilTime, list: []};
             }
@@ -142,19 +145,19 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
                 continue;
             }
             timeList.list.push(malt);
-            ingredients[malt.boilTime] = timeList;
+            $scope.ingredients[malt.boilTime] = timeList;
         }
-        return ingredients;
+        return $scope.ingredients;
     };
     
     $scope.containsObject = function(obj, list) {
-    var x;
-    for (x in list) {
-        if (list.hasOwnProperty(x) && list[x] === obj) {
-            return true;
+        var x;
+        for (x in list) {
+            if (list.hasOwnProperty(x) && list[x] === obj) {
+                return true;
+            }
         }
-    }
 
-    return false;
-}
+        return false;
+    };
 }]);
