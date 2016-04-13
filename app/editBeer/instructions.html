@@ -19,7 +19,7 @@
                         Tillsätt vattnet till malten och låt dra i {{step.time}} minuter, målet är {{step.temperature}} C.
                     </p>
                     <p ng-if="step.waterToAdd == 0">
-                        Värm mäsken till {{step.temperature}} C under {{step.time}} minuter.
+                        Värm mäsken till {{step.temperature}} C och låt dra i {{step.time}} minuter.
                     </p>
                 </div>
                 <div ng-if="step.type == 'temperature'">
@@ -29,7 +29,12 @@
                         Tillsätt vattnet till malten och låt dra i {{step.time}} minuter, målet är {{step.temperature}} C.
                     </p>
                     <p ng-if="step.waterToAdd == 0">
-                        Värm mäsken till {{step.temperature}} C under {{step.time}} minuter.
+                        Värm mäsken till {{step.temperature}} C och låt dra i {{step.time}} minuter.
+                    </p>
+                </div>
+                <div ng-if="step.type == 'decoction'">
+                    <p>
+                        Separera {{ getDecoctionVolume(step) }} l av mäsken och höj temperaturen till {{step.temperature}} C, håll temperaturen under {{step.time}} minuter.
                     </p>
                 </div>
             </div>

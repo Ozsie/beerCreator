@@ -160,4 +160,23 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
 
         return false;
     };
+    
+    $scope.getDecoctionVolume = function(step) {
+        var decoctionStep = 0;
+        var addedVolume = 0;
+        for (var j in beer.mash.steps) {
+            if (beer.mash.steps[j].type === 'temperature' ||
+                    beer.mash.steps[j].type === 'infusion' ) {
+                addedVolume += beer.mash.steps[j].waterToAdd;
+            }
+        }
+        for (var i in beer.mash.steps) {
+            if (beer.mash.steps[i].type === 'decoction') {
+                if (beer.mash.steps[i] === step) {
+                    return (1 / (3 + i)) * addedVolume;
+                }
+                i++;
+            }
+        }
+    };
 }]);
