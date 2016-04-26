@@ -4,10 +4,10 @@
     </md-button>
     <md-menu-content width="4">
         <md-menu-item ng-if="beerList">
-            <md-button ng-click="newBeer()" ng-disabled="!beerList || beerList.length >= 20">
+            <md-button ng-click="newBeer()" ng-disabled="!beerList || beerList.length >= user.settings.maxRecipes">
                 <md-icon md-svg-src="resources/ic_add_box_black_24px.svg" md-menu-align-target></md-icon>
                 Ny öl
-                <span ng-if="beerList.length >= 20">Max antal recept sparade</span>
+                <span ng-if="beerList.length >= user.settings.maxRecipes">&nbsp;Max antal recept sparade</span>
             </md-button>
         </md-menu-item>
         <md-menu-item><md-button ng-href="#/beerList">Öllista</md-button></md-menu-item>

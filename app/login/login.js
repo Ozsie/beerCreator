@@ -9,7 +9,7 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('LoginCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', '$firebaseObject', '$location', 'User', function($scope, $firebaseAuth, $firebaseArray, $firebaseObject, $location, User) {
+.controller('LoginCtrl', ['$rootScope', '$scope', '$firebaseAuth', '$firebaseArray', '$firebaseObject', '$location', 'User', function($rootScope, $scope, $firebaseAuth, $firebaseArray, $firebaseObject, $location, User) {
     var ref = new Firebase("https://luminous-heat-8761.firebaseio.com");
     $scope.authObj = $firebaseAuth(ref);
         
@@ -41,15 +41,31 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
             var user = $firebaseObject(userRef);
             
             user.$loaded().then(function (data) {
-                if (!data.$value) {
-                    data.$value = {displayName: authData[provider].displayName};
+                var userBaseRef = new Firebase("https://luminous-heat-8761.firebaseio.com/userbase/");
+                var userBase = $firebaseObject(userBaseRef);
+                userBase.$loaded().then(function (baseData) {
+                    if (!data.$value && !data.displayName && !data.settings) {
+                        var displayName = authData[provider].displayName;
+                        if (!displayName) {
+                            displayName = authData[provider].username;
+                        }
+                        data.$value = {displayName: displayName, settings: angular.copy(baseData)};
+                    } else if (!data.settings) {
+                        data.settings = angular.copy(baseData);
+                    } else if (!data.displayName) {
+                        var displayName = authData[provider].displayName;
+                        if (!displayName) {
+                            displayName = authData[provider].username;
+                        }
+                        data.displayName = displayName;
+                    }
                     data.$save();
-                }
+                });
+            
+                User.login(authData, data);
+                $location.path('beerList');
             });
             
-            
-            User.login(authData);
-            $location.path('beerList');
         }).catch(function(error) {
             console.log("Login Failed!", error);
         });

@@ -10,15 +10,17 @@ var userService = angular.module('beerCreator.services');
 userService.factory('User', ['$firebaseAuth', '$location', 'Ingredients', function($firebaseAuth, $location, Ingredients) {
 
     var user = {
-        authData: undefined
+        authData: undefined,
+        settings: undefined
     };
     
-    user.login = function(authData) {
+    user.login = function(authData, settings) {
         this.authData = authData;
         if (authData.provider) {
             this.displayName = authData[authData.provider].displayName;
             this.picture = authData[authData.provider].profileImageURL;
         }
+        this.settings = settings.settings;
     };
     
     user.logout = function() {

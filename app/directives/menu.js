@@ -5,7 +5,8 @@ angular.module('beerCreator.directives', []).directive('menu', function () {
             beerList: '=',
             logout: '=',
             logOutAllowed: '=',
-            newBeer: '='
+            newBeer: '=',
+            user: '='
         },
         link: function(scope) {
             var originatorEv;
