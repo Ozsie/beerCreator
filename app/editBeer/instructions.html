@@ -7,6 +7,9 @@
                 <p ng-repeat="malt in beer.ingredients.malts" ng-if="malt.recommendMash">
                     {{malt.amount}} g - {{malt.name}}
                 </p>
+                <p ng-repeat="misc in beer.ingredients.misc" ng-if="misc.useIn == 'mash'">
+                    {{ misc.amount }} {{ misc.unit }} {{ misc.name }}
+                </p>
             </div>
         </md-list-item>
         <md-list-item  class="md-2-line" ng-repeat="step in beer.mash.steps">
@@ -24,7 +27,7 @@
                 </div>
                 <div ng-if="step.type == 'temperature'">
                     <p ng-if="step.waterToAdd > 0">
-                        Värm {{step.waterToAdd}} l vatten till {{calculateStrikeTemp(step, beer) | number: 1}} C.
+                        Värm {{step.waterToAdd}} l vatten till {{instructions.calculateStrikeTemp(step, beer) | number: 1}} C.
                         <br>
                         Tillsätt vattnet till malten och låt dra i {{step.time}} minuter, målet är {{step.temperature}} C.
                     </p>
@@ -34,7 +37,7 @@
                 </div>
                 <div ng-if="step.type == 'decoction'">
                     <p>
-                        Separera {{ getDecoctionVolume(step) }} l av mäsken och höj temperaturen till {{step.temperature}} C, håll temperaturen under {{step.time}} minuter.
+                        Separera {{ instructions.getDecoctionVolume(step, beer) }} l av mäsken och höj temperaturen till {{step.temperature}} C, håll temperaturen under {{step.time}} minuter.
                     </p>
                 </div>
             </div>
@@ -48,7 +51,7 @@
                 </p>
             </div>
         </md-list-item>
-        <md-list-item  class="md-2-line" ng-repeat="ingredients in getBoilIngredients() | toArray | orderBy : '-time'">
+        <md-list-item  class="md-2-line" ng-repeat="ingredients in instructions.getBoilIngredients(beer) | toArray | orderBy : '-time'">
             <div class="md-list-item-text" layout="column">
                 <h3>{{beer.equipment.boiler.boilTime - ingredients.time}} min - Tillsätt följande</h3>
                 <p ng-repeat="ingredient in ingredients.list">
@@ -82,6 +85,9 @@
                 <p ng-repeat="yeast in beer.ingredients.yeasts" ng-if="!yeast.addToSecondary || beer.ingredients.yeasts.length == 1 || !beer.fermentation.secondary">
                     {{yeast.amount}} pkg {{yeast.name}} ({{yeast.productId}})
                 </p>
+                <p ng-repeat="misc in beer.ingredients.misc" ng-if="misc.useIn == 'primary'">
+                    Tillsätt {{ misc.amount }} {{ misc.unit }} {{ misc.name }}
+                </p>
                 <p>
                     Låt vörten jäsa i {{ beer.fermentation.primary.time }} dagar. Temperaturen bör hålla sig
                     <span ng-if="beer.fermentation.primary.temperature.max != beer.fermentation.primary.temperature.min">mellan {{beer.fermentation.primary.temperature.max}} C och {{beer.fermentation.primary.temperature.min}} C</span>
@@ -92,9 +98,15 @@
         <md-list-item class="md-3-line" ng-if="beer.fermentation.secondary">
             <div class="md-list-item-text" layout="column">
                 <h3>Sekundär jäsning</h3>
-                <h4>Förflytta vörten till ett nytt jäskärl och tillsätt jäst</h4>
+                <h4>Förflytta vörten till ett nytt jäskärl</h4>
                 <p ng-repeat="yeast in beer.ingredients.yeasts" ng-if="yeast.addToSecondary">
-                    {{yeast.amount}} pkg {{yeast.name}} ({{yeast.productId}}
+                    Tillsätt {{yeast.amount}} pkg {{yeast.name}} ({{yeast.productId}}
+                </p>
+                <p ng-repeat="misc in beer.ingredients.misc" ng-if="misc.useIn == 'secondary'">
+                    Tillsätt {{ misc.amount }} {{ misc.unit }} {{ misc.name }}
+                </p>
+                <p ng-repeat="hop in beer.ingredients.hops" ng-if="hop.time == 0 && hop.dryHopTime > 0">
+                    Tillsätt {{ misc.amount }} {{ misc.unit }} {{ misc.name }} när {{ hop.dryHopTime }} dagar återstår.
                 </p>
                 <p>
                     Låt vörten jäsa i {{ beer.fermentation.secondary.time }} dagar. Temperaturen bör hålla sig
@@ -107,6 +119,9 @@
             <div class="md-list-item-text" layout="column">
                 <h3>Lagring</h3>
                 <h4>Förflytta vörten till flaskor eller fat</h4>
+                <p ng-repeat="misc in beer.ingredients.misc" ng-if="misc.useIn == 'bottling'">
+                    Tillsätt {{ misc.amount }} {{ misc.unit }} {{ misc.name }}
+                </p>
                 <p>
                     Låt vörten lagras i {{ beer.fermentation.aging.time }} dagar. Temperaturen bör hålla sig
                     <span ng-if="beer.fermentation.aging.temperature.max != beer.fermentation.aging.temperature.min">mellan {{beer.fermentation.aging.temperature.max}} C och {{beer.fermentation.aging.temperature.min}} C</span>

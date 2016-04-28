@@ -162,7 +162,7 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
     };
     
     $scope.$on("$destroy", function(){
-        if (!$scope.miscList) {
+        if (!User.loggedIn) {
             return;
         }
         $scope.miscList.$destroy();

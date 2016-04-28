@@ -22,12 +22,22 @@
                     <md-input-container class="md-block">
                         <label>Typ</label>
                         <md-select ng-model="editedIngredient.type" ng-change="update()">
-                            <md-option value="otehr">Övrigt</md-option>
+                            <md-option value="other">Övrigt</md-option>
                             <md-option value="spice">Krydda</md-option>
                             <md-option value="flavor">Smak</md-option>
                             <md-option value="waterAgent">Vattenbehandling</md-option>
                             <md-option value="fining">Klarning</md-option>
                             <md-option value="herb">Ört</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Typ</label>
+                        <md-select ng-model="editedIngredient.useIn" ng-change="update()">
+                            <md-option value="bottling">Buteljering</md-option>
+                            <md-option value="primary">Jäsning, primär</md-option>
+                            <md-option value="secondary">Jäsning, sekundär</md-option>
+                            <md-option value="mash">Mäskning</md-option>
+                            <md-option value="boil">Kokning</md-option>
                         </md-select>
                     </md-input-container>
                 </md-content>

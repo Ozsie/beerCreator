@@ -9,10 +9,12 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
   });
 }])
 
-.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', '$location', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', 'Page', function($scope, $firebaseArray, $interval, $location, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles, User, Bitterness, Alcohol, Page) {
+.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', '$location', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', 'Page', 'Instructions', function($scope, $firebaseArray, $interval, $location, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles, User, Bitterness, Alcohol, Page, Instructions) {
     if (!User.authData) {
         $location.path('login');
     }
+    
+    $scope.instructions = Instructions;
     
     $scope.ingredientSelect = [{name: 'Malt', value:'malt'},{name: 'Humle', value:'hops'},{name: 'Jäst', value:'yeasts'},{name: 'Övrigt', value:'misc'}];
     

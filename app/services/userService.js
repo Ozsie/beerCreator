@@ -11,7 +11,8 @@ userService.factory('User', ['$firebaseAuth', '$location', 'Ingredients', functi
 
     var user = {
         authData: undefined,
-        settings: undefined
+        settings: undefined,
+        loggedIn: false
     };
     
     user.login = function(authData, settings) {
@@ -21,6 +22,7 @@ userService.factory('User', ['$firebaseAuth', '$location', 'Ingredients', functi
             this.picture = authData[authData.provider].profileImageURL;
         }
         this.settings = settings.settings;
+        this.loggedIn = true;
     };
     
     user.logout = function() {
@@ -30,6 +32,7 @@ userService.factory('User', ['$firebaseAuth', '$location', 'Ingredients', functi
         
         authObj.$onAuth(function(authData) {
             if (!authData) {
+                user.loggedIn = true;
                 console.log("Logged out");
                 $location.path("login");
             }
