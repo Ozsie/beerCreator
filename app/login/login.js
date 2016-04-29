@@ -60,10 +60,10 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
                         data.displayName = displayName;
                     }
                     data.$save();
+
+                    User.login(authData, data);
+                    $location.path('beerList');
                 });
-            
-                User.login(authData, data);
-                $location.path('beerList');
             });
             
         }).catch(function(error) {

@@ -35,30 +35,33 @@ userService.factory('Instructions', [function() {
     instructions.getBoilIngredients = function(beer) {
         for (var i in beer.ingredients.hops) {
             var hop = beer.ingredients.hops[i];
-            var timeList = instructions.ingredients[hop.time];
+            if (hop.time == 0 && hop.dryHopTime > 0) {
+                continue;
+            }
+            var timeList = this.ingredients[hop.time];
             if (!timeList) {
                 timeList = {time: hop.time, list: []};
             }
-            if (instructions.containsObject(hop, timeList.list)) {
+            if (this.containsObject(hop, timeList.list)) {
                 continue;
             }
             timeList.list.push(hop);
-            instructions.ingredients[hop.time] = timeList;
+            this.ingredients[hop.time] = timeList;
         }
         for (var j in beer.ingredients.misc) {
             var misc = beer.ingredients.misc[j];
             if (misc.useIn !== 'boil') {
                 continue;
             }
-            var timeList = instructions.ingredients[misc.time];
+            var timeList = this.ingredients[misc.time];
             if (!timeList) {
                 timeList = {time: misc.time, list: []};
             }
-            if (instructions.containsObject(misc, timeList.list)) {
+            if (this.containsObject(misc, timeList.list)) {
                 continue;
             }
             timeList.list.push(misc);
-            instructions.ingredients[misc.time] = timeList;
+            this.ingredients[misc.time] = timeList;
         }
         for (var j in beer.ingredients.malts) {
             var malt = beer.ingredients.malts[j];
@@ -68,17 +71,17 @@ userService.factory('Instructions', [function() {
             if (malt.type === 'malt' || malt.type === 'hull') {
                 continue;
             }
-            var timeList = instructions.ingredients[malt.boilTime];
+            var timeList = this.ingredients[malt.boilTime];
             if (!timeList) {
                 timeList = {time: malt.boilTime, list: []};
             }
-            if (instructions.containsObject(malt, timeList.list)) {
+            if (this.containsObject(malt, timeList.list)) {
                 continue;
             }
             timeList.list.push(malt);
-            instructions.ingredients[malt.boilTime] = timeList;
+            this.ingredients[malt.boilTime] = timeList;
         }
-        return instructions.ingredients;
+        return this.ingredients;
     };
     
     instructions.containsObject = function(obj, list) {

@@ -106,7 +106,7 @@
                     Tillsätt {{ misc.amount }} {{ misc.unit }} {{ misc.name }}
                 </p>
                 <p ng-repeat="hop in beer.ingredients.hops" ng-if="hop.time == 0 && hop.dryHopTime > 0">
-                    Tillsätt {{ misc.amount }} {{ misc.unit }} {{ misc.name }} när {{ hop.dryHopTime }} dagar återstår.
+                    Tillsätt {{ hop.amount }} {{ hop.unit }} {{ hop.name }} när {{ hop.dryHopTime }} dagar återstår.
                 </p>
                 <p>
                     Låt vörten jäsa i {{ beer.fermentation.secondary.time }} dagar. Temperaturen bör hålla sig

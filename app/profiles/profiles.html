@@ -1,83 +1,85 @@
-<div>
-    <menu style="padding-left: 0px" log-out-allowed="true"></menu>
-</div>
-<div class="containerDiv" ng-cloak>
-    <md-list>
-        <md-list-item ng-click="addNew(selectedList)">
-            <md-button class="md-fab" aria-label="Spara" ng-click="addNew(selectedList)">
-                <md-icon md-svg-src="resources/ic_add_box_black_24px.svg"></md-icon>
-            </md-button>
-            <p ng-if="selectedList == 'equipment'">Utrustning</p>
-            <p ng-if="selectedList == 'mashProfiles'">Mäskprofiler</p>
-            <p ng-if="selectedList == 'fermentationProfiles'">Jäsningsprofiler</p>
-        </md-list-item>
-        <md-list-item ng-show="add">
-            <div class="marginBottom10px width100">
-                <div ng-include="'editBeer/editEquipment.html'" ng-show="add === 'equipment'"></div>
-                <div ng-include="'editBeer/editMashProfile.html'" ng-show="add === 'mashProfiles'"></div>
-                <div ng-include="'editBeer/editFermentationProfile.html'" ng-show="add === 'fermentationProfiles'"></div>
-            </div>
-        </md-list-item>
-        <md-list-item ng-show="add">
-            <md-button class="md-fab" aria-label="Spara" ng-click="save()">
-                <md-icon md-svg-src="resources/ic_save_black_24px.svg"></md-icon>
-            </md-button>
-            <md-button class="md-fab md-primary" aria-label="Ångra" ng-click="cancel()">
-                <md-icon md-svg-src="resources/ic_cancel_black_24px.svg"></md-icon>
-            </md-button>
-        </md-list-item>
-    </md-list>
-    <md-divider ng-hide="add"></md-divider>
-    <md-content ng-hide="add">
-        <md-tabs md-dynamic-height md-border-bottom>
-            <md-tab label="Utrustning" ng-click='selectedList = "equipment"'>
-                <md-list class="md-dense" flex>
-                    <md-list-item class="md-3-line" ng-repeat='equipment in equipmentList'>
-                        <div class="md-list-item-text" layout="column">
-                            <h3>{{ equipment.name}}</h3>
-                            <h4>Satsstorlek: {{ equipment.batchSize | number: 2 }} l</h4>
-                            <p>Mäsktunna: {{ equipment.mashLauterTun.volume | number: 2}} l</p>
-                        </div>
-                        <div class="md-list-item-text" layout="column">
-                            <h3>Kokvolym: {{ equipment.boiler.boilVolume | number: 2 }} l</h3>
-                            <h4 ng-if='equipment.user.displayName'>Ägare</h4>
-                            <p ng-if='equipment.user.displayName'>{{equipment.user.displayName}}</p>
-                        </div>
-                        <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(equipment)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === equipment.user.uid"></md-icon>
-                    </md-list-item>
-                </md-list>
-            </md-tab>
-            <md-tab label="Mäskprofiler" ng-click='selectedList = "mashProfiles"'>
-                <md-list class="md-dense" flex>
-                    <md-list-item class="md-3-line" ng-repeat='mash in mashProfiles'>
-                        <div class="md-list-item-text" layout="column">
-                            <h3>{{ mash.name}}</h3>
-                            <h4>Steg: {{ mash.steps.length }}</h4>
-                            <p>{{ mash.notes}}</p>
-                        </div>
-                        <div class="md-list-item-text" layout="column">
-                            <h4 ng-if='mash.user.displayName'>Ägare</h4>
-                            <p ng-if='mash.user.displayName'>{{mash.user.displayName}}</p>
-                        </div>
-                        <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(mash)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === mash.user.uid"></md-icon>
-                    </md-list-item>
-                </md-list>
-            </md-tab>
-            <md-tab label="Jäsprofiler" ng-click='selectedList = "fermentationProfiles"'>
-                <md-list class="md-dense" flex>
-                    <md-list-item class="md-3-line" ng-repeat='fermentation in fermentationProfiles'>
-                        <div class="md-list-item-text" layout="column">
-                            <h3>{{ fermentation.name}}</h3>
-                            <p>{{ fermentation.notes}}</p>
-                        </div>
-                        <div class="md-list-item-text" layout="column">
-                            <h4 ng-if='fermentation.user.displayName'>Ägare</h4>
-                            <p ng-if='fermentation.user.displayName'>{{fermentation.user.displayName}}</p>
-                        </div>
-                        <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(fermentation)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === fermentation.user.uid"></md-icon>
-                    </md-list-item>
-                </md-list>
-            </md-tab>
-        </md-tabs>
-    </md-content>
-</div>
+<md-card>
+    <div>
+        <menu style="padding-left: 0px" log-out-allowed="true"></menu>
+    </div>
+    <div class="containerDiv" ng-cloak>
+        <md-list>
+            <md-list-item ng-click="addNew(selectedList)">
+                <md-button class="md-fab" aria-label="Spara" ng-click="addNew(selectedList)">
+                    <md-icon md-svg-src="resources/ic_add_box_black_24px.svg"></md-icon>
+                </md-button>
+                <p ng-if="selectedList == 'equipment'">Utrustning</p>
+                <p ng-if="selectedList == 'mashProfiles'">Mäskprofiler</p>
+                <p ng-if="selectedList == 'fermentationProfiles'">Jäsningsprofiler</p>
+            </md-list-item>
+            <md-list-item ng-show="add">
+                <div class="marginBottom10px width100">
+                    <div ng-include="'editBeer/editEquipment.html'" ng-show="add === 'equipment'"></div>
+                    <div ng-include="'editBeer/editMashProfile.html'" ng-show="add === 'mashProfiles'"></div>
+                    <div ng-include="'editBeer/editFermentationProfile.html'" ng-show="add === 'fermentationProfiles'"></div>
+                </div>
+            </md-list-item>
+            <md-list-item ng-show="add">
+                <md-button class="md-fab" aria-label="Spara" ng-click="save()">
+                    <md-icon md-svg-src="resources/ic_save_black_24px.svg"></md-icon>
+                </md-button>
+                <md-button class="md-fab md-primary" aria-label="Ångra" ng-click="cancel()">
+                    <md-icon md-svg-src="resources/ic_cancel_black_24px.svg"></md-icon>
+                </md-button>
+            </md-list-item>
+        </md-list>
+        <md-divider ng-hide="add"></md-divider>
+        <md-content ng-hide="add">
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Utrustning" ng-click='selectedList = "equipment"'>
+                    <md-list class="md-dense" flex>
+                        <md-list-item class="md-3-line" ng-repeat='equipment in equipmentList'>
+                            <div class="md-list-item-text" layout="column">
+                                <h3>{{ equipment.name}}</h3>
+                                <h4>Satsstorlek: {{ equipment.batchSize | number: 2 }} l</h4>
+                                <p>Mäsktunna: {{ equipment.mashLauterTun.volume | number: 2}} l</p>
+                            </div>
+                            <div class="md-list-item-text" layout="column">
+                                <h3>Kokvolym: {{ equipment.boiler.boilVolume | number: 2 }} l</h3>
+                                <h4 ng-if='equipment.user.displayName'>Ägare</h4>
+                                <p ng-if='equipment.user.displayName'>{{equipment.user.displayName}}</p>
+                            </div>
+                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(equipment)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === equipment.user.uid"></md-icon>
+                        </md-list-item>
+                    </md-list>
+                </md-tab>
+                <md-tab label="Mäskprofiler" ng-click='selectedList = "mashProfiles"'>
+                    <md-list class="md-dense" flex>
+                        <md-list-item class="md-3-line" ng-repeat='mash in mashProfiles'>
+                            <div class="md-list-item-text" layout="column">
+                                <h3>{{ mash.name}}</h3>
+                                <h4>Steg: {{ mash.steps.length }}</h4>
+                                <p>{{ mash.notes}}</p>
+                            </div>
+                            <div class="md-list-item-text" layout="column">
+                                <h4 ng-if='mash.user.displayName'>Ägare</h4>
+                                <p ng-if='mash.user.displayName'>{{mash.user.displayName}}</p>
+                            </div>
+                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(mash)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === mash.user.uid"></md-icon>
+                        </md-list-item>
+                    </md-list>
+                </md-tab>
+                <md-tab label="Jäsprofiler" ng-click='selectedList = "fermentationProfiles"'>
+                    <md-list class="md-dense" flex>
+                        <md-list-item class="md-3-line" ng-repeat='fermentation in fermentationProfiles'>
+                            <div class="md-list-item-text" layout="column">
+                                <h3>{{ fermentation.name}}</h3>
+                                <p>{{ fermentation.notes}}</p>
+                            </div>
+                            <div class="md-list-item-text" layout="column">
+                                <h4 ng-if='fermentation.user.displayName'>Ägare</h4>
+                                <p ng-if='fermentation.user.displayName'>{{fermentation.user.displayName}}</p>
+                            </div>
+                            <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(fermentation)" aria-label="Ta bort" ng-if="user.authData.uid && user.authData.uid === fermentation.user.uid"></md-icon>
+                        </md-list-item>
+                    </md-list>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </div>
+</md-card>
