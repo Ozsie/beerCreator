@@ -24,12 +24,8 @@
                         <div ng-repeat="ingredient in beer.ingredients.malts" >
                             <md-list-item class="md-2-line">
                                 <div class="md-list-item-text" layout="column">
-                                    <h3>{{ ingredient.name}}</h3>
+                                    <h3>{{ ingredient.amount}} g <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">({{ getPercentage(beer, ingredient) | number: 2}} %)</span> {{ ingredient.name}}</h3>
                                     <p>{{ ingredient.type | ingredientType }}</p>
-                                </div>
-                                <div class="md-list-item-text" layout="column">
-                                    <h3> {{ ingredient.amount}} g</h3>
-                                    <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
                                 </div>
                             </md-list-item>
                         </div>
@@ -37,16 +33,8 @@
                         <div ng-repeat="ingredient in beer.ingredients.hops" >
                             <md-list-item class="md-2-line">
                                 <div class="md-list-item-text" layout="column">
-                                    <h3>{{ ingredient.name}}</h3>
+                                    <h3>{{ ingredient.amount}} g @ {{ ingredient.time}} min {{ ingredient.name}}</h3>
                                     <p>{{ ingredient.type | ingredientType }}</p>
-                                </div>
-                                <div class="md-list-item-text" layout="column">
-                                    <h3> {{ ingredient.amount}} g</h3>
-                                    <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
-                                </div>
-                                <div class="md-list-item-text" layout="column">
-                                    <h3> {{ ingredient.time}} min</h3>
-                                    <p></p>
                                 </div>
                             </md-list-item>
                         </div>
@@ -54,12 +42,8 @@
                         <div ng-repeat="ingredient in beer.ingredients.misc" >
                             <md-list-item class="md-2-line">
                                 <div class="md-list-item-text" layout="column">
-                                    <h3>{{ ingredient.name}}</h3>
+                                    <h3>{{ ingredient.amount}} {{ ingredient.unit}} {{ ingredient.name}}</h3>
                                     <p>{{ ingredient.type | ingredientType }}</p>
-                                </div>
-                                <div class="md-list-item-text" layout="column">
-                                    <h3> {{ ingredient.amount}} {{ ingredient.unit}}</h3>
-                                    <p></p>
                                 </div>
                             </md-list-item>
                         </div>
@@ -67,12 +51,8 @@
                         <div ng-repeat="ingredient in beer.ingredients.yeasts" >
                             <md-list-item class="md-2-line">
                                 <div class="md-list-item-text" layout="column">
-                                    <h3>{{ ingredient.name}}</h3>
+                                    <h3>{{ ingredient.amount}} pkg {{ ingredient.name}}</h3>
                                     <p>{{ ingredient.type | ingredientType }}</p>
-                                </div>
-                                <div class="md-list-item-text" layout="column">
-                                    <h3> {{ ingredient.amount}} pkg</h3>
-                                    <p></p>
                                 </div>
                             </md-list-item>
                         </div>

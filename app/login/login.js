@@ -49,7 +49,13 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
                         if (!displayName) {
                             displayName = authData[provider].username;
                         }
-                        data.$value = {displayName: displayName, settings: angular.copy(baseData)};
+                        var settings = angular.copy(baseData);
+                        for (var obj in settings) {
+                            if (obj.startsWith('$')) {
+                                delete settings[obj];
+                            }
+                        }
+                        data.$value = {displayName: displayName, settings: settings};
                     } else if (!data.settings) {
                         data.settings = angular.copy(baseData);
                     } else if (!data.displayName) {

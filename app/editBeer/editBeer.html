@@ -47,12 +47,8 @@
                         <div ng-repeat="ingredient in beer.ingredients.malts" >
                             <md-list-item ng-click="toggleIngredient('malts', $index)" class="md-2-line">
                                 <div class="md-list-item-text" layout="column">
-                                    <h3>{{ ingredient.name}}</h3>
+                                    <h3>{{ ingredient.amount}} g <span ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'" ng-class="[{orange: overMaxInBatch(beer, ingredient)}]">({{ getPercentage(beer, ingredient) | number: 2}} %)</span> {{ ingredient.name }}</h3>
                                     <p>{{ ingredient.type | ingredientType }}</p>
-                                </div>
-                                <div class="md-list-item-text" layout="column">
-                                    <h3> {{ ingredient.amount}} g</h3>
-                                    <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
                                 </div>
                                 <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'malts')" aria-label="Chat"></md-icon>
                             </md-list-item>
@@ -64,16 +60,8 @@
                         <div ng-repeat="ingredient in beer.ingredients.hops" >
                             <md-list-item ng-click="toggleIngredient('hops', $index)" class="md-2-line">
                                 <div class="md-list-item-text" layout="column">
-                                    <h3>{{ ingredient.name}}</h3>
+                                    <h3>{{ ingredient.amount}} g @ {{ ingredient.time}} min {{ ingredient.name}}</h3>
                                     <p>{{ ingredient.type | ingredientType }}</p>
-                                </div>
-                                <div class="md-list-item-text" layout="column">
-                                    <h3> {{ ingredient.amount}} g</h3>
-                                    <p ng-if="ingredient.type == 'malt' || ingredient.type == 'sugar'">{{ getPercentage(beer, ingredient) | number: 2}} %</p>
-                                </div>
-                                <div class="md-list-item-text" layout="column">
-                                    <h3> {{ ingredient.time}} min</h3>
-                                    <p></p>
                                 </div>
                                 <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'hops')" aria-label="Chat"></md-icon>
                             </md-list-item>
@@ -85,12 +73,8 @@
                         <div ng-repeat="ingredient in beer.ingredients.misc" >
                             <md-list-item ng-click="toggleIngredient('misc', $index)" class="md-2-line">
                                 <div class="md-list-item-text" layout="column">
-                                    <h3>{{ ingredient.name}}</h3>
+                                    <h3>{{ ingredient.amount}} {{ ingredient.unit}} {{ ingredient.name}}</h3>
                                     <p>{{ ingredient.type | ingredientType }}</p>
-                                </div>
-                                <div class="md-list-item-text" layout="column">
-                                    <h3> {{ ingredient.amount}} {{ ingredient.unit}}</h3>
-                                    <p></p>
                                 </div>
                                 <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'misc')" aria-label="Chat"></md-icon>
                             </md-list-item>
@@ -102,12 +86,8 @@
                         <div ng-repeat="ingredient in beer.ingredients.yeasts" >
                             <md-list-item ng-click="toggleIngredient('yeasts', $index)" class="md-2-line">
                                 <div class="md-list-item-text" layout="column">
-                                    <h3>{{ ingredient.name}}</h3>
+                                    <h3>{{ ingredient.amount}} pkg {{ ingredient.name}}</h3>
                                     <p>{{ ingredient.type | ingredientType }}</p>
-                                </div>
-                                <div class="md-list-item-text" layout="column">
-                                    <h3> {{ ingredient.amount}} pkg</h3>
-                                    <p></p>
                                 </div>
                                 <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="removeIngredient($index, 'yeasts')" aria-label="Chat"></md-icon>
                             </md-list-item>

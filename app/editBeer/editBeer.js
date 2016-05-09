@@ -405,4 +405,9 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
             fermentation.type = "One stage";
         }
     };
+
+    $scope.overMaxInBatch = function(beer, ingredient) {
+        var percentage = $scope.getPercentage(beer, ingredient);
+        return percentage > (ingredient.maxInBatch * 100);
+    };
 }]);

@@ -1,6 +1,11 @@
-<md-slider-container>
-    <span>{{header}}</span>
-    <span>{{min | number: round}}</span>
-    <md-progress-linear md-mode="determinate" value="{{getPercentage()}}"></md-progress-linear>
-    <span>{{max | number: round}}</span><span>{{value | number: round}}</span>
-</md-slider-container>
+<table class="infoSliderTable">
+    <tr>
+        <td>{{header}}</td>
+        <td>{{min | number: round}}</td>
+        <td>
+            <md-progress-linear md-mode="determinate" value="{{getPercentage()}}"></md-progress-linear>
+        </td>
+        <td>{{max | number: round}}</td>
+        <td>{{value | number: round}}</td>
+    </tr>
+</table>
