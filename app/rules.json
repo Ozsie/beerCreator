@@ -24,8 +24,7 @@
     },
     "yeasts": {
       ".write": "auth !== null",
-      ".read": "auth !== null",
-      ".validate": "newData.hasChildren(['addToSecondary', 'addToSecondary', 'amount', 'bestFor', 'billionCellsPerPack', 'flocculation', 'form', 'maxAttenuation', 'maxReuses', 'maxTemperature', 'minAttenuation', 'minTemperature', 'modified', 'name', 'notes', 'producer', 'productId', 'startSize', 'type', 'useStarter'])"
+      ".read": "auth !== null"
     },
     "misc": {
       ".write": "auth !== null",
@@ -45,14 +44,12 @@
     },
     "loginLog": {
       ".write": "auth !== null",
-      ".read": "auth !== null",
-      ".validate": "newData.hasChildren(['displayName', 'time', 'uid'])"
+      ".read": "auth !== null"
     },
     "users": {
       "$uid": {
         ".write": "(auth !== null && auth.uid === $uid)",
-        ".read": "(auth !== null && auth.uid === $uid)",
-        ".validate": "newData.hasChildren(['displayName', 'settings'])"
+        ".read": "(auth !== null && auth.uid === $uid)"
       }
     },
     "userbase": {

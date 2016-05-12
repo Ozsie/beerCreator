@@ -1,0 +1,38 @@
+addToSecondary:
+false
+amount:
+1
+bestFor:
+"Belgian Trappist Ale, Spiced Ale, Trippel, Dubb..."
+billionCellsPerPack:
+100
+flocculation:
+"medium"
+form:
+"liquid"
+maxAttenuation:
+0.8
+maxReuses:
+5
+maxTemperature:
+22.22222222222222
+minAttenuation:
+0.75
+minTemperature:
+18.88888888888889
+modified:
+"2011-03-06"
+name:
+"Abbey Ale"
+notes:
+"Used in two of six remaining Trappist breweries..."
+producer:
+"White Labs"
+productId:
+"WLP530"
+startSize:
+1.2
+type:
+"ale"
+useStarter:
+false

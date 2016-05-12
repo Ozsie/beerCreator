@@ -51,7 +51,7 @@
                 </p>
             </div>
         </md-list-item>
-        <md-list-item  class="md-2-line" ng-repeat="ingredients in instructions.getBoilIngredients(beer) | toArray | orderBy : '-time'">
+        <md-list-item  class="md-2-line" ng-repeat="ingredients in instructions.ingredients | toArray | orderBy : '-time'">
             <div class="md-list-item-text" layout="column">
                 <h3>{{beer.equipment.boiler.boilTime - ingredients.time}} min - Tillsätt följande</h3>
                 <p ng-repeat="ingredient in ingredients.list">

@@ -36,6 +36,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
                 $scope.beer = $scope.beerList.$getRecord($scope.tempBeer.$id);
                 $scope.beerColor = $scope.getColor($scope.beer);
                 Page.setTitle("Beer Creator - " + $scope.beer.name);
+                $scope.update();
             });
         } else {
             $scope.beer = $scope.tempBeer;
@@ -275,6 +276,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         $scope.beer.abv = Alcohol.calculateABV($scope.beer);
         $scope.beer.color = ColorConversion.calculateTotalEBC($scope.beer);
         $scope.beerColor = $scope.getColor($scope.beer);
+        Instructions.getBoilIngredients($scope.beer);
     };
     
     $scope.addToPublicList = function() {
@@ -410,4 +412,5 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         var percentage = $scope.getPercentage(beer, ingredient);
         return percentage > (ingredient.maxInBatch * 100);
     };
+    
 }]);

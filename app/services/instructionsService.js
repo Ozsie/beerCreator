@@ -31,8 +31,9 @@ userService.factory('Instructions', [function() {
         return (mash - grain)/waterSpecific;
     };
     
-    instructions.ingredients = {};
+    instructions.ingredients = [];
     instructions.getBoilIngredients = function(beer) {
+        this.ingredients = [];
         for (var i in beer.ingredients.hops) {
             var hop = beer.ingredients.hops[i];
             if (hop.time == 0 && hop.dryHopTime > 0) {
@@ -81,7 +82,6 @@ userService.factory('Instructions', [function() {
             timeList.list.push(malt);
             this.ingredients[malt.boilTime] = timeList;
         }
-        return this.ingredients;
     };
     
     instructions.containsObject = function(obj, list) {
