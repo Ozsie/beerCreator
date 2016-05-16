@@ -1,66 +1,66 @@
 {
-  "rules": {
-    "beerlist": {
-      "$uid": {
-        ".write": "(auth !== null && auth.uid === $uid) || data.child('public').val() === true",
-        ".read": true
-      },
-      "public": {
-        ".write": "auth !== null",
-        ".read": true
-      }
-    },
-    "beerstyles": {
-      ".write": false,
-      ".read": "auth !== null"
-    },
-    "malts": {
-      ".write": "auth !== null",
-      ".read": "auth !== null"
-    },
-    "hops": {
-      ".write": "auth !== null",
-      ".read": "auth !== null"
-    },
-    "yeasts": {
-      ".write": "auth !== null",
-      ".read": "auth !== null"
-    },
-    "misc": {
-      ".write": "auth !== null",
-      ".read": "auth !== null"
-    },
-    "equipment": {
-      ".write": "auth !== null",
-      ".read": "auth !== null"
-    },
-    "fermentationProfiles": {
-      ".write": "auth !== null",
-      ".read": "auth !== null"
-    },
-    "mashProfiles": {
-      ".write": "auth !== null",
-      ".read": "auth !== null"
-    },
-    "loginLog": {
-      ".write": "auth !== null",
-      ".read": "auth !== null"
-    },
-    "users": {
-      "$uid": {
-        ".write": "(auth !== null && auth.uid === $uid)",
-        ".read": "(auth !== null && auth.uid === $uid)"
-      }
-    },
-    "userbase": {
-      ".write": false,
-      ".read": "auth !== null"
-    },
-    "stock": {
-      "$uid": {
-        ".write": "(auth !== null && auth.uid === $uid)",
-        ".read": true
-      }
+    "rules": {
+        "beerlist": {
+            "$uid": {
+                ".write": "(auth !== null && auth.uid === $uid) || data.child('public').val() === true",
+                ".read": true
+            },
+            "public": {
+                ".write": "auth !== null",
+                ".read": true
+            }
+        },
+        "beerstyles": {
+            ".write": false,
+            ".read": "auth !== null"
+        },
+        "malts": {
+            ".write": "auth !== null",
+            ".read": "auth !== null"
+        },
+        "hops": {
+            ".write": "auth !== null",
+            ".read": "auth !== null"
+        },
+        "yeasts": {
+            ".write": "auth !== null",
+            ".read": "auth !== null"
+        },
+        "misc": {
+            ".write": "auth !== null",
+            ".read": "auth !== null"
+        },
+        "equipment": {
+            ".write": "auth !== null",
+            ".read": "auth !== null"
+        },
+        "fermentationProfiles": {
+            ".write": "auth !== null",
+            ".read": "auth !== null"
+        },
+        "mashProfiles": {
+            ".write": "auth !== null",
+            ".read": "auth !== null"
+        },
+        "loginLog": {
+            ".write": "auth !== null",
+            ".read": "auth !== null"
+        },
+        "users": {
+            "$uid": {
+                ".write": "(auth !== null && auth.uid === $uid)",
+                ".read": "(auth !== null && auth.uid === $uid)"
+            }
+        },
+        "userbase": {
+            ".write": false,
+            ".read": "auth !== null"
+        },
+        "stock": {
+            "$uid": {
+                ".write": "(auth !== null && auth.uid === $uid)",
+                ".read": true
+            }
+        }
     }
-  }
 }
