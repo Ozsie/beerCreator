@@ -1,14 +1,18 @@
 language: node_js
 node_js:
   - "5"
-  - "5.1"
-  - "4"
-  - "4.2"
-  - "4.1"
-  - "4.0"
-  - "0.12"
-  - "0.11"
-  - "0.10"
-  - "0.8"
-  - "0.6"
-  - "iojs"
+  
+install:
+  # Check the size of caches
+  - du -sh ./node_modules ./bower_components/ ./docs/bower_components/ || true
+  # - npm config set registry http://23.251.144.68
+  # Disable the spinner, it looks bad on Travis
+  - npm config set spin false
+  # Log HTTP requests
+  - npm config set loglevel http
+  #- npm install -g npm@2.5
+  # Install npm dependencies and ensure that npm cache is not stale
+  - npm install
+  
+script:
+  - ./build.sh
