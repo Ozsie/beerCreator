@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ./app
+cd app
 grunt
