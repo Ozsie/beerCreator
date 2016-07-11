@@ -13,9 +13,8 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
     $scope.instructions = Instructions;
     $scope.userId = $routeParams.userId;
     $scope.beerId = $routeParams.beerId;
-    var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + $scope.userId + "/" + $scope.beerId);
-
-    var obj = $firebaseObject(ref);
+    var ref = firebase.database().ref();
+    var obj = $firebaseObject(ref.child('beerlist/' + $scope.userId + '/' + $scope.beerId));
 
     // to take an action after the data loads, use the $loaded() promise
     obj.$loaded().then(function(data) {

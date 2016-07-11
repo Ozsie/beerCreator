@@ -1,11 +1,14 @@
 {
-  "firebase": "luminous-heat-8761",
-  "public": "dist",
-  "ignore": [
-    "firebase.json",
-    "rules.json",
-    "**/.*",
-    "**/node_modules/**"
-  ],
-  "rules": "rules.json"
+  "database": {
+    "rules": "rules.json"
+  },
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "rules.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
 }

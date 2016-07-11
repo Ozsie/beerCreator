@@ -27,9 +27,9 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         $scope.styles = styles;
         $scope.tempBeer = EditBeer.getBeerToEdit();
         $scope.beerColor = "#ffffff";
-        
-        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/" + User.authData.uid);
-        $scope.beerList = $firebaseArray(ref);
+
+        var ref = firebase.database().ref();
+        $scope.beerList = $firebaseArray(ref.child('beerlist/' + User.authData.uid));
         
         if ($scope.tempBeer.$id) {
             $scope.beerList.$loaded().then(function(data) {
@@ -280,8 +280,8 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.addToPublicList = function() {
-        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerlist/public/");
-        var publicList = $firebaseArray(ref);
+        var ref = firebase.database().ref();
+        var publicList = $firebaseArray(ref.child('beerlist/public'));
         publicList.$loaded().then(function(data) {
             var exists = false;
             for (var i = 0; i < publicList.length; i++) {

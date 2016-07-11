@@ -10,14 +10,10 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
 }])
 
 .controller('LoginCtrl', ['$rootScope', '$scope', '$firebaseAuth', '$firebaseArray', '$firebaseObject', '$location', 'User', function($rootScope, $scope, $firebaseAuth, $firebaseArray, $firebaseObject, $location, User) {
-    var ref = new Firebase("https://luminous-heat-8761.firebaseio.com");
-    $scope.authObj = $firebaseAuth(ref);
+    $scope.authObj = $firebaseAuth();
         
     $scope.login = function() {
-        $scope.authObj.$authWithPassword({
-            email: $scope.email,
-            password: $scope.password
-        }).then(function(authData) {
+        $scope.authObj.signInWithEmailAndPassword($scope.email,$scope.password).then(function(authData) {
             User.login(authData);
             $location.path('beerList');
         }).catch(function(error) {
@@ -26,28 +22,27 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
     };
     
     $scope.login = function(provider) {
-        $scope.authObj.$authWithOAuthPopup(provider).then(function(authData) {
-            var loginLogRef = new Firebase("https://luminous-heat-8761.firebaseio.com/loginLog/");
-            var loginLog = $firebaseArray(loginLogRef);
+        $scope.authObj.$signInWithPopup(provider).then(function(authData) {
+            var ref = firebase.database().ref();
+            var loginLog = $firebaseArray(ref.child('loginLog'));
             
             loginLog.$loaded().then(function (data){ 
-                loginLog.$add({uid: authData.uid, displayName: authData[provider].displayName, time: Firebase.ServerValue.TIMESTAMP});
+                loginLog.$add({uid: authData.user.uid, displayName: authData.user.providerData[0].displayName, time: Date.now()});
                 if (loginLog.length > 50) {
                     loginLog.$remove(0);
                 }
             });
-            
-            var userRef = new Firebase("https://luminous-heat-8761.firebaseio.com/users/" + authData.uid);
-            var user = $firebaseObject(userRef);
+
+
+            var user = $firebaseObject(ref.child('users/' + authData.user.uid));
             
             user.$loaded().then(function (data) {
-                var userBaseRef = new Firebase("https://luminous-heat-8761.firebaseio.com/userbase/");
-                var userBase = $firebaseObject(userBaseRef);
+                var userBase = $firebaseObject(ref.child('userbase'));
                 userBase.$loaded().then(function (baseData) {
                     if (!data.$value && !data.displayName && !data.settings) {
-                        var displayName = authData[provider].displayName;
+                        var displayName = authData.user.providerData[0].displayName;
                         if (!displayName) {
-                            displayName = authData[provider].username;
+                            displayName = authData.user.providerData[0].username;
                         }
                         var settings = angular.copy(baseData);
                         for (var obj in settings) {
@@ -59,15 +54,15 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
                     } else if (!data.settings) {
                         data.settings = angular.copy(baseData);
                     } else if (!data.displayName) {
-                        var displayName = authData[provider].displayName;
+                        var displayName = authData.user.providerData[0].displayName;
                         if (!displayName) {
-                            displayName = authData[provider].username;
+                            displayName = authData.user.providerData[0].username;
                         }
                         data.displayName = displayName;
                     }
                     data.$save();
 
-                    User.login(authData, data);
+                    User.login(authData.user, data);
                     $location.path('beerList');
                 });
             });

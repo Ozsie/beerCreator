@@ -12,8 +12,8 @@ beerStyleService.factory('BeerStyles', ['$firebaseArray',
     var beerStyle = {}; 
 
     beerStyle.getStyles = function () {
-        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/beerstyles");
-        return $firebaseArray(ref);
+        var ref = firebase.database().ref();
+        return $firebaseArray(ref.child('beerstyles'));
     };
       
     return beerStyle;

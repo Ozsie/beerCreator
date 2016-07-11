@@ -10,25 +10,23 @@ var ingredientService = angular.module('beerCreator.services');
 ingredientService.factory('Ingredients', ['$firebaseArray',
     function($firebaseArray){
         var ingredients = {};
+
+        var ref = firebase.database().ref();
       
         ingredients.grains = function() {
-            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/malts");
-            return $firebaseArray(ref);
+            return $firebaseArray(ref.child('malts'));
         };
       
         ingredients.hops = function() {
-            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/hops");
-            return $firebaseArray(ref);
+            return $firebaseArray(ref.child('hops'));
         };
       
         ingredients.yeasts = function() {
-            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/yeasts");
-            return $firebaseArray(ref);
+            return $firebaseArray(ref.child('yeasts'));
         };
       
         ingredients.misc = function() {
-            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/misc");
-            return $firebaseArray(ref);
+            return $firebaseArray(ref.child('misc'));
         };
         
         return ingredients;

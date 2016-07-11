@@ -27,10 +27,10 @@ userService.factory('User', ['$firebaseAuth', '$location', 'Ingredients', functi
     
     user.logout = function() {
         var ref = new Firebase("https://luminous-heat-8761.firebaseio.com");
-        var authObj = $firebaseAuth(ref);
-        authObj.$unauth();
+        var authObj = $firebaseAuth();
+        authObj.$signOut();
         
-        authObj.$onAuth(function(authData) {
+        authObj.$onAuthStateChanged(function(authData) {
             if (!authData) {
                 user.loggedIn = true;
                 console.log("Logged out");

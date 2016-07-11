@@ -10,20 +10,18 @@ var profilesService = angular.module('beerCreator.services');
 profilesService.factory('Profiles', ['$firebaseArray',
     function($firebaseArray){
         var profiles = {};
-      
+
+        var ref = firebase.database().ref();
         profiles.equipment = function() {
-            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/equipment");
-            return $firebaseArray(ref);
+            return $firebaseArray(ref.child('equipment'));
         };
       
         profiles.fermentationProfiles = function() {
-            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/fermentationProfiles");
-            return $firebaseArray(ref);
+            return $firebaseArray(ref.child('fermentationProfiles'));
         };
       
         profiles.mashProfiles = function() {
-            var ref = new Firebase("https://luminous-heat-8761.firebaseio.com/mashProfiles");
-            return $firebaseArray(ref);
+            return $firebaseArray(ref.child('mashProfiles'));
         };
         
         return profiles;
