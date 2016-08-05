@@ -198,4 +198,16 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
       originatorEv = ev;
       $mdOpenMenu(ev);
     };
+
+    $scope.copy = function(beer) {
+        var beerCopy = angular.copy(beer);
+        delete beerCopy.$id;
+        delete beerCopy.$priority;
+        beerCopy.name = beerCopy.name + " kopia";
+        $scope.beerList.$loaded().then(function(data) {
+            if (data) {
+                data.$add(beerCopy);
+            }
+        });
+    };
 }]);

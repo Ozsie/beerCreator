@@ -7,6 +7,7 @@
                 <p>{{ beer.name}}</p>
                 <md-icon md-svg-src="resources/ic_open_in_new_black_24px.svg" class="md-secondary md-hue-3" ng-click="openPublic(user.authData.uid, beer.$id)" aria-label="Öppna publik länk" ng-if='beer.public'></md-icon>
                 <md-icon md-svg-src="resources/ic_mode_edit_black_24px.svg" class="md-secondary" ng-click="edit(beer)" aria-label="Redigera recept"></md-icon>
+                <md-icon md-svg-src="resources/ic_content_copy_black_24px.svg" class="md-secondary" ng-click="copy(beer)" aria-label="Duplicera recept"></md-icon>
                 <md-icon md-svg-src="resources/ic_delete_black_24px.svg" class="md-secondary" ng-click="remove(beer)" aria-label="Ta bort recept"></md-icon>
             </md-list-item>
             <md-subheader class="md-no-sticky" ng-if="beerListAvailable">Publik öl</md-subheader>
