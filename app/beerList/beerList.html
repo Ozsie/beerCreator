@@ -2,7 +2,7 @@
     <md-card>
         <menu beer-list='beerList' style="padding-left: 0px" logout="logout" log-out-allowed="true" new-beer="newBeer" user="user"></menu>
         <md-list>
-            <md-subheader class="md-no-sticky" ng-if="beerListAvailable">{{user.displayName}}s öl</md-subheader>
+            <md-subheader class="md-no-sticky" ng-if="beerListAvailable">{{user.authData.providerData[0].displayName}}s öl</md-subheader>
             <md-list-item ng-repeat="beer in beerList" ng-click="toggle(beer, $index)" class="noright" ng-if="beerListAvailable">
                 <p>{{ beer.name}}</p>
                 <md-icon md-svg-src="resources/ic_open_in_new_black_24px.svg" class="md-secondary md-hue-3" ng-click="openPublic(user.authData.uid, beer.$id)" aria-label="Öppna publik länk" ng-if='beer.public'></md-icon>

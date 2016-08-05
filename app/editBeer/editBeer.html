@@ -69,7 +69,7 @@
                                 <div ng-include="'editBeer/editHops.html'" ng-init="editedIngredient = ingredient; exists = true;" class="width100"></div>
                             </md-list-item>
                         </div>
-                        <md-subheader class="md-no-sticky" ng-if="beer.ingredients.yeasts.misc > 0">Övrigt</md-subheader>
+                        <md-subheader class="md-no-sticky" ng-if="beer.ingredients.misc.length > 0">Övrigt</md-subheader>
                         <div ng-repeat="ingredient in beer.ingredients.misc" >
                             <md-list-item ng-click="toggleIngredient('misc', $index)" class="md-2-line">
                                 <div class="md-list-item-text" layout="column">
