@@ -9,7 +9,7 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
   });
 }])
 
-.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', '$location', 'Ingredients', 'ColorConversion', 'EditBeer', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', 'Page', 'Instructions', function($scope, $firebaseArray, $interval, $location, Ingredients, ColorConversion, EditBeer, BeerStyles, Profiles, User, Bitterness, Alcohol, Page, Instructions) {
+.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', '$location', 'Ingredients', 'ColorConversion', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', 'Page', 'Instructions', 'Beer', function($scope, $firebaseArray, $interval, $location, Ingredients, ColorConversion, BeerStyles, Profiles, User, Bitterness, Alcohol, Page, Instructions, Beer) {
     if (!User.authData) {
         $location.path('login');
     }
@@ -25,15 +25,12 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
             return;
         }
         $scope.styles = styles;
-        $scope.tempBeer = EditBeer.getBeerToEdit();
+        $scope.tempBeer = Beer.getBeerToEdit();
         $scope.beerColor = "#ffffff";
-
-        var ref = firebase.database().ref();
-        $scope.beerList = $firebaseArray(ref.child('beerlist/' + User.authData.uid));
         
         if ($scope.tempBeer.$id) {
-            $scope.beerList.$loaded().then(function(data) {
-                $scope.beer = $scope.beerList.$getRecord($scope.tempBeer.$id);
+            $scope.beer = Beer.getBeer(User.authData.uid, $scope.tempBeer.$id);
+            $scope.beer.$loaded().then(function (){
                 $scope.beerColor = $scope.getColor($scope.beer);
                 Page.setTitle("Beer Creator - " + $scope.beer.name);
                 $scope.update();
@@ -303,31 +300,14 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.save = function() {
-        $scope.beerList.$loaded().then(function(data) {
-            if ($scope.beer.$id) {
-                $scope.beerList.$save($scope.beer).then(function(ref) {
-                    $scope.addToPublicList();
-                    $scope.saved = true;
-                }).catch(function(error) {
-                    console.log(error);
-                });
-            } else {
-                var index = $scope.beerList.$indexFor($scope.key);
-                if (index > -1) {
-                    $scope.beerList.$remove(index).then(function(ref) {
-                        $scope.addToPublicList();
-                        $scope.saved = true;
-                    }).catch(function(error) {
-                        console.log(error);
-                    });
-                }
-                $scope.beerList.$add($scope.beer).then(function(ref) {
-                    $scope.addToPublicList();
-                    $scope.saved = true;
-                    $scope.added = true;
-                    $scope.key = ref.key();
-                });
-            }
+        Beer.saveBeer($scope.beer, User.authData.uid, function(ref) {
+            $scope.addToPublicList();
+            $scope.saved = true;
+        }, function(ref) {
+            $scope.addToPublicList();
+            $scope.saved = true;
+            $scope.added = true;
+            $scope.key = ref.key();
         });
     };
     
@@ -350,7 +330,6 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         $scope.yeastList.$destroy();
         $scope.hopList.$destroy();
         $scope.grainList.$destroy();
-        $scope.beerList.$destroy();
         $scope.styles.$destroy();
         $scope.equipmentList.$destroy();
         $scope.fermentationProfiles.$destroy();

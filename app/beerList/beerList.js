@@ -9,7 +9,7 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('BeerListCtrl', ['$scope', '$http', '$location', '$firebaseArray', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', 'EditBeer', 'User', function($scope, $http, $location, $firebaseArray, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients, EditBeer, User) {
+.controller('BeerListCtrl', ['$scope', '$http', '$location', '$firebaseArray', 'BeerStyles', 'ColorConversion', 'Bitterness', 'Alcohol', 'Ingredients', 'User', 'Beer', function($scope, $http, $location, $firebaseArray, BeerStyles, ColorConversion, Bitterness, Alcohol, Ingredients, User, Beer) {
     if (!User.authData) {
         $location.path('login');
     }
@@ -23,9 +23,8 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
             if (!User || !User.authData) {
                 return;
             }
-            $scope.beerStyles = styles;
-            var ref = firebase.database().ref();
-            $scope.beerList = $firebaseArray(ref.child('beerlist/' + User.authData.uid));
+
+            $scope.beerList = Beer.getBeerList(User.authData.uid);
             $scope.beerList.$loaded().then(function(data) {
                 if (data) {
                     $scope.beerList = data;
@@ -41,7 +40,7 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
                 }
             });
 
-            $scope.publicList = $firebaseArray(ref.child('beerlist/public'));
+            $scope.publicList = Beer.getPublicBeerList();
             $scope.publicList.$loaded().then(function(data) {
                 $scope.publicListAvailable = true;
                 $scope.publicList = data;
@@ -122,12 +121,12 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
     };
     
     $scope.edit = function(beer) {
-        EditBeer.setBeerToEdit(beer);
+        Beer.setBeerToEdit(beer);
         $location.path('editBeer');
     };
     
     $scope.newBeer = function() {
-        EditBeer.setNewBeer();
+        Beer.setNewBeer();
         $location.path('editBeer');
     };
     
@@ -155,7 +154,6 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
         $scope.hopList.$destroy();
         $scope.grainList.$destroy();
         $scope.beerList.$destroy();
-        $scope.beerStyles.$destroy();
         $scope.publicList.$destroy();
         User.logout();
     };
@@ -169,7 +167,6 @@ angular.module('beerCreator.beerList', ['ngRoute', 'firebase'])
         $scope.hopList.$destroy();
         $scope.grainList.$destroy();
         $scope.beerList.$destroy();
-        $scope.beerStyles.$destroy();
         $scope.publicList.$destroy();
     });
     
