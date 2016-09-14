@@ -8,12 +8,8 @@
                         <input ng-model="beer.mash.name" type="text" ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
-                        <label>Maltviktbas</label>
-                        <input ng-model="beer.mash.properties.grainWeightBasis" type="number" min='0' ng-change="update()">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Koktemperatur (C)</label>
-                        <input ng-model="beer.mash.properties.boilingTemp" type="number" min='0' ng-change="update()">
+                        <label>Malt/vatten ration (g/l)</label>
+                        <input ng-model="beer.mash.properties.waterGrainRation" type="number" min='0' ng-change="update()">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>pH</label>
@@ -34,11 +30,6 @@
                     <md-input-container class="md-block">
                         <label>Strilning (C)</label>
                         <input ng-model="beer.mash.temperatures.sparge" type="number" min='0' ng-change="update()">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <md-switch ng-model="beer.mash.equipmentTemperatureAdjustment" aria-label="Justera temperaturer" ng-change="update()">
-                            Justera temperaturer
-                        </md-switch>
                     </md-input-container>
                 </md-content>
             </md-tab>
@@ -63,19 +54,6 @@
                         <md-switch ng-model="beer.mash.batchSpargeOptions.drainTunBeforeSparge" aria-label="Fyll mäsktunnan" ng-change="update()">
                             Töm tunnan innan strilning
                         </md-switch>
-                    </md-input-container>
-                </md-content>
-            </md-tab>
-            <md-tab label="Brew-in-bag">
-                <md-content class="md-padding">
-                    <md-input-container class="md-block">
-                        <md-switch ng-model="beer.mash.brewInBagAndFullBoilMashes.forceFullBoil" aria-label="Tvinga full kokning" ng-change="update()">
-                            Tvinga full kokning
-                        </md-switch>
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Kokvolymbas (l)</label>
-                        <input ng-model="beer.mash.brewInBagAndFullBoilMashes.boilVolumeBasis" type="number" min='0' ng-change="update()">
                     </md-input-container>
                 </md-content>
             </md-tab>
@@ -109,18 +87,6 @@
                     <md-input-container class="md-block">
                         <label>Stegringstid (min)</label>
                         <input ng-model="step.riseTime" type="number" min='0' ng-change="update()">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Vattenmängd (l)</label>
-                        <input ng-model="step.waterToAdd" type="number" min='0' ng-change="update()">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Vatten/malt-ratio (l/g)</label>
-                        <input ng-model="step.waterGrainRation" type="number" min='0' ng-change="update()">
-                    </md-input-container>
-                    <md-input-container class="md-block" ng-show="step.type == 'infusion'">
-                        <label>Infusionstemperatur</label>
-                        <input ng-model="step.infusionTemperature" type="number" min='0' ng-change="update()">
                     </md-input-container>
                 </md-content>
             </md-tab>

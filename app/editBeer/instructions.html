@@ -26,32 +26,51 @@
                         </p>
                     </div>
                 </md-list-item>
+                <md-list-item class="md-2-line" ng-if="!beer.mash.steps[0].waterToAdd || beer.mash.steps[0].waterToAdd == 0">
+                    <div class="md-list-item-text" layout="column">
+                        <h3>Mät upp och tillsätt {{ instructions.waterToAdd(beer) }} l vatten</h3>
+                    </div>
+                </md-list-item>
                 <md-list-item  class="md-2-line" ng-repeat="step in beer.mash.steps">
                     <div class="md-list-item-text" layout="column">
                         <h3>{{step.name}}</h3>
                         <div ng-if="step.type == 'infusion'">
                             <p ng-if="step.waterToAdd > 0">
-                                Värm {{step.waterToAdd}} l vatten till {{step.infusionTemperature | number: 1}} C.
+                                Värm {{step.waterToAdd}} l vatten till {{step.temperature | number: 1}} C över {{step.riseTime}} minuter.
                                 <br>
-                                Tillsätt vattnet till malten och låt dra i {{step.time}} minuter, målet är {{step.temperature}} C.
+                                Tillsätt vattnet till malten, målet är {{step.temperature}} C.
                             </p>
-                            <p ng-if="step.waterToAdd == 0">
-                                Värm mäsken till {{step.temperature}} C och låt dra i {{step.time}} minuter.
+                            <p ng-if="!step.waterToAdd || step.waterToAdd == 0">
+                                Värm mäsken till {{step.temperature | number: 1}} C över {{step.riseTime}} minuter.
+                            </p>
+                            <p>
+                                Låt dra i {{step.time}} minuter.
                             </p>
                         </div>
                         <div ng-if="step.type == 'temperature'">
                             <p ng-if="step.waterToAdd > 0">
-                                Värm {{step.waterToAdd}} l vatten till {{instructions.calculateStrikeTemp(step, beer) | number: 1}} C.
+                                Värm {{step.waterToAdd}} l vatten till {{instructions.calculateStrikeTemp(step, beer) | number: 1}} C över {{step.riseTime}} minuter.
                                 <br>
-                                Tillsätt vattnet till malten och låt dra i {{step.time}} minuter, målet är {{step.temperature}} C.
+                                Tillsätt vattnet till malten, målet är {{step.temperature}} C.
                             </p>
                             <p ng-if="step.waterToAdd == 0">
-                                Värm mäsken till {{step.temperature}} C och låt dra i {{step.time}} minuter.
+                                Värm mäsken till {{step.temperature}} C över {{step.riseTime}} minuter.
+                            </p>
+                            <p>
+                                Låt dra i {{step.time}} minuter.
                             </p>
                         </div>
                         <div ng-if="step.type == 'decoction'">
                             <p>
                                 Separera {{ instructions.getDecoctionVolume(step, beer) }} l av mäsken och höj temperaturen till {{step.temperature}} C, håll temperaturen under {{step.time}} minuter.
+                            </p>
+                        </div>
+                        <div ng-if="!step.type">
+                            <p>
+                                Värm mäsken till {{step.temperature}} C över {{step.riseTime}} minuter.
+                            </p>
+                            <p>
+                                Låt dra i {{step.time}} minuter.
                             </p>
                         </div>
                     </div>

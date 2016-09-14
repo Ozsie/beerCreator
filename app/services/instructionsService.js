@@ -23,7 +23,12 @@ userService.factory('Instructions', [function() {
         maltWeight = maltWeight * 0.00220462;
         var grainSpecific = maltWeight * 0.05;
         // Convert liters to gallons for formula
-        var waterSpecific = step.waterToAdd * 0.264172;
+        var waterSpecific = 0;
+        if (step.waterToAdd) {
+            waterSpecific = step.waterToAdd * 0.264172;
+        } else {
+            waterSpecific = this.waterToAdd(beer) * 0.264172;
+        }
         var mashSpecific = grainSpecific + waterSpecific;
         
         var grain = grainSpecific * beer.mash.temperatures.grain;
@@ -112,6 +117,17 @@ userService.factory('Instructions', [function() {
                 i++;
             }
         }
+    };
+
+    instructions.waterToAdd = function(beer) {
+        var maltWeight = 0;
+        for (var index in beer.ingredients.malts) {
+            var malt = beer.ingredients.malts[index];
+            if ((malt.type === 'malt' || malt.type === 'husk') && malt.recommendMash) {
+                maltWeight += malt.amount;
+            }
+        }
+        return (maltWeight / beer.mash.properties.waterGrainRation)
     };
     
     return instructions;
