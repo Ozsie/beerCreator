@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Ozsie/beerCreator.svg?branch=master)](https://travis-ci.org/Ozsie/beerCreator)
 # Beer Creator
 Beer recipe editing online. Also a way to keep in the loop while on parental leave.
 
