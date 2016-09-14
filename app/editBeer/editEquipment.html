@@ -15,30 +15,6 @@
                         <label>Effektivitet</label>
                         <input ng-model="beer.equipment.efficiency" type="number" min='0' ng-change="update()">
                     </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Humleanvändning</label>
-                        <input ng-model="beer.equipment.hopUtilization" type="number" min='0' ng-change="update()">
-                    </md-input-container>
-                </md-content>
-            </md-tab>
-            <md-tab label="Mäsk/siltunna">
-                <md-content class="md-padding">
-                    <md-input-container class="md-block">
-                        <label>Volym (l)</label>
-                        <input ng-model="beer.equipment.mashLauterTun.volume" type="number" min='0' ng-change="update()">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Massa (g)</label>
-                        <input ng-model="beer.equipment.mashLauterTun.mass" type="number" min='0' ng-change="update()">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Värmekapacitet</label>
-                        <input ng-model="beer.equipment.mashLauterTun.specificHeat" type="number" min='0' ng-change="update()">
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Oanvändbart utrymme (l)</label>
-                        <input ng-model="beer.equipment.mashLauterTun.deadSpace" type="number" min='0' ng-change="update()">
-                    </md-input-container>
                 </md-content>
             </md-tab>
             <md-tab label="Kokare">

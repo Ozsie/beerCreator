@@ -15,9 +15,6 @@ alcoholService.factory('Alcohol', function() {
         if (!beer.equipment) {
             return 0;
         }
-        if (!beer.equipment.mashLauterTun) {
-            return 0;
-        }
         if (!beer.ingredients) {
             return 0;
         }
