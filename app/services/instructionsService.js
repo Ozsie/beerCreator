@@ -75,7 +75,5 @@ userService.factory('Instructions', [function() {
         return false;
     };
     
-    instructions.
-    
     return instructions;
 }]);
