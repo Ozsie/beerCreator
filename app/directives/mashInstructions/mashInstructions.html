@@ -1,0 +1,51 @@
+<md-card ng-show="beer.mash && beer.ingredients.malts.length > 0">
+    <md-card-header>
+        <md-card-header-text>
+            <span class="md-title">Mäskning</span>
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content>
+        <md-list class="md-dense" flex>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <div>Kallmäska eller tillsätt sent</div>
+                    <p ng-repeat="malt in beer.ingredients.malts" ng-if="!malt.recommendMash && (malt.type === 'malt' || malt.type !== 'hull')">
+                        {{malt.amount}} g - {{malt.name}}
+                    </p>
+                </div>
+            </md-list-item>
+
+            <md-list-item class="md-2-line" ng-if="!beer.mash.steps[0].waterToAdd || beer.mash.steps[0].waterToAdd == 0">
+                <div class="md-list-item-text" layout="column">
+                    <div>Steg 1: {{stepOne.name}}</div>
+                    <p>Mät upp och tillsätt {{ waterToAdd(beer) }} l vatten</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h3>Tillsätt malt</h3>
+                    <p ng-repeat="malt in beer.ingredients.malts" ng-if="malt.recommendMash">
+                        {{malt.amount}} g - {{malt.name}}
+                    </p>
+                    <p ng-repeat="misc in beer.ingredients.misc" ng-if="misc.useIn == 'mash'">
+                        {{ misc.amount }} {{ misc.unit }} {{ misc.name }}
+                    </p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <div ng-show="stepOne.type == 'infusion'" ng-include="'directives/mashInstructions/infusionStep.html'" onload="step = stepOne;"></div>
+                </div>
+            </md-list-item>
+            <md-list-item  class="md-2-line" ng-repeat="step in beer.mash.steps" ng-show="$index != 0">
+                <div class="md-list-item-text" layout="column">
+                    <div>Steg {{$index + 1}}: {{step.name}}</div>
+                    <div ng-if="step.type == 'infusion'" ng-include="'directives/mashInstructions/infusionStep.html'"></div>
+                    <div ng-if="step.type == 'temperature'" ng-include="'directives/mashInstructions/temperatureStep.html'"></div>
+                    <div ng-if="step.type == 'decoction'" ng-include="'directives/mashInstructions/decoctionStep.html'"></div>
+                    <div ng-if="!step.type" ng-include="'directives/mashInstructions/defaultStep.html'">
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-card-content>
+</md-card>

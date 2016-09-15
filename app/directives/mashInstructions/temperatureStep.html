@@ -1,0 +1,13 @@
+<div>
+    <p ng-if="step.waterToAdd > 0">
+        Värm {{step.waterToAdd}} l vatten till {{instructions.calculateStrikeTemp(step, beer) | number: 1}} C över {{step.riseTime}} minuter.
+        <br>
+        Tillsätt vattnet till malten, målet är {{step.temperature}} C.
+    </p>
+    <p ng-if="step.waterToAdd == 0">
+        Värm mäsken till {{step.temperature}} C över {{step.riseTime}} minuter.
+    </p>
+    <p>
+        Låt dra i {{step.time}} minuter.
+    </p>
+</div>
