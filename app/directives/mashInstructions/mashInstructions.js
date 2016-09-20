@@ -1,17 +1,3 @@
-angular.module('beerCreator.directives').directive('mashInstructions', function() {
-    return {
-        restrict: 'E',
-        replace: true,
-        controller: 'MashInstructionsCtrl',
-        scope: {
-            beer: '='
-        },
-        templateUrl: 'directives/mashInstructions/mashInstructions.html',
-        link: function(scope, element, attrs, fn) {
-        }
-    };
-});
-
 angular.module('beerCreator.directives').controller('MashInstructionsCtrl', function($scope){
     $scope.calculateStrikeTemp = function(step, beer) {
         var maltWeight = 0;
@@ -68,4 +54,18 @@ angular.module('beerCreator.directives').controller('MashInstructionsCtrl', func
     };
 
     $scope.stepOne = $scope.beer.mash.steps[0];
+});
+
+angular.module('beerCreator.directives').directive('mashInstructions', function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        controller: 'MashInstructionsCtrl',
+        scope: {
+            beer: '='
+        },
+        templateUrl: 'directives/mashInstructions/mashInstructions.html',
+        link: function(scope, element, attrs, fn) {
+        }
+    };
 });

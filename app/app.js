@@ -15,8 +15,9 @@ angular.module('beerCreator', [
   'beerCreator.login',
   'beerCreator.public'
 ]).
-config(['$routeProvider', function($routeProvider) {
+config(['$routeProvider', '$compileProvider', function($routeProvider, $compileProvider) {
   $routeProvider.otherwise({redirectTo: '/login'});
+  //$compileProvider.debugInfoEnabled(false);
 }])
 
 .controller('MainCtrl' ,['$scope', 'Page', function($scope, Page) {

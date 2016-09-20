@@ -9,8 +9,7 @@ angular.module('beerCreator.public', ['ngRoute', 'firebase'])
   });
 }])
 
-.controller('PublicCtrl', ['$scope', '$firebaseObject', '$routeParams', 'ColorConversion', 'Page', 'Instructions', function($scope, $firebaseObject, $routeParams, ColorConversion, Page, Instructions) {
-    $scope.instructions = Instructions;
+.controller('PublicCtrl', ['$scope', '$firebaseObject', '$routeParams', 'ColorConversion', 'Page', function($scope, $firebaseObject, $routeParams, ColorConversion, Page) {
     $scope.userId = $routeParams.userId;
     $scope.beerId = $routeParams.beerId;
     var ref = firebase.database().ref();

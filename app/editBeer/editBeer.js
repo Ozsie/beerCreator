@@ -9,12 +9,10 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
   });
 }])
 
-.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', '$location', 'Ingredients', 'ColorConversion', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', 'Page', 'Instructions', 'Beer', function($scope, $firebaseArray, $interval, $location, Ingredients, ColorConversion, BeerStyles, Profiles, User, Bitterness, Alcohol, Page, Instructions, Beer) {
+.controller('EditBeerCtrl', ['$scope', '$firebaseArray', '$interval', '$location', 'Ingredients', 'ColorConversion', 'BeerStyles', 'Profiles', 'User', 'Bitterness', 'Alcohol', 'Page', 'Beer', function($scope, $firebaseArray, $interval, $location, Ingredients, ColorConversion, BeerStyles, Profiles, User, Bitterness, Alcohol, Page, Beer) {
     if (!User.authData) {
         $location.path('login');
     }
-    
-    $scope.instructions = Instructions;
     
     $scope.ingredientSelect = [{name: 'Malt', value:'malt'},{name: 'Humle', value:'hops'},{name: 'Jäst', value:'yeasts'},{name: 'Övrigt', value:'misc'}];
     
@@ -264,6 +262,17 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
     };
     
     $scope.updateBoilVolume();
+
+    $scope.waterToAdd = function(beer) {
+        var maltWeight = 0;
+        for (var index in beer.ingredients.malts) {
+            var malt = beer.ingredients.malts[index];
+            if ((malt.type === 'malt' || malt.type === 'husk') && malt.recommendMash) {
+                maltWeight += malt.amount;
+            }
+        }
+        return (maltWeight / beer.mash.properties.waterGrainRatio)
+    };
     
     $scope.update = function() {
         $scope.updateBoilVolume();
@@ -273,7 +282,6 @@ angular.module('beerCreator.editBeer', ['ngRoute', 'ui.bootstrap', 'firebase'])
         $scope.beer.abv = Alcohol.calculateABV($scope.beer);
         $scope.beer.color = ColorConversion.calculateTotalEBC($scope.beer);
         $scope.beerColor = $scope.getColor($scope.beer);
-        Instructions.getBoilIngredients($scope.beer);
     };
     
     $scope.addToPublicList = function() {
