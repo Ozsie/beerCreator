@@ -63,6 +63,8 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
                     data.$save();
 
                     User.login(authData.user, data);
+                    window.localStorage.setItem("autologin", true);
+                    window.localStorage.setItem("autoprovider", provider);
                     $location.path('beerList');
                 });
             });
@@ -71,4 +73,15 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
             console.log("Login Failed!", error);
         });
     };
+
+    $scope.init = function() {
+        var autoLogin = window.localStorage.getItem("autologin");
+
+        if (autoLogin === 'true') {
+            var autoProvider = window.localStorage.getItem("autoprovider");
+            $scope.login(autoProvider);
+        }
+    };
+
+    $scope.init();
 }]);

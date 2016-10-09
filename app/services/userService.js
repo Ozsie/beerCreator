@@ -26,16 +26,13 @@ userService.factory('User', ['$firebaseAuth', '$location', 'Ingredients', functi
     };
     
     user.logout = function() {
-        var ref = new Firebase("https://luminous-heat-8761.firebaseio.com");
-        var authObj = $firebaseAuth();
-        authObj.$signOut();
-        
-        authObj.$onAuthStateChanged(function(authData) {
-            if (!authData) {
-                user.loggedIn = true;
-                console.log("Logged out");
-                $location.path("login");
-            }
+        firebase.auth().signOut().then(function() {
+            window.localStorage.setItem("autologin", false);
+            user.loggedIn = false;
+            console.log("Logged out");
+            $location.path("login");
+        }, function(error) {
+            console.log(error);
         });
     };
     
