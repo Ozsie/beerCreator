@@ -44,7 +44,12 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
                         if (!displayName) {
                             displayName = authData.user.providerData[0].username;
                         }
-                        var settings = angular.copy(baseData);
+                        var settings = {
+                            maxIngredients: baseData.maxIngredients,
+                            maxProfiles: baseData.maxProfiles,
+                            maxRecipes: baseData.maxRecipes
+                        };
+
                         for (var obj in settings) {
                             if (obj.startsWith('$')) {
                                 delete settings[obj];
@@ -52,7 +57,11 @@ angular.module('beerCreator.login', ['ngRoute', 'firebase'])
                         }
                         data.$value = {displayName: displayName, settings: settings};
                     } else if (!data.settings) {
-                        data.settings = angular.copy(baseData);
+                        data.settings = {
+                            maxIngredients: baseData.maxIngredients,
+                            maxProfiles: baseData.maxProfiles,
+                            maxRecipes: baseData.maxRecipes
+                        };
                     } else if (!data.displayName) {
                         var displayName = authData.user.providerData[0].displayName;
                         if (!displayName) {
