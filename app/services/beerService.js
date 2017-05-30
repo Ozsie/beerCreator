@@ -27,23 +27,31 @@ beerStyleService.factory('Beer', ['$firebaseArray', '$firebaseObject',
     };
 
     beers.saveBeer = function(beer, userUid, callbackOk, callbackNewBeer) {
-        beer.$loaded().then(function(data) {
-            if (beer.$id) {
-                beer.$save().then(callbackOk).catch(function(error) {
-                    console.log(error);
-                });
-            } else {
-                var ref = firebase.database().ref();
-                var beerList = $firebaseArray(ref.child('beerlist/' + userUid));
-                var index = beerList.$indexFor($scope.key);
-                if (index > -1) {
-                    beerList.$remove(index).then(callbackOk).catch(function(error) {
+        if (beer.$loaded) {
+            beer.$loaded().then(function(data) {
+                if (beer.$id) {
+                    beer.$save().then(callbackOk).catch(function(error) {
                         console.log(error);
                     });
+                } else {
+                    saveNewBeer(beer, userUid, callbackOk, callbackNewBeer);
                 }
-                beerList.$add($scope.beer).then(callbackNewBeer);
-            }
-        });
+            });
+        } else {
+            saveNewBeer(beer, userUid, callbackOk, callbackNewBeer);
+        }
+    }
+
+    var saveNewBeer = function(beer, userUid, callbackOk, callbackNewBeer) {
+        var ref = firebase.database().ref();
+        var beerList = $firebaseArray(ref.child('beerlist/' + userUid));
+        var index = beerList.$indexFor(beer.$id);
+        if (index > -1) {
+            beerList.$remove(index).then(callbackOk).catch(function(error) {
+                console.log(error);
+            });
+        }
+        beerList.$add(beer).then(callbackNewBeer);
     }
 
     beers.setBeerToEdit = function(beer) {

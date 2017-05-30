@@ -25,6 +25,9 @@ angular.module('beerCreator.directives').controller('MashInstructionsCtrl', func
     };
 
     $scope.waterToAdd = function(beer) {
+        if (!beer.mash || !beer.mash.properties) {
+            return undefined;
+        }
         var maltWeight = 0;
         for (var index in beer.ingredients.malts) {
             var malt = beer.ingredients.malts[index];
@@ -53,7 +56,9 @@ angular.module('beerCreator.directives').controller('MashInstructionsCtrl', func
         }
     };
 
-    $scope.stepOne = $scope.beer.mash.steps[0];
+    if ($scope.beer.mash.steps && $scope.beer.mash.steps.length > 0) {
+      $scope.stepOne = $scope.beer.mash.steps[0];
+    }
 });
 
 angular.module('beerCreator.directives').directive('mashInstructions', function() {
