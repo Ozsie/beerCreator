@@ -3,8 +3,15 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-connect');
 
     grunt.config.init({
+        connect: {
+    		test: {
+    			port: 8080,
+    			base: '.'
+    		}
+        },
         useminPrepare: {
             html: 'index.html',
             options: {
@@ -73,4 +80,6 @@ module.exports = function (grunt) {
         'copy:other',
         'shell:deploy'
     ]);
+
+    grunt.registerTask('serve', 'connect:test');
 };

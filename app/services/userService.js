@@ -17,9 +17,13 @@ userService.factory('User', ['$firebaseAuth', '$location', 'Ingredients', functi
     
     user.login = function(authData, settings) {
         this.authData = authData;
-        if (authData.provider) {
-            this.displayName = authData[authData.provider].displayName;
-            this.picture = authData[authData.provider].profileImageURL;
+        if (settings.displayName) {
+            this.displayName = settings.displayName;
+        } else {
+        }
+        if (authData.providerData) {
+            this.displayName = authData.providerData[0].displayName;
+            this.picture = authData.providerData[0].photoUrl;
         }
         this.settings = settings.settings;
         this.loggedIn = true;
